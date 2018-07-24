@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+   <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>   
+<title>Edit Exam</title>
+<h1> Edit Exam </h1>
+</head>
+
+
+<body>
+
+		<form th:action="@{/editExam}" th:object="${ExamDto}" method="post">
+		
+		<div>
+		<label for="examTitle" class="control-label">ExamTitle: </label>
+		<input id="examTitle" class="form-control" type="text" th:field="*{examTitle}" />
+		
+		</div>
+		<div>
+		<label for="examGradeAchieved" class="control-label">Exam Grade Achieved: </label>
+		<input id="examGradeAchieved" class="form-control" th:field="*{examGradeAchieved}" />
+		
+		</div>
+			<div>
+		<label for="examGradeWorth" class="control-label">Exam Worth: </label>
+		<input id="examGradeWorth" class="form-control" th:field="*{examGradeWorth}" />
+		
+		</div>
+		
+
+		
+	  	<input type="hidden" name="examId" th:value="${ExamId}" />
+			
+				
+		<div class="form-group">
+			<button type="submit" class="btn btn-success">Save</button>
+
+		</div>
+		</form>
+
+
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

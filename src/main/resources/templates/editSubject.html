@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+   <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>   
+<title>Edit Subject</title>
+<h1> Edit Subject </h1>
+</head>
+
+
+<body>
+
+		<form th:action="@{/editSubject}" th:object="${SubjectDto}" method="post">
+		
+		<div>
+		<label for="subjectName" class="control-label">Subject Name: </label>
+		<input id="subjectName" class="form-control" type="text" th:field="*{subjectName}" />
+		
+		</div>
+		<div>
+		<label for="subjectGradeGoal" class="control-label">Subject Grade Goal: </label>
+		<input id="subjectGradeGoal" class="form-control" th:field="*{subjectGradeGoal}" />
+		
+		</div>
+		
+		<div>
+		<label for="caCompletedWorth" class="control-label">Completed CA worth: </label>
+		<input id="caCompletedWorth" class="form-control" tth:field="*{caCompletedWorth}" />
+		
+		</div>
+		
+		<div>
+		<label for="subjectResults" class="control-label">Subject Results: </label>
+		<input id="subjectResults" class="form-control" th:field="*{subjectResults}" />
+		
+		</div>
+		
+	  	<input type="hidden" name="subjectId" th:value="${SubjectId}" />
+			
+				
+		<div class="form-group">
+			<button type="submit" class="btn btn-success">Create</button>
+
+		</div>
+		</form>
+
+
+
+<!-- <form action="#" th:action="@{/editSubject}"  th:object="${subject}" method="post">
+ 	<select th:field="*{subject}" class="form-control" id="subject" name="subject">
+ 		<option value="">Select subject</option>
+		<option 
+ 			th:each="Subject : ${subjects}" 
+ 			th:value="${Subject}" 
+ 			th:text="${Subject}"></option>
+ 			
+ 	<table>
+ 		<tr>
+ 			<td> subject Grade Goal </td>
+ 			<td><input type="text" th:field="*{subjectName}" /></td>
+ 		</tr>
+ 		<tr>
+ 		<td> asubjectResults </td>
+				<td><input th:field="*{subjectResults}" /></td>
+ 			
+ 		
+ 	</table>   -->
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

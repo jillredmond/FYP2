@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <!--    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/> 
+    
+    <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+    rel = "stylesheet"> -->
+
+<title>Your Profile</title>
+</head>
+<body>
+<div class="container">
+
+<h1 th:text="${firstName}"/> </h1>
+
+<!--  This line of code will display the email of the current loggin in user
+<h6> test </h6><span  th:text="${#authentication.getPrincipal().getUsername()}"></span> </h6>
+-->
+<div>
+
+	<a><b> Email: </b></a> <a th:text="${emailAddress}" ></a>
+
+</div>
+	<a><b>First name:</b> </h4><a th:text="${firstName}"></a>
+	<div>
+	<a><b>Surname:</b></a> <a th:text="${surname}"></a>
+</div> 
+<div>
+<a href="/allSubjects">View All Subjects</a>
+</div>
+<div>
+<a href="/addsubject">Add New Subject</a>
+
+
+
+</div>
+
+<div>
+	<a href="/addexam">Add New Exam</a>
+	
+
+</div>
+
+<div> 
+	<a href="/addassignment"> Add New Assignment</a>
+
+</div>
+
+<div>
+	<a href="/addattendance">Add New Attendance</a>
+
+</div>
+<div>
+	<a th:href="@{/subjectSearch}">Search For A Subject</a>
+</div>
+
+<div>
+	<a href="/calendar">Calendar</a>
+</div>
+
+<!--   <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script> -->
+
+<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

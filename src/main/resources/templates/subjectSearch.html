@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+   <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>   
+<title>Subject Search</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+
+	<form action="#" th:action="@{/subjectSearch}"  method="post" th:object="${subject}">
+		<div id="container"></div>
+
+			<div id="containter"></div>
+			<div id="searchType">
+			
+			<h2>Search For A Subject</h2>
+			 Name: <input type="text" name="subjectName" ><input type="submit" value="Submit"><br>
+
+		</div>
+		
+		<h4>We found: <h4 th:text="${subjectName}" /> </h4>
+
+	</form>
+ <div>
+		<ul>
+				<div>
+				 <span> <a href="/" th:href="@{/viewSubject} + ${subjectId}">View subject
+				</a></span></div> 
+					
+		</ul>
+	</div> 
+
+</body>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+   <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>   
+<title>Edit Attendance</title>
+<h1> Edit Attendance </h1>
+</head>
+
+
+<body>
+
+		<form th:action="@{/editAttendance}" th:object="${AttendanceDto}" method="post">
+		
+		<div>
+		<label for="attendanceTitle" class="control-label">Attendance Title: </label>
+		<input id="attendanceTitle" class="form-control" type="text" th:field="*{attendanceTitle}" />
+		
+		</div>
+		<div>
+		<label for="attendanceAchieved" class="control-label">AttendanceAchieved: </label>
+		<input id="attendanceAchieved" class="form-control" th:field="*{attendanceAchieved}" />
+		
+		</div>
+			<div>
+		<label for="attendanceWorth" class="control-label">Attendance Worth: </label>
+		<input id="attendanceWorth" class="form-control" th:field="*{attendanceWorth}" />
+		
+		</div>
+		
+
+		
+	  	<input type="hidden" name="attendanceId" th:value="${AttendanceId}" />
+			
+				
+		<div class="form-group">
+			<button type="submit" class="btn btn-success">Save</button>
+
+		</div>
+		</form>
+
+
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

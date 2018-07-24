@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Your profile</title>
+</head>
+<body>
+	<p>Welcome to your profile</p>
+	<form action="#" th:action="@{/users/{id}}" th:object="${user}" method="put">
+		<table>
+			<h3>Update user details</h3>
+			<tr>
+				<td>id:</td>
+				<td><input type="long" th:field="*{userId}" /></td>
+				<td th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">Id error</td>
+			</tr>
+			<tr>
+                    <td>username:</td>
+                    <td><input type="text" th:field="*{username}" /></td>
+                    <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</td>
+                </tr>
+                <tr>
+                    <td>password:</td>
+                    <td><input type="text" th:field="*{password}" /></td>
+                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</td>
+                </tr>
+                <tr>
+				<td>First Name:</td>
+				<td><input type="text" th:field="*{firstName}" /></td>
+				<td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</td>
+			</tr>
+			<tr>
+				<td> surname:</td>
+				<td><input type="text" th:field="*{surname}" /></td>
+				<td th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</td>
+			</tr>
+			<tr>
+				<td>age:</td>
+				<td><input type="int" th:field="*{age}" /></td>
+				<td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">age error</td>
+			</tr>
+			<tr>
+				<td>height:</td>
+				<td><input type="double" th:field="*{height}" /></td>
+				<td th:if="${#fields.hasErrors('height')}" th:errors="*{height}">height error</td>
+			</tr>
+				<tr>
+				<td>weight:</td>
+				<td><input type="double" th:field="*{weight}" /></td>
+				<td th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}">weight error</td>
+			</tr>
+			<tr>
+				<td>emailAddress:</td>
+				<td><input type="text" th:field="*{emailAddress}" /></td>
+				<td th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}">emailAddress error</td>
+			</tr>
+			<tr>
+				<td> gender:</td>
+				<td><input type="text" th:field="*{gender}" /></td>
+				<td th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">gender error</td>
+			</tr>
+				<tr>
+				<td> Date Of Birth:</td>
+				<td><input type="text" th:field="*{dob}" /></td>
+				<td th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">date of birth error</td>
+			</tr>
+                </tr>
+                <tr>
+                    <td><button type="submit">Update User</button></td>
+                </tr>
+                
+		
+		</table>
+		</form>
+	</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta charset="ISO-8859-1">
+<title>Your Subjects</title>
+</head>
+<body>
+<!--   <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=c13434802%40mydit.ie&amp;color=%2329527A&amp;ctz=Europe%2FDublin" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+-->
+<div> 
+<a href="/userProfile1">HOME</a>
+		<h2><a th:href="@{/SubjectSearch}">Subject Search</a></h2>
+	</div>	
+	<div th:each="subject : ${subjects}">
+	
+	
+
+	
+	<table>
+	<tr>
+   <td><h2> <a><b> Subject: </b></a><a th:text="${subject.subjectName}"></a></h2></td>
+    </tr>
+    	<td><a th:href="@{/editsubject/} + ${subject.subjectId}">Edit Subject</a></td>
+	</tr>
+    <tr>
+   <td> <a><b> Subject grade prediction: </b></a><a th:text="${subject.gradePrediction}" ></a></td>
+    </tr>
+    <tr>
+   <td> <a><b> Has Goal been achieved?: </b></a><a th:text="${subject.isGoalAchieved}"></a></td>
+    </tr>
+    <tr>
+   <td> <a><b> Subject Grade Goal: </b></a><a th:text="${subject.subjectGradeGoal}" ></a></td>
+    </tr>
+    <tr>
+   <td> <a><b> CA complete worth: </b></a><a th:text="${subject.caCompletedWorth}" ></a></td>
+    </tr>
+    <tr>
+    <td> <a><b>Current Subject Results: </b></a><a th:text="${subject.subjectResults}" ></a></td>
+    </tr>
+    <tr>
+   <td> <a><b> Remaining potential marks:</b></a><a th:text="${subject.maxSubRemMarks}" ></a></td>
+    </tr>
+    <tr>
+   <td> <a><b> Marks until you reached your goal: </b></a><a th:text="${subject.marksNeededToReachGoal}" ></a></td>
+    </tr>
+    <tr>
+   <td> <a><b> Can you still reach your goal?:   </b></a><a th:text="${subject.isGoalPossible}" ></a></td>
+    </tr>
+    <tr>
+   <td> <a><b> Your highest possible grade:  </b></a><a th:text="${subject.highestPossibleGrade}" ></a></td>
+    </tr>
+    <tr>
+
+	</table>
+	
+
+	<h3><b><a th:text="${subject.subjectName}"></a><a> Assignments:</a></b></h3>
+	  <div th:each="assignment : ${subject.assignment}">
+	  	<table> 
+	 		 <tr>
+				 <td>   <a th:text="${assignment.assignmentTitle}"></a>   	<a th:href="@{/editassignment/} + ${assignment.assignmentId}">Edit</a></td>
+	   		 </tr>
+
+	    	
+	</div>
+		</table> 
+	
+	
+	
+	<h3><b><a th:text="${subject.subjectName}"></a><a> Exams:</a></b></h3>
+	<div th:each="exam : ${subject.exam}"> 
+	<table>
+	<tr>
+		 <td>   <a th:text="${exam.examTitle}"></a> 		<a th:href="@{/editexam/} + ${exam.examId}">Edit </a></td>
+  </tr>
+	</div>
+	</table> 
+	
+	
+	<h3><b><a th:text="${subject.subjectName}"></a><a> Attendance:</a></b></h3>
+	<div th:each="attendance : ${subject.attendance}">
+	<table>
+	<tr>
+			<td><a th:text="${attendance.attendanceTitle}"></a>	   	<a th:href="@{/editattendance/} + ${attendance.attendanceId}">Edit </a></td>
+			</tr>
+    </div>
+	
+
+	
+
+
+<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

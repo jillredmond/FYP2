@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <!--    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/> 
+    
+    <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+    rel = "stylesheet"> -->
+
+<title>Your Profile</title>
+</head>
+<body>
+<div class="container">
+
+<h1>Welcome to your profile <h1 th:text="${firstName}"/> </h1>
+
+<!--  This line of code will display the email of the current loggin in user
+<h6> test </h6><span  th:text="${#authentication.getPrincipal().getUsername()}"></span> </h6>
+-->
+
+
+	<h4>Email: <h4 th:text="${emailAddress}" /> </h4>
+
+	<h4>First name: <h4 th:text="${firstName}"/></h4>
+	<h4>surname: <h4 th:text="${surname}"/></h4>
+<!-- 	<h4>age:<h4 th:text="${age}"/></h4>
+	<h4>gender:<h4 th:text="${gender}"/></h4>
+	<h4>Date Of Birth:<h4 th:text="${dob}"/></h4>
+	</div>  -->	
+<div>
+<a href="/allSubjects">View All Subjects</a>
+</div>
+<div>
+<a href="/addsubject">Add Subject</a>
+
+	<!--	<h3> Subjects:</h3>
+	<h4>Subject Name:</h4>
+	<p th:text="${subjectName}" />
+	<h4>Subject Grade Goal:</h4>
+	<p th:text="${subjectGradeGoal}" />-->	
+	
+
+</div>
+
+<div>
+	<a href="/addexam">Add Exam</a>
+	
+	<!--<h3> Exams:</h3>
+	<h4> Exam Title:</h4>
+	<p th:text="${examTitle}"/>
+	<h4>Exam Grade Worth:</h4>
+	<p th:text="${examGradeWorth}"/>-->	
+	
+</div>
+
+<div> 
+	<a href="/addassignment"> Add Assignment</a>
+	<!--	<h3> Assignments:</h3>
+	<h4> Assignment Title:</h4>
+	<p th:text="${assignmentTitle}"/>
+	<h4>Exam Grade Worth:</h4>
+	<p th:text="${assignmentGradeWorth}"/>-->	
+</div>
+
+<div>
+	<a href="/addattendance">Add Attendance</a>
+	<!-- <h3>Attendance</h3>
+		<h4>Attendance Title:</h4>
+				<p th:text="${attendanceTitle}"/>
+	<h4>Attendance Worth:</h4>
+	<p th:text="${attendanceWorth}"/>
+		 -->	
+</div>
+
+<!--   <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script> -->
+
+<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>
