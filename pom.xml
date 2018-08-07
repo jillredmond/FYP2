@@ -46,6 +46,33 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
+		<dependency>
+    <groupId>com.google.apis</groupId>
+    <artifactId>google-api-services-calendar</artifactId>
+    <version>v3-rev305-1.23.0</version>
+</dependency>
+		
+		
+		
+		<dependency>
+ <groupId>org.webjars</groupId>
+ <artifactId>jquery</artifactId>
+ <version>2.1.1</version>
+ </dependency>
+ <dependency>
+ <groupId>org.webjars</groupId>
+ <artifactId>bootstrap</artifactId>
+ <version>3.2.0</version>
+ </dependency>
+ <dependency>
+ <groupId>org.webjars</groupId>
+ <artifactId>webjars-locator</artifactId>
+ </dependency>
+ <dependency>
+ <groupId>org.webjars</groupId>
+ <artifactId>font-awesome</artifactId>
+ <version>4.7.0</version>
+ </dependency>
 		<!--  
 		
 <dependency>
@@ -80,7 +107,7 @@
 </dependency> -->
 
 
-        <dependency>
+<!--         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
             <version>3.3.7</version>
@@ -89,7 +116,7 @@
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
             <version>3.2.1</version>
-        </dependency>
+        </dependency> -->
 		
 		
 <dependency>
@@ -116,7 +143,7 @@
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>
-          <dependency>
+<!--           <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
             <version>3.3.7</version>
@@ -125,7 +152,7 @@
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
             <version>3.2.1</version>
-        </dependency>
+        </dependency> -->
         
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

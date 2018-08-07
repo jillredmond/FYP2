@@ -1,22 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<!-- <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <!--    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/> 
     
     <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
-    rel = "stylesheet"> -->
+    rel = "stylesheet">
 
 <title>Your Profile</title>
-</head>
-<body>
-<div class="container">
+</head> -->
 
-<h1 th:text="${firstName}"/> </h1>
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><base>
+  	<title>Profile</title>
+  	
+</head>
+
+
+<body>
+
+
+	<div class="navbar navbar-default" role="navigation" id="topnavbar">
+		<div class="container">
+			<div class="navbar-header">
+
+				<button class="navbar-toggle" type="button" data-toggle="collapse"
+					data-target="#navbar-main">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+			</div>
+
+
+			<div class="navbar-collapse collapse" id="navbar-main">
+				<ul class="nav navbar-nav">
+					<li><a href="/"><span class="glyphicon glyphicon-home"></span>
+							Profile</a></li>
+
+					<li><a href="/competition"> <span
+							class="glyphicon glyphicon-star"></span>Competitions
+					</a></li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/logout"> <span
+							class="glyphicon glyphicon-user"></span>&nbsp; <strong>Log
+								out</strong>
+
+					</a></li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+<h1 th:text="${firstName}"> </h1>
 
 <!--  This line of code will display the email of the current loggin in user
 <h6> test </h6><span  th:text="${#authentication.getPrincipal().getUsername()}"></span> </h6>
@@ -26,7 +74,7 @@
 	<a><b> Email: </b></a> <a th:text="${emailAddress}" ></a>
 
 </div>
-	<a><b>First name:</b> </h4><a th:text="${firstName}"></a>
+	<b>First name:</b><a th:text="${firstName}"></a>
 	<div>
 	<a><b>Surname:</b></a> <a th:text="${surname}"></a>
 </div> 
@@ -66,8 +114,8 @@
 <!--   <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script> -->
 
-<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
-<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 
 </body>
 </html>

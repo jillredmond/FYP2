@@ -53,7 +53,7 @@ public class MainController {
         model.addAttribute("firstName", firstname);
         model.addAttribute("surname", surname);
     	}
-    	//return "userProfile1";
+    
     	return "userProfile1";
 
     }

@@ -24,8 +24,8 @@ public class Exam implements Serializable{
 	
 	//(this is measured out of 100) What grade the student needs to achieve in the exam
 	//to reach their module grade goal.:
-	private Double examGradeRequired;
-	
+	private Double examGradeRequired; //goals
+	//pass precentge ? default 40/
 	//The grade the student achieved in the exam out of 100. (results)
 	private Double examGradeAchieved;
 	
