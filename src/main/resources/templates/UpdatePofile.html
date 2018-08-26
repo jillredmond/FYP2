@@ -1,76 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Your profile</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><base>
+  	<title>Update User</title>
+  	
 </head>
 <body>
-	<p>Welcome to your profile</p>
-	<form action="#" th:action="@{/users/{id}}" th:object="${user}" method="put">
-		<table>
-			<h3>Update user details</h3>
-			<tr>
-				<td>id:</td>
-				<td><input type="long" th:field="*{userId}" /></td>
-				<td th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">Id error</td>
-			</tr>
-			<tr>
-                    <td>username:</td>
-                    <td><input type="text" th:field="*{username}" /></td>
-                    <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</td>
-                </tr>
-                <tr>
-                    <td>password:</td>
-                    <td><input type="text" th:field="*{password}" /></td>
-                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</td>
-                </tr>
-                <tr>
-				<td>First Name:</td>
-				<td><input type="text" th:field="*{firstName}" /></td>
-				<td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</td>
-			</tr>
-			<tr>
-				<td> surname:</td>
-				<td><input type="text" th:field="*{surname}" /></td>
-				<td th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</td>
-			</tr>
-			<tr>
-				<td>age:</td>
-				<td><input type="int" th:field="*{age}" /></td>
-				<td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">age error</td>
-			</tr>
-			<tr>
-				<td>height:</td>
-				<td><input type="double" th:field="*{height}" /></td>
-				<td th:if="${#fields.hasErrors('height')}" th:errors="*{height}">height error</td>
-			</tr>
-				<tr>
-				<td>weight:</td>
-				<td><input type="double" th:field="*{weight}" /></td>
-				<td th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}">weight error</td>
-			</tr>
-			<tr>
-				<td>emailAddress:</td>
-				<td><input type="text" th:field="*{emailAddress}" /></td>
-				<td th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}">emailAddress error</td>
-			</tr>
-			<tr>
-				<td> gender:</td>
-				<td><input type="text" th:field="*{gender}" /></td>
-				<td th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">gender error</td>
-			</tr>
-				<tr>
-				<td> Date Of Birth:</td>
-				<td><input type="text" th:field="*{dob}" /></td>
-				<td th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">date of birth error</td>
-			</tr>
-                </tr>
-                <tr>
-                    <td><button type="submit">Update User</button></td>
-                </tr>
-                
-		
-		</table>
-		</form>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="userProfile1">
+      	 <img alt="Brand" src="studentlifeicon2.jpg">
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+        <li><a href="userProfile1">Profile</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/calendar">Calendar</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/allSubjects">View All Subjects</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/addsubject">Add New Subject</a></li>
+            <li><a href="/addassignment">Add New Assignment</a></li>
+            <li><a href="/addexam">Add New Exam</a></li>
+            <li><a href="/addattendance">Add New Attendance</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/logout">Logout</a></li>
+      
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    
+    <form th:action="@{/editUser}" th:object="${UserDto}" method ="post">
+    
+    <div>
+    <label for="fistName" class="control-label">First Name: </label>
+    <input id="fistName" class="form-control" type="text" th:field="*{firstName}" />
+    </div>
+        <div>
+    <label for="surname" class="control-label">Surname: </label>
+    <input id="surname" class="form-control" type="text" th:field="*{surname}" />
+    </div>
+    
+        <div>
+    <label for="age" class="control-label">Age: </label>
+    <input id="age" class="form-control" th:field="*{age}" />
+    </div>
+    
+        <div>
+    <label for="gender" class="control-label">Gender: </label>
+    <input id="gender" class="form-control" type="text" th:field="*{gender}" />
+    </div>
+  
+  
+    <div>
+    <input type="hidden" name="userId" th:value="${UserId}" /></div>
+    	<div class="form-group">
+			<button type="submit" class="btn btn-success">Create</button>
+
+		</div>
+    </form>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+	
 	</body>
-</html>
+</html>  

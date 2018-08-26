@@ -9,3 +9,13 @@ h1 {
 .error-message:first-letter {
     text-transform: capitalize;
 }
+
+.heading-text {
+    margin-top: 100px;
+}
+
+
+body {
+  padding-top: 100px;
+  background-color: lightblue;
+}

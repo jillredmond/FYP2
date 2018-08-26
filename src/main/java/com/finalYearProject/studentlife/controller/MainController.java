@@ -1,5 +1,7 @@
 package com.finalYearProject.studentlife.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +51,18 @@ public class MainController {
         String firstname = user.getFirstName();
         String surname = user.getSurname();
         
+        
+
+		
+	
+        
+        List<Subject> subjects = user.getSubject(); 
+        
+        model.addAttribute("subjects", subjects);
         model.addAttribute("emailAddress", email);
         model.addAttribute("firstName", firstname);
         model.addAttribute("surname", surname);
+        model.addAttribute("user", user);
     	}
     
     	return "userProfile1";

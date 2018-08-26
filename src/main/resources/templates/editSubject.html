@@ -1,18 +1,63 @@
 <!DOCTYPE html>
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
-   <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>   
-<title>Edit Subject</title>
-<h1> Edit Subject </h1>
+	<link rel="stylesheet" type="text/css" href="static/css/main.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><base>
+  	<title>Edit Subject</title>
+  	
 </head>
 
 
 <body>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="userProfile1">
+      	 <img alt="Brand" th:src="@{/img/studentlifeicon2.jpg}">
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+        <li><a href="userProfile1">Profile</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/calendar">Calendar</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/allSubjects">View All Subjects</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/addsubject">Add New Subject</a></li>
+            <li><a href="/addassignment">Add New Assignment</a></li>
+            <li><a href="/addexam">Add New Exam</a></li>
+            <li><a href="/addattendance">Add New Attendance</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/logout">Logout</a></li>
+      
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
 
 		<form th:action="@{/editSubject}" th:object="${SubjectDto}" method="post">
 		
@@ -29,7 +74,7 @@
 		
 		<div>
 		<label for="caCompletedWorth" class="control-label">Completed CA worth: </label>
-		<input id="caCompletedWorth" class="form-control" tth:field="*{caCompletedWorth}" />
+		<input id="caCompletedWorth" class="form-control" th:field="*{caCompletedWorth}" />
 		
 		</div>
 		
@@ -48,30 +93,8 @@
 		</div>
 		</form>
 
-
-
-<!-- <form action="#" th:action="@{/editSubject}"  th:object="${subject}" method="post">
- 	<select th:field="*{subject}" class="form-control" id="subject" name="subject">
- 		<option value="">Select subject</option>
-		<option 
- 			th:each="Subject : ${subjects}" 
- 			th:value="${Subject}" 
- 			th:text="${Subject}"></option>
- 			
- 	<table>
- 		<tr>
- 			<td> subject Grade Goal </td>
- 			<td><input type="text" th:field="*{subjectName}" /></td>
- 		</tr>
- 		<tr>
- 		<td> asubjectResults </td>
-				<td><input th:field="*{subjectResults}" /></td>
- 			
- 		
- 	</table>   -->
-
-<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+ <script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 
 </body>
 </html>

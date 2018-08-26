@@ -9,9 +9,12 @@ import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.finalYearProject.studentlife.dto.SubjectDto;
+import com.finalYearProject.studentlife.dto.UserDto;
 import com.finalYearProject.studentlife.model.User;
 import com.finalYearProject.studentlife.repository.UserRepository;
 
@@ -90,6 +95,40 @@ public class UserController {
 		    public String showForm2(User user) {
 		    	return "studentProfile";
 		    }
+		 
+		 @RequestMapping(value = "/edituser/{userId}", method = RequestMethod.GET)
+		public String editUser(@PathVariable(value = "userId")Long userId, Model model) {
+			UserDto dto = new UserDto();
+			model.addAttribute("UserId", userId);
+			model.addAttribute("UserDto", dto);	
+			
+			return "UpdatePofile";
+		}
+		 
+		 @PostMapping("editUser")
+		 public String editUser(ModelMap map, @ModelAttribute UserDto dto, BindingResult result) {
+			 User user = userRepository.findOne(dto.getUserId());
+			 
+			 if(dto.getFirstName()!=null) {
+				 user.setFirstName(dto.getFirstName());
+			 }
+			 
+			 if(dto.getSurname()!=null) {
+				 user.setSurname(dto.getSurname());
+			 }
+			 
+			 if(dto.getAge()!=0) {
+				 user.setAge(dto.getAge());
+			 }
+			 if(dto.getGender()!=null) {
+				 user.setGender(dto.getGender());
+			 }
+			 
+			 userRepository.save(user);
+			 
+			 return  "redirect:/userProfile1";
+		 }
+		 
 
 
 			  
