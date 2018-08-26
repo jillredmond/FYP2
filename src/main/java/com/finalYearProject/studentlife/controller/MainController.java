@@ -94,5 +94,14 @@ public class MainController {
     	return "addSubject";
     }
     
+    
+    @GetMapping("/calendar")
+    public String calendar() {
+    	return "calendar";
+    }
+    
+    
+    
+    
 
 } 
