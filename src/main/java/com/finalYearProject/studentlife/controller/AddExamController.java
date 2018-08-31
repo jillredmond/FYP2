@@ -56,6 +56,10 @@ public class AddExamController {
 		{
 			subjects.add(sub.getSubjectName());
 		}
+		
+		
+	//	model.addAttribute("date", new Exam().getDate());
+	//	model.addAttribute("exam", new Exam()); 
 		model.addAttribute("subjects", subjects);
 		
 	return "addExam";

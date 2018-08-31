@@ -28,7 +28,7 @@ public class Exam implements Serializable{
 	//pass precentge ? default 40/
 	//The grade the student achieved in the exam out of 100. (results)
 	private Double examGradeAchieved;
-	
+	private String date;
 	
 	
 	public Exam() {
@@ -37,17 +37,24 @@ public class Exam implements Serializable{
 
 
 
-	public Exam(Long examId, String examTitle, Double examGradeWorth, Double examGradeRequired,
-			Double examGradeAchieved,String Subject) {  
+
+	
+	public Exam(Long examId, String subject, String examTitle, Double examGradeWorth, Double examGradeRequired,
+			Double examGradeAchieved, String date) {
 		super();
 		this.examId = examId;
+		this.subject = subject;
 		this.examTitle = examTitle;
 		this.examGradeWorth = examGradeWorth;
 		this.examGradeRequired = examGradeRequired;
 		this.examGradeAchieved = examGradeAchieved;
-		this.subject = subject;
+		this.date = date;
 	}
-	
+
+
+
+
+
 	public String getSubject() {
 		return subject;
 	}
@@ -94,6 +101,18 @@ public class Exam implements Serializable{
 
 	public void setExamGradeAchieved(Double examGradeAchieved) {
 		this.examGradeAchieved = examGradeAchieved;
+	}
+
+
+
+	public String getDate() {
+		return date;
+	}
+
+
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	

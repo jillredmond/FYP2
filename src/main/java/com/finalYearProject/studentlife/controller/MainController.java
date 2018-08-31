@@ -130,10 +130,7 @@ public class MainController {
     		//String day = Calendar.getInstance().get(Calendar.d)
     		 month = getMonthForInt(Calendar.getInstance().get(Calendar.MONTH));
     				monthNum = Calendar.getInstance().get(Calendar.MONTH) +1;
-    		
-    		
-    		  
-    				
+			
     	}
     	else
     	{
@@ -152,8 +149,11 @@ public class MainController {
     
     	
 	     cal.set(Calendar.DAY_OF_MONTH, 1);
+	     
+	     
 	     Date firstDayOfMonth = cal.getTime();  
 
+	     //getting month name from no. of month
 	     DateFormat sdf = new SimpleDateFormat("EEEEEEEE");  
 	     
 	     firstDay = sdf.format(firstDayOfMonth);
@@ -199,7 +199,7 @@ public class MainController {
     	}
     	
     	
-    	
+    	//find out how many days in the month
     	YearMonth yearMonthObject = YearMonth.of(year, Calendar.getInstance().get(Calendar.MONTH));
     	int daysInMonth = yearMonthObject.lengthOfMonth(); 
     	
@@ -207,13 +207,14 @@ public class MainController {
     	
     	ArrayList<String> days = new ArrayList<String>();
     	
+    	//make arraylist of days (1, 2, 3 .. )   [(1st, 2nd, 3rd ...)]
     	for(int i =0; i < daysInMonth; i++)
     	{
     		days.add(String.valueOf(i+1));
     	}
     	
 
-    	
+    	//insert empty strings into arraylist of days so days match up correctly on calendar
     	for(int i = 0; i < blanks; i++)
     	{
     

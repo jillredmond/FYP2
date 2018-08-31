@@ -229,16 +229,12 @@ public class User implements UserDetails {
 	} 
 	
 	@Override
-    public String toString() {
-        return "User{" +
-                "id=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + emailAddress + '\'' +
-                ", password='" + "*********" + '\'' +
-                ", roles=" + roles +
-                '}';
-    }
+	public String toString() {
+		return "User [userId=" + userId + ", subject=" + subject + ", roles=" + roles + ", username=" + username
+				+ ", password=" + password + ", firstName=" + firstName + ", surname=" + surname + ", age=" + age
+				+ ", height=" + height + ", weight=" + weight + ", emailAddress=" + emailAddress + ", gender=" + gender
+				+ ", dob=" + dob + ", studentStatus=" + studentStatus + "]";
+	}
 
 	public Collection<Role> getRoles() {
 		return roles;
@@ -288,5 +284,8 @@ public class User implements UserDetails {
 		getSubject().add(Subject);
 	}
 
+	
+	
+	
 
 }

@@ -19,6 +19,7 @@ public class Assignment implements Serializable{
 	private String assignmentTitle;
 	
 	private String subject;
+	private String date;
 	
 	public String getSubject() {
 		return subject;
@@ -52,6 +53,19 @@ public class Assignment implements Serializable{
 		this.assignmentGradeRequired = assignmentGradeRequired;
 		this.assignmentGradeAchieved = assignmentGradeAchieved;
 		this.subject = subject;
+	}
+
+	
+	
+	
+	
+	
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public Long getAssignmentId() {
