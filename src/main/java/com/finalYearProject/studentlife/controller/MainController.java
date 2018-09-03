@@ -3,6 +3,7 @@ package com.finalYearProject.studentlife.controller;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -31,6 +32,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finalYearProject.studentlife.service.UserDetails;
 import com.finalYearProject.studentlife.service.UserRegistrationDto;
+import com.finalYearProject.studentlife.dto.CalendarDTO;
+import com.finalYearProject.studentlife.dto.DayDto;
+import com.finalYearProject.studentlife.model.Assignment;
+import com.finalYearProject.studentlife.model.Exam;
 import com.finalYearProject.studentlife.model.Subject;
 import com.finalYearProject.studentlife.model.User;
 import com.finalYearProject.studentlife.repository.SubjectRepository;
@@ -38,6 +43,9 @@ import com.finalYearProject.studentlife.repository.UserRepository;
 @Controller
 
 public class MainController {
+	
+	@Autowired
+	UserRepository userRepo;
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -110,10 +118,14 @@ public class MainController {
     
 
     @GetMapping("/calendar/{id}")
-    public String calendar(@PathVariable(value = "id") String id, Model model) {
+    public String calendar(@PathVariable(value = "id") String id, Model model, Principal principal) {
     	
     	System.out.println("------");
     	System.out.println(id);
+    	
+    	
+    	User user = userRepo.findByEmailAddress(principal.getName());
+    	
     	
     	String month ="Error";
     	int year = Integer.valueOf(id.substring(id.length() - 4));
@@ -121,7 +133,7 @@ public class MainController {
     	Calendar cal = Calendar.getInstance();
    
     	int monthNum = Integer.valueOf(firstTwo(id));
-    	
+    
     	 
     	if(id.equals("000000"))
     	{
@@ -226,6 +238,9 @@ public class MainController {
     		System.out.print(string + ", ");
     	}
     	
+    	
+    	
+    	
     	String next = String.format("%02d", monthNum +1);
     	String prev = String.format("%02d", monthNum -1);
     	
@@ -251,10 +266,132 @@ public class MainController {
     		yearPrev = year -1;
     	}
     	
+    	ArrayList<CalendarDTO> calendarDtos = new ArrayList<CalendarDTO>();
+
+    	ArrayList<DayDto> dayDtos = new ArrayList<DayDto>();
+    	ArrayList<String> activeDays = new ArrayList<String>();
     	
-    	System.out.println(monthNum + "KKKKKKKKKKKKKKK");
+    	for(Subject subject : user.getSubject())
+    	{
+    		for(Exam exam : subject.getExam())
+    		{
+    			
+    			Date date = new Date();
+
+			    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+		
+				try {
+					date = sdf2.parse(exam.getDate());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+    			
+    			if(date.getMonth() == monthNum)
+    			{
+    				activeDays.add(String.valueOf(date.getDate()));
+    			}
+    			
+    			
+    			
+    		}
+    		for(Assignment assignment : subject.getAssignment())
+    		{
+    	
+    			Date date = new Date();
+
+			    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+		
+				try {
+					date = sdf2.parse(assignment.getDate());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+    			
+/*				System.out.println("month num=" + monthNum);
+				System.out.println("get month=" + date.getMonth());*/
+				
+    			if((date.getMonth()+1) == monthNum && !activeDays.contains(String.valueOf(date.getDate())))
+    			{
+    				activeDays.add(String.valueOf(date.getDate()));
+    			}
+    			
+    		}
+    	}
+    	
+    	    	
+    	
+    	for(String s : activeDays)
+    	{
+    		System.out.println(s);
+    	}
+    	
+    	ArrayList<String> list = new ArrayList<String>();
+    	//list.add("<ul class=\"days\">");
+    	boolean active = false;
+    	for(String day : days)
+    	{
+    		active = false;
+    		
+    		
+    		Calendar today = Calendar.getInstance();
+    		today.set(Calendar.HOUR_OF_DAY, 0);
+    		
+    		
+    	//	if(day.equals(String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))));
+    		if(day.equals(String.valueOf(today.getTime().getDate())))
+			{
+				String link = "<li><span data-toggle=\"tooltip\" title=\"Today!\" class=\"today\">" + day + "</span></li>";
+				list.add(link);
+				active = true;
+			}
+    		
+    		
+    		for(String aDay :activeDays)
+    		{
+    			boolean dup = false;
+    			if(day.equals(aDay))
+    			{
+    				
+    				if(dup == false)
+    				{
+    				String link = "<li><span class=\"active\">" + day + "</span></li>";
+    				list.add(link);
+    				active = true;
+    				dup =true;
+    				}
+    			}
+    			else
+    			{
+    		
+    			}
+    		}
+    		
+    		if(active==false)
+    		{
+    			String link = "<li>" + day + "</li>";
+    			list.add(link);
+    		}
+    		
+    		
+    		
+		
+    	}
+		
+    	//list.add("</ul>");
+		
+    	for(String s : list)
+    	{
+    		System.out.println(s);
+    	}
+		
+    	
+    	model.addAttribute("activeDays", activeDays);
+    	System.out.println(monthNum);
+    	model.addAttribute("activeDays", activeDays);
+    	model.addAttribute("items", calendarDtos);
     	model.addAttribute("days", days);
     	model.addAttribute("next", next);
+    	model.addAttribute("list", list);
     	model.addAttribute("prev", prev);
     	model.addAttribute("year", year);
     	model.addAttribute("yearNext", yearNext);

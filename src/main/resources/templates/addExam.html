@@ -71,15 +71,16 @@ body {
 	</div>
 
 	<div class="container"></div>
-
+<div th:if="${not #lists.isEmpty(subjects)}">
+<!-- <div th:if="${subjects != null}"> -->
 
 	<div class="container">
 		<form action="#" th:action="@{/addExam}" th:object="${exam}"
 			method="post">
 			<select th:field="*{subject}" class="form-control" id="subject"
 				name="subject">
-				<option value="">Select subject</option>
-				<option th:each="Subject : ${subjects}" th:value="${Subject}"
+
+				<option  th:each="Subject : ${subjects}" th:value="${Subject}"
 					th:text="${Subject}"></option>
 			</select>
 			<table class="table">
@@ -105,10 +106,10 @@ body {
 		</form>
 
 	</div>
-	<script type="text/javascript"
-		th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
-	<script type="text/javascript"
-		th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+	</div>
+<div th:if="${#lists.isEmpty(subjects)}">
+	You must add a subject to add an exam!
+</div>
 
 </body>
 </html>

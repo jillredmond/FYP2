@@ -6,7 +6,13 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><base>
   	<title>Add Assignment</title>
-  	
+  	<style>
+body {
+	padding-top: 50px;
+
+    margin: 35px;
+}
+</style>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -53,10 +59,11 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-
+ <!-- class="form-control" -->
+<div class="containter">
 
  	<form action="#" th:action="@{/addAssignment}"  th:object="${assignment}" method="post">
- 	<select th:field="*{subject}" class="form-control" id="subject" name="subject">
+ 	<select class="dropdown" th:field="*{subject}" id="subject" name="subject">
 
  <option value="">Select subject</option>
 		<option 
@@ -66,7 +73,7 @@
  			
  			</select>
  		
-		<table>
+		<table class="table">
 			<tr>
 			<td>assignmentTitle</td>
 			 <td><input type="text" th:field="*{assignmentTitle}" /></td>
@@ -77,13 +84,17 @@
 				<td><input th:field="*{assignmentGradeWorth}" /></td>
 			<!--	<td th:if="${#fields.hasErrors('examGradeWorth')}" th:errors="*{examGradeWorth}">error message</td> -->
 		  		</tr>  
+		  						<tr>
+					<td>Date</td>
+					<td> <input type="date" th:field="*{date}"/></td>
+				</tr> 
 				<tr>
 					<td><button type="submit">Submit post</button></td>
 					</tr>
 		</table>
 	
 	</form>  
-	
+	</div>
 <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 

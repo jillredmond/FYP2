@@ -58,6 +58,8 @@ public class Subject implements Serializable{
 	private Double averageAssignmentGrade;
 	private Double averageExamGrade;
 	private Double averageAttendanceGrade;
+	
+	private String date;
 
 //	public int getAverageAssignmentGrade;
 	
@@ -316,6 +318,21 @@ public class Subject implements Serializable{
 		getAttendance().add(attendance);
 		
 	}
+
+
+
+
+	public String getDate() {
+		return date;
+	}
+
+
+
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
 	
 
 

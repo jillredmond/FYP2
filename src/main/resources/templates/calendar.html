@@ -3,204 +3,278 @@
 
 <head>
 
-	<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
 
-	
-	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><base>
-  	<title>Calendar</title>
-  	<style>
-* {box-sizing: border-box;}
-ul {list-style-type: none;}
-body {font-family: Verdana, sans-serif;}
+
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<base>
+<title>Calendar</title>
+<style>
+* {
+	box-sizing: border-box;
+}
+
+ul {
+	list-style-type: none;
+}
+
+body {
+	font-family: Verdana, sans-serif;
+}
 
 .month {
-    padding: 70px 25px;
-    width: 100%;
-    background: #1abc9c;
-    text-align: center;
+	padding: 70px 25px;
+	width: 100%;
+	background: #1abc9c;
+	text-align: center;
 }
 
 .month ul {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 .month ul li {
-    color: white;
-    font-size: 20px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
+	color: white;
+	font-size: 20px;
+	text-transform: uppercase;
+	letter-spacing: 3px;
 }
 
 .month .prev {
-    float: left;
-    padding-top: 10px;
+	float: left;
+	padding-top: 10px;
 }
 
 .month .next {
-    float: right;
-    padding-top: 10px;
+	float: right;
+	padding-top: 10px;
 }
 
 .weekdays {
-    margin: 0;
-    padding: 10px 0;
-    background-color: #ddd;
+	margin: 0;
+	padding: 10px 0;
+	background-color: #ddd;
 }
 
 .weekdays li {
-    display: inline-block;
-    width: 13.6%;
-    color: #666;
-    text-align: center;
+	display: inline-block;
+	width: 13.6%;
+	color: #666;
+	text-align: center;
 }
 
 .days {
-    padding: 10px 0;
-    background: #eee;
-    margin: 0;
+	padding: 10px 0;
+	background: #eee;
+	margin: 0;
 }
 
 .days li {
-    list-style-type: none;
-    display: inline-block;
-    width: 13.6%;
-    text-align: center;
-    margin-bottom: 5px;
-    font-size:12px;
-    color: #777;
+	list-style-type: none;
+	display: inline-block;
+	width: 13.6%;
+	text-align: center;
+	margin-bottom: 5px;
+	font-size: 12px;
+	color: #777;
 }
 
+.days li .today {
+	padding: 5px;
+	background: #1abc9c;
+	color: white !important
+}
 .days li .active {
-    padding: 5px;
-    background: #1abc9c;
-    color: white !important
+	padding: 5px;
+	background: #F53C3C;
+	color: white !important
 }
 
 /* Add media queries for smaller screens */
 @media screen and (max-width:720px) {
-    .weekdays li, .days li {width: 13.1%;}
+	.weekdays li, .days li {
+		width: 13.1%;
+	}
 }
 
 @media screen and (max-width: 420px) {
-    .weekdays li, .days li {width: 12.5%;}
-    .days li .active {padding: 2px;}
+	.weekdays li, .days li {
+		width: 12.5%;
+	}
+	.days li .active {
+		padding: 2px;
+	}
 }
 
 @media screen and (max-width: 290px) {
-    .weekdays li, .days li {width: 12.2%;}
+	.weekdays li, .days li {
+		width: 12.2%;
+	}
 }
 </style>
-  	
-  
+
+
 
 </head>
 
 
 <body>
-<div class=container>
-<!-- navbar-static-top -->
+	<div class=container>
+		<!-- navbar-static-top -->
+
+		<div class="container">
+			<img th:src="@{/img/bannericon.png}" width="100" height="100" />
+		</div>
+
+		<nav class="navbar navbar-default  navbar-fixed-top">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="userProfile1"> <!-- <img alt="Brand" src="/images/BannerIcon.png"> -->
+						<!--       	 <img alt="Brand" th:src="@{BannerIcon.png}"> --> <img
+						th:src="@{/img/bannericon.png}" />
+					</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+
+						<li><a href="/">Profile</a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">Menu <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="/calendar">Calendar</a></li>
+								<li><a href="#">Another action</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="/allSubjects">View All Subjects</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="/addsubject">Add New Subject</a></li>
+								<li><a href="/addassignment">Add New Assignment</a></li>
+								<li><a href="/addexam">Add New Exam</a></li>
+								<li><a href="/addattendance">Add New Attendance</a></li>
+							</ul></li>
+					</ul>
+
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/logout">Logout</a></li>
+
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+	</div>
 
 <div class="container">
- <img th:src="@{/img/bannericon.png}" width="100" height="100"/> 
+
+	<div class="month">
+		<ul>
+			<li class="prev"><a
+				th:href="@{/calendar/} + ${prev} + ${yearPrev}">&#10094;</a></li>
+			<li class="next"><a
+				th:href="@{/calendar/} + ${next} + ${yearNext}">&#10095;</a></li>
+			<li>
+				<div th:text="${month}"></div>
+				<br> <span th:text="${year}" style="font-size: 18px">year
+					here</span>
+			</li>
+		</ul>
+	</div>
+
+	<ul class="weekdays">
+		<li>Mo</li>
+		<li>Tu</li>
+		<li>We</li>
+		<li>Th</li>
+		<li>Fr</li>
+		<li>Sa</li>
+		<li>Su</li>
+	</ul>
+
+
+	<!-- th:if="${s == items.day}"
+th:text="${teacher.active} ? 'ACTIVE' : 'RETIRED'" /> -->
+<!-- 
+	<ul class="days">
+
+		<li th:each="s : ${days}" th:with="found=${false}">
+			<span th:each="item : ${items}" >
+			<span th:if="{$item.day == s}">
+			
+					<span th:text="${s}" th:classappend="active" th:href
+						  th:with="${found} = true"></span>
+             </span> 
+			</span> 
+			
+		    <span th:if="{$found == false}">
+		    	 <span th:text="${s}"></span>
+
+			</span>
+		</li>
+
+	</ul> -->
+	
+	<div th:if="${list != null}">
+  
+  <ul class="days">
+  
+  	<li th:remove="tag" th:each="item : ${list}" th:utext="${item}"></li>
+  	
+  	
+  	</ul>
+  
+</div>
+	
+	
+	
+	
+<!--  <ul  class="days">  
+  	<li th:each="s : ${days}"  th:utext="${s}">
+   
+
+ 	</li>
+
+</ul>  -->
+ 
+	<!--  HOW TO MARK CURRENT DAY: -->
+	<!--  <li><span class="active">10</span></li>   -->
+
+
+
+
+<!-- th:class="${isAdmin}? active" -->
+
 </div>
 
-<nav class="navbar navbar-default  navbar-fixed-top" >
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="userProfile1">
-      	 <!-- <img alt="Brand" src="/images/BannerIcon.png"> -->
-<!--       	 <img alt="Brand" th:src="@{BannerIcon.png}"> -->
-      	 <img th:src="@{/img/bannericon.png}"/>
-      </a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-
-        <li><a href="/">Profile</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="/calendar">Calendar</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/allSubjects">View All Subjects</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/addsubject">Add New Subject</a></li>
-            <li><a href="/addassignment">Add New Assignment</a></li>
-            <li><a href="/addexam">Add New Exam</a></li>
-            <li><a href="/addattendance">Add New Attendance</a></li>
-          </ul>
-        </li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="/logout">Logout</a></li>
-      
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-</div>
 
 
-
-	<div class="month">      
-  <ul>
-    <li class="prev"><a th:href="@{/calendar/} + ${prev} + ${yearPrev}">&#10094;</a></li>
-    <li class="next"><a th:href="@{/calendar/} + ${next} + ${yearNext}">&#10095;</a></li>
-    <li >
-    <div th:text="${month}"></div><br>
-      <span th:text="${year}" style="font-size:18px">year here</span>
-    </li>
-  </ul>
-</div>
-
-<ul class="weekdays">
-  <li>Mo</li>
-  <li>Tu</li>
-  <li>We</li>
-  <li>Th</li>
-  <li>Fr</li>
-  <li>Sa</li>
-  <li>Su</li>
-</ul>
-
-
-
-<ul  class="days">  
-  <li th:each="item : ${days}" th:utext="${item}" >1</li>
-
-</ul>
-
-<!--  HOW TO MARK CURRENT DAY: -->
-<!--  <li><span class="active">10</span></li>   -->
-
-
-
-
-
-
-
-
-
-
-<div>
- <script src="webjars/jquery/3.2.1/jquery.min.js"></script>
-<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-</div>
+	<div>
+		<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+		<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</div>
 </body>
+<script th:inline="javascript">
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
+</script>
 </html>

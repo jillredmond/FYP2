@@ -58,7 +58,7 @@ public class UserRegistrationController {
 	        model.addAttribute("gender", userDto.getGender());
 	        model.addAttribute("dob", userDto.getDob());
 	       // return "redirect:/registration?success";
-	        return "userProfile1";
+	        return "login";
 	        
 	    }
 
