@@ -117,8 +117,8 @@ public class MainController {
     }
     
 
-    @GetMapping("/calendar/{id}")
-    public String calendar(@PathVariable(value = "id") String id, Model model, Principal principal) {
+    @GetMapping("/calendar/{id}/{select}")
+    public String calendar(@PathVariable(value = "id") String id, Model model, Principal principal, @PathVariable(value = "select") String select) {
     	
     	System.out.println("------");
     	System.out.println(id);
@@ -270,12 +270,20 @@ public class MainController {
 
     	ArrayList<DayDto> dayDtos = new ArrayList<DayDto>();
     	ArrayList<String> activeDays = new ArrayList<String>();
+    	ArrayList<Exam> exams = new ArrayList<Exam>();
+    	ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+    	
     	
     	for(Subject subject : user.getSubject())
     	{
     		for(Exam exam : subject.getExam())
     		{
+    		
+    			Calendar cal2 = Calendar.getInstance();
+    		//	cal2.getInstance().get(Calendar.DAY_OF_MONTH)
     			
+    			cal2.get(Calendar.DAY_OF_MONTH);
+ 
     			Date date = new Date();
 
 			    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -285,14 +293,26 @@ public class MainController {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
+				
+				System.out.println(date.toString());
+				String d = String.valueOf("DAY" + date.getDate());
+				System.out.println(d);
     			
-    			if(date.getMonth() == monthNum)
+/*    			if(date.getMonth() == monthNum)
     			{
-    				activeDays.add(String.valueOf(date.getDate()));
+    				activeDays.add(d);
+    			}*///I THINK DATE ISN'T WORKING. YOU NEED TO GET THE DATE OF EVERY EXAM IN (MONTH)
+				if(date.getMonth() == monthNum)
+    			{
+    				activeDays.add(d);
     			}
     			
-    			
-    			
+    			System.out.println("------");
+    			for(String s : activeDays)
+    			{
+    				System.out.println(s);
+    			}
+    			System.out.println("------");
     		}
     		for(Assignment assignment : subject.getAssignment())
     		{
@@ -338,7 +358,7 @@ public class MainController {
     		
     		
     	//	if(day.equals(String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))));
-    		if(day.equals(String.valueOf(today.getTime().getDate())))
+    		if(day.equals(String.valueOf(today.getTime().getDate())) && monthNum == (today.getTime().getMonth()+1) )
 			{
 				String link = "<li><span data-toggle=\"tooltip\" title=\"Today!\" class=\"today\">" + day + "</span></li>";
 				list.add(link);
@@ -352,9 +372,9 @@ public class MainController {
     			if(day.equals(aDay))
     			{
     				
-    				if(dup == false)
+    				if(dup == false && !aDay.equals(String.valueOf(today.getTime().getDate())) && monthNum == (today.getTime().getMonth()+1))
     				{
-    				String link = "<li><span class=\"active\">" + day + "</span></li>";
+    				String link = "<li><span class=\"active\"><a href=\"/calendar/"+ String.format("%02d", monthNum)+year +  "/" + String.format("%02d", Integer.parseInt(aDay)) +" \">" + day + "</a></span></li>";
     				list.add(link);
     				active = true;
     				dup =true;
@@ -376,17 +396,66 @@ public class MainController {
     		
 		
     	}
-		
-    	//list.add("</ul>");
-		
+
     	for(String s : list)
     	{
     		System.out.println(s);
     	}
-		
     	
+    	if(!select.equals("00"))
+    	{
+    		
+    	
+    	
+    	for(Subject subject : user.getSubject())
+    	{
+    		for(Exam exam : subject.getExam())
+    		{
+    			Date date = new Date();
+
+			    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+		
+				try {
+					date = sdf2.parse(exam.getDate());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				if(date.getDate() == Integer.parseInt(select))
+				{
+					exams.add(exam);
+				}
+				System.out.println("[===============]");
+				System.out.println(date.getDate() + Integer.parseInt(select));
+    			
+    		}
+    		for(Assignment assignment : subject.getAssignment())
+    		{
+    			Date date = new Date();
+
+			    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+		
+				try {
+					date = sdf2.parse(assignment.getDate());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				if(date.getDate() == Integer.parseInt(select))
+				{
+					assignments.add(assignment);
+				}
+				System.out.println(date.getDate() + Integer.parseInt(select));
+    			
+    		}
+    	}
+    	
+    	}
+    	
+    	model.addAttribute("exams", exams);
+    	model.addAttribute("assignments", assignments);
     	model.addAttribute("activeDays", activeDays);
-    	System.out.println(monthNum);
+    //	System.out.println(monthNum);
     	model.addAttribute("activeDays", activeDays);
     	model.addAttribute("items", calendarDtos);
     	model.addAttribute("days", days);

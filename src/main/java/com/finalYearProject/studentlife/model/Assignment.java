@@ -37,7 +37,7 @@ public class Assignment implements Serializable{
 	
 	//The grade the student got in the assingment (results)
 	private Double assignmentGradeAchieved;
-	
+
 	
 	
 	public Assignment() {

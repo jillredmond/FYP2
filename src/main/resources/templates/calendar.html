@@ -70,6 +70,10 @@ body {
 	text-align: center;
 }
 
+a {
+    color: white;
+}
+
 .days {
 	padding: 10px 0;
 	background: #eee;
@@ -189,9 +193,9 @@ body {
 	<div class="month">
 		<ul>
 			<li class="prev"><a
-				th:href="@{/calendar/} + ${prev} + ${yearPrev}">&#10094;</a></li>
+				th:href="@{/calendar/} + ${prev} + ${yearPrev} + @{/00}">&#10094;</a></li>
 			<li class="next"><a
-				th:href="@{/calendar/} + ${next} + ${yearNext}">&#10095;</a></li>
+				th:href="@{/calendar/} + ${next} + ${yearNext} + @{/00}">&#10095;</a></li>
 			<li>
 				<div th:text="${month}"></div>
 				<br> <span th:text="${year}" style="font-size: 18px">year
@@ -244,24 +248,33 @@ th:text="${teacher.active} ? 'ACTIVE' : 'RETIRED'" /> -->
   
 </div>
 	
-	
-	
-	
-<!--  <ul  class="days">  
-  	<li th:each="s : ${days}"  th:utext="${s}">
-   
-
- 	</li>
-
-</ul>  -->
- 
-	<!--  HOW TO MARK CURRENT DAY: -->
-	<!--  <li><span class="active">10</span></li>   -->
 
 
+<!-- <table>
+  <tr th:each="exam : ${exams}">
+    <th th:text="subject" ></th>
+    <th></th>
+    <th></th>
+  </tr>
 
+</table> -->
 
-<!-- th:class="${isAdmin}? active" -->
+<div th:if="${exams != null}">
+
+<ul class="list-group">
+   <li th:each="exam : ${exams}" th:text="'Subject: ' + ${exam.examTitle}">
+</ul>
+
+</div>
+
+<div th:if="${assignments != null}">
+
+<ul class="list-group">
+   <li th:each="exam : ${exams}" th:text="'Subject: ' + ${exam.examTitle}">
+</ul>
+
+</div>
+
 
 </div>
 

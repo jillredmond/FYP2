@@ -58,6 +58,8 @@ public class AddExamController {
 		}
 		
 		
+		
+		
 	//	model.addAttribute("date", new Exam().getDate());
 	//	model.addAttribute("exam", new Exam()); 
 		model.addAttribute("subjects", subjects);
