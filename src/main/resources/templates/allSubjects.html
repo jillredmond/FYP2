@@ -1,154 +1,209 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><base>
-  	<title>All Subjects</title>
-  	
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/registration.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<base>
+<title>All Subjects</title>
+<style>
+body {
+	padding-top: 45px;
+	  padding-bottom: 40px;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+ td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    width:70%;
+}
+ 
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
 </head>
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="userProfile1">
-      	 <img alt="Brand" src="studentlifeicon2.jpg">
-      </a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-
-        <li><a href="userProfile1">Profile</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="/calendar">Calendar</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/allSubjects">View All Subjects</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/addsubject">Add New Subject</a></li>
-            <li><a href="/addassignment">Add New Assignment</a></li>
-            <li><a href="/addexam">Add New Exam</a></li>
-            <li><a href="/addattendance">Add New Attendance</a></li>
-          </ul>
-        </li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="/logout">Logout</a></li>
-      
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+	<div class=container>
+		<!-- navbar-static-top -->
 
 
+	<nav class="navbar navbar-default  navbar-fixed-top">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="userProfile1"> 
+					</a>
+				</div>
 
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
 
-<!-- Second navbar for search -->
+						<li><a href="/">Profile</a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">Menu <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="/calendar/000000/00">Calendar</a></li>
+								<li><a href="/subjectSearch">Search For A Subject</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="/allSubjects">View All Subjects</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="/addsubject">Add New Subject</a></li>
+								<li><a href="/addassignment">Add New Assignment</a></li>
+								<li><a href="/addexam">Add New Exam</a></li>
+								<li><a href="/addattendance">Add New Attendance</a></li>
+							</ul></li>
+					</ul>
 
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/logout">Logout</a></li>
 
-   
-<!--   <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=c13434802%40mydit.ie&amp;color=%2329527A&amp;ctz=Europe%2FDublin" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
--->
-<div> 
-<a href="/userProfile1">HOME</a>
-		<h2><a th:href="@{/SubjectSearch}">Subject Search</a></h2>
-	</div>	
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+	</div>
+
+<div class="container">
+<!-- 	<div>
+		<a href="/userProfile1">HOME</a>
+		<h2>
+			<a th:href="@{/SubjectSearch}">Subject Search</a>
+		</h2>
+	</div> -->
 	<div th:each="subject : ${subjects}">
-	
-	
 
-	
-	<table class="table">
-	<tr>
-   <td><h2> <a><b> Subject: </b></a><a th:text="${subject.subjectName}"></a></h2></td>
-    </tr>
-    <tr>
-    	<td><a th:href="@{/editsubject/} + ${subject.subjectId}">Edit Subject</a></td>
-	</tr>
-    <tr>
-   <td> <a><b> Subject grade prediction: </b></a><a th:text="${subject.gradePrediction}" ></a></td>
-    </tr>
-    <tr>
-   <td> <a><b> Has Goal been achieved?: </b></a><a th:text="${subject.isGoalAchieved}"></a></td>
-    </tr>
-    <tr>
-   <td> <a><b> Subject Grade Goal: </b></a><a th:text="${subject.subjectGradeGoal}" ></a></td>
-    </tr>
-    <tr>
-   <td> <a><b> CA complete worth: </b></a><a th:text="${subject.caCompletedWorth}" ></a></td>
-    </tr>
-    <tr>
-    <td> <a><b>Current Subject Results: </b></a><a th:text="${subject.subjectResults}" ></a></td>
-    </tr>
-    <tr>
-   <td> <a><b> Remaining potential marks:</b></a><a th:text="${subject.maxSubRemMarks}" ></a></td>
-    </tr>
-    <tr>
-   <td> <a><b> Marks until you reached your goal: </b></a><a th:text="${subject.marksNeededToReachGoal}" ></a></td>
-    </tr>
-    <tr>
-   <td> <a><b> Can you still reach your goal?:   </b></a><a th:text="${subject.isGoalPossible}" ></a></td>
-    </tr>
-    <tr>
-   <td> <a><b> Your highest possible grade:  </b></a><a th:text="${subject.highestPossibleGrade}" ></a></td>
-    </tr>
-    <tr>
 
-	</table>
-	
 
-	<h3><b><a th:text="${subject.subjectName}"></a><a> Assignments:</a></b></h3>
-	  <div th:each="assignment : ${subject.assignment}">
-	  	<table> 
-	 		 <tr>
-				 <td>   <a th:text="${assignment.assignmentTitle}"></a>   	<a th:href="@{/editassignment/} + ${assignment.assignmentId}">Edit</a></td>
-	   		 </tr>
 
-	    	
-	
-		</table> 
-	
-	</div>
-	
-	<h3><b><a th:text="${subject.subjectName}"></a><a> Exams:</a></b></h3>
-	<div th:each="exam : ${subject.exam}"> 
-	<table>
-	<tr>
-		 <td>   <a th:text="${exam.examTitle}"></a> 		<a th:href="@{/editexam/} + ${exam.examId}">Edit </a></td>
-  </tr>
-	</div>
-	</table> 
-	
-	
-	<h3><b><a th:text="${subject.subjectName}"></a><a> Attendance:</a></b></h3>
-	<div th:each="attendance : ${subject.attendance}">
-	<table>
-	<tr>
-			<td><a th:text="${attendance.attendanceTitle}"></a>	   	<a th:href="@{/editattendance/} + ${attendance.attendanceId}">Edit </a></td>
+		<table >
+			<tr>
+				<td><h2>
+						 <span th:text="${subject.subjectName}"></span>
+					</h2></td>
 			</tr>
-    </div>
+			<tr>
+				<td><a th:href="@{/editsubject/} + ${subject.subjectId}">Edit
+						Subject</a></td>
+			</tr>
+
+			<tr>
+				<td><b> Has Goal been achieved?  </b><span
+					th:text="${subject.isGoalAchieved}"></span></td>
+			</tr>
+			<tr>
+				<td><b> Subject Grade Goal: </b><span
+					th:text="${subject.subjectGradeGoal}"></span></td>
+			</tr>
+			<tr>
+				<td><b>Is your grade higher than your grade goal?</b><span
+					th:text="${subject.isGradeAboveGoal}"></span></td>
+			</tr>
+			<tr>
+				<td><b> CA complete worth: </b><span
+					th:text="${subject.caCompletedWorth}"></span></td>
+			</tr>
+			<tr>
+				<td><b>Current Subject Results: </b><span
+					th:text="${subject.subjectResults}"></span></td>
+			</tr>
+			<tr>
+				<td><b> Remaining potential marks:</b><span
+					th:text="${subject.maxSubRemMarks}"></span></td>
+			</tr>
+			<tr>
+				<td><b> Marks until you reached your goal: </b><span
+					th:text="${subject.marksNeededToReachGoal}"></span></td>
+			</tr>
+			<tr>
+				<td><b> Can you still reach your goal?: </b><span
+					th:text="${subject.isGoalPossible}"></span></td>
+			</tr>
+			<tr>
+				<td><b> Your highest possible grade: </b><span
+					th:text="${subject.highestPossibleGrade}"></span></td>
+			</tr>
+			<tr>
+		</table>
+
+
+		<h4>
+			<b><span th:text="${subject.subjectName}"></span><span> Assignments:</span></b></h4><div align="right">% Of Module:</div>
+		
+		<div th:each="assignment : ${subject.assignment}">
+			<table>
+				<tr>
+					<td class="tds"><span th:text="${assignment.assignmentTitle}"></span> <a
+						th:href="@{/editassignment/} + ${assignment.assignmentId}">Edit</a></td>
+												<td> <button type="button"  th:text="${assignment.assignmentGradeWorth}" class="btn btn-info">Info</button> </td>
+						
+				</tr>
+
+
+
+			</table>
+
+		</div>
+
+		<h4>
+			<b><span th:text="${subject.subjectName}"></span> Exams:</b></h4><div align="right">% Of Module:</div>
 	
-
+		<div th:each="exam : ${subject.exam}">
+			<table>
+				<tr>
+					<td><span th:text="${exam.examTitle}"></span> <a
+						th:href="@{/editexam/} + ${exam.examId}">Edit </a></td>
+						<td> <button type="button"  th:text="${exam.examGradeWorth}" class="btn btn-info">Info</button> </td>
+				</tr>
+				
+			</table>
+</div>
+<div th:if="${not #lists.isEmpty(subject.attendance)}">
+			<h4>
+				<b><span th:text="${subject.subjectName}"></span><span> Attendance:</span></b></h4><div align="right">% Of Module:</div>
 	
+			<div th:each="attendance : ${subject.attendance}">
+				<table>
+					<tr>
+						<td><span th:text="${attendance.attendanceTitle}"></span> <a
+							th:href="@{/editattendance/} + ${attendance.attendanceId}">Edit
+							
+						</a></td>
+							<td> <button type="button"  th:text="${attendance.attendanceGradeWorth}" class="btn btn-info">Info</button> </td>
+					</tr>
+					</table>
+					</div>
+					</div>
+</div>
 
-<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
-<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</div>
 
+					<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+					<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

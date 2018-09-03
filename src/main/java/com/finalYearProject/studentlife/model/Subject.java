@@ -53,6 +53,7 @@ public class Subject implements Serializable{
 	private Double gradePrediction;
 	
 	private String isGoalAchieved;
+	private String isGradeAboveGoal;
 	
 	private Double averageSubjectGrade; //this is the average of averageAttendanceGrade + averageAssignmentGrade + averageExamGade divided by 3(or 2 or 1 if the subject doesn't have all types of CAs
 	private Double averageAssignmentGrade;
@@ -66,7 +67,7 @@ public class Subject implements Serializable{
 	public Subject(Long subjectId, List<Exam> exam, List<Assignment> assignment, List<Attendance> attendance,
 			String subjectName, Double subjectGradeGoal, Double caCompletedWorth, Double subjectResults,
 			Double maxSubRemMarks, Double marksNeededToReachGoal, String isGoalPossible, Double highestPossibleGrade,
-			Double gradePrediction, String isGoalAchieved, Double averageSubjectGrade, Double averageAssignmentGrade,  Double averageExamGrade, Double averageAttendanceGrade) {
+			Double gradePrediction, String isGoalAchieved, Double averageSubjectGrade, String isGradeAboveGoal, Double averageAssignmentGrade,  Double averageExamGrade, Double averageAttendanceGrade) {
 		super();
 		this.subjectId = subjectId;
 		this.exam = exam;
@@ -82,6 +83,7 @@ public class Subject implements Serializable{
 		this.highestPossibleGrade = highestPossibleGrade;
 		this.gradePrediction = gradePrediction;
 		this.isGoalAchieved = isGoalAchieved;
+		this.isGradeAboveGoal = isGradeAboveGoal;
 		this.averageSubjectGrade = averageSubjectGrade;
 		this.averageAssignmentGrade = averageAssignmentGrade;
 		this.averageExamGrade = averageExamGrade;
@@ -91,6 +93,20 @@ public class Subject implements Serializable{
 	
 	
 	
+	public String getIsGradeAboveGoal() {
+		return isGradeAboveGoal;
+	}
+
+
+
+
+	public void setIsGradeAboveGoal(String isGradeAboveGoal) {
+		this.isGradeAboveGoal = isGradeAboveGoal;
+	}
+
+
+
+
 	public Double getAverageAssignmentGrade() {
 		return averageAssignmentGrade;
 	}

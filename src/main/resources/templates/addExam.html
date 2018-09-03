@@ -13,13 +13,17 @@
 <title>Add Exam</title>
 <style>
 body {
-	padding-top: 65px;
+	padding-top: 45px;
 }
 </style>
 </head>
 <body>
-	<div class="container">
-		<nav class="navbar navbar-default navbar-fixed-top">
+	<div class=container>
+<!-- navbar-static-top -->
+
+
+	
+	<nav class="navbar navbar-default  navbar-fixed-top">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
@@ -30,8 +34,7 @@ body {
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="userProfile1"> <img alt="Brand"
-						src="studentlifeicon2.jpg">
+					<a class="navbar-brand" href="userProfile1"> 
 					</a>
 				</div>
 
@@ -40,14 +43,13 @@ body {
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 
-						<li><a href="userProfile1">Profile</a></li>
+						<li><a href="/">Profile</a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">Menu <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="/calendar">Calendar</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
+								<li><a href="/calendar/000000/00">Calendar</a></li>
+								<li><a href="/subjectSearch">Search For A Subject</a></li>
 								<li role="separator" class="divider"></li>
 								<li><a href="/allSubjects">View All Subjects</a></li>
 								<li role="separator" class="divider"></li>
@@ -61,7 +63,6 @@ body {
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="/logout">Logout</a></li>
 
-
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -70,7 +71,7 @@ body {
 		</nav>
 	</div>
 
-	<div class="container"></div>
+	<div class="container"><h2>Add Exam</h2></div>
 <div th:if="${not #lists.isEmpty(subjects)}">
 <!-- <div th:if="${subjects != null}"> -->
 
@@ -85,12 +86,12 @@ body {
 			</select>
 			<table class="table">
 				<tr>
-					<td>Exam Title:</td>
+					<td>Exam Title</td>
 					<td><input type="text" th:field="*{examTitle}" /></td>
 					<!--   	<td th:if="${#fields.hasErrors('examTitlee')}" th:errors="*{examTitle}">error message</td>  -->
 				</tr>
 				<tr>
-					<td>Exam grade worth</td>
+					<td>Exam Grade Worth</td>
 					<td><input th:field="*{examGradeWorth}" /></td>
 					<!--	<td th:if="${#fields.hasErrors('examGradeWorth')}" th:errors="*{examGradeWorth}">error message</td> -->
 				</tr>

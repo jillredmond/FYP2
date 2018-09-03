@@ -8,64 +8,77 @@
   	<title>Add Assignment</title>
   	<style>
 body {
-	padding-top: 50px;
+	padding-top: 45px;
 
-    margin: 35px;
+
 }
 </style>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="userProfile1">
-      	 <img alt="Brand" src="studentlifeicon2.jpg">
-      </a>
-    </div>
+<div class=container>
+<!-- navbar-static-top -->
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
 
-        <li><a href="userProfile1">Profile</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="/calendar">Calendar</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/allSubjects">View All Subjects</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/addsubject">Add New Subject</a></li>
-            <li><a href="/addassignment">Add New Assignment</a></li>
-            <li><a href="/addexam">Add New Exam</a></li>
-            <li><a href="/addattendance">Add New Attendance</a></li>
-          </ul>
-        </li>
-      </ul>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="/logout">Logout</a></li>
-      
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
- <!-- class="form-control" -->
-<div class="containter">
+	<nav class="navbar navbar-default  navbar-fixed-top">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="userProfile1"> 
+					</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+
+						<li><a href="/">Profile</a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">Menu <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="/calendar/000000/00">Calendar</a></li>
+								<li><a href="/subjectSearch">Search For A Subject</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="/allSubjects">View All Subjects</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="/addsubject">Add New Subject</a></li>
+								<li><a href="/addassignment">Add New Assignment</a></li>
+								<li><a href="/addexam">Add New Exam</a></li>
+								<li><a href="/addattendance">Add New Attendance</a></li>
+							</ul></li>
+					</ul>
+
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/logout">Logout</a></li>
+
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+	</div>
+
+
+<div class="container"><h2>Add Assignment</h2></div>
+
+<div class="container">
+
+<div th:if="${not #lists.isEmpty(subjects)}">
 
  	<form action="#" th:action="@{/addAssignment}"  th:object="${assignment}" method="post">
- 	<select class="dropdown" th:field="*{subject}" id="subject" name="subject">
+ 	<select class="form-control" th:field="*{subject}" id="subject" name="subject">
 
- <option value="">Select subject</option>
+ 
 		<option 
  			th:each="Subject : ${subjects}" 
  			th:value="${Subject}" 
@@ -75,12 +88,12 @@ body {
  		
 		<table class="table">
 			<tr>
-			<td>assignmentTitle</td>
+			<td>Assignment Title</td>
 			 <td><input type="text" th:field="*{assignmentTitle}" /></td>
 		<!--   	<td th:if="${#fields.hasErrors('examTitlee')}" th:errors="*{examTitle}">error message</td>  -->	
 	 		</tr>  
 			<tr>
-				<td> assignmentGradeWorth </td>
+				<td>Exam Grade Worth </td>
 				<td><input th:field="*{assignmentGradeWorth}" /></td>
 			<!--	<td th:if="${#fields.hasErrors('examGradeWorth')}" th:errors="*{examGradeWorth}">error message</td> -->
 		  		</tr>  
@@ -95,6 +108,11 @@ body {
 	
 	</form>  
 	</div>
+	</div>
+	
+	<div th:if="${#lists.isEmpty(subjects)}">
+	You must add a subject to add an assignment!
+</div>
 <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 

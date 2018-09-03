@@ -61,7 +61,7 @@ public class AddSubjectController {
 	
 		user.addSubject(subject);
 	userRepository.save(user);
-		return "userProfile1";
+	return "redirect:/";
 
 	}
 }

@@ -64,11 +64,14 @@ public class AddExamController {
 	//	model.addAttribute("exam", new Exam()); 
 		model.addAttribute("subjects", subjects);
 		
-	return "addExam";
+		return "addExam";
+
 	}
 	
 	@PostMapping("/addExam") //This was causing one problem i was getting. I had it as /addexam and it should have been addExam
 	public String addNewExam(@ModelAttribute("exam") @Valid @RequestBody Exam exam, BindingResult result, Model model) {
+		
+		
 		
 		examRepository.save(exam);
 		model.addAttribute("examTitle", exam.getExamTitle());
@@ -80,7 +83,7 @@ public class AddExamController {
 		subject.addExam(exam);
 		subjectRepository.save(subject);
 		
-	return "userProfile1";
+		return "redirect:/allSubjects";
 		
 	
 	}

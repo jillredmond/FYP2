@@ -72,6 +72,7 @@ public class SubjectController {
 	double marksNeededToReachGoal = 0;
 	String isGoalPossible;
 	String isGoalAchieved;
+	String isGradeAboveGoal;
 	double averageAssignGrade = 0;
 	double averageExamGrade = 0;
 	double averageAttenGrade = 0;
@@ -294,6 +295,16 @@ public class SubjectController {
 		for(int i=0; i<subjects.size(); i++){ //for each subject in the list
 			Subject subject = subjects.get(i);
 			
+			if(subject.getSubjectResults() >subject.getSubjectGradeGoal()) {
+				isGradeAboveGoal = "Your grade is above your grade goal";
+				subject.setIsGradeAboveGoal(isGradeAboveGoal);
+				
+			}else {
+					isGradeAboveGoal = "Your grade is below your grade goal";
+					subject.setIsGradeAboveGoal(isGradeAboveGoal);
+				}
+			
+			
 			if(subject.getSubjectResults() >= subject.getSubjectGradeGoal()) {				
 				marksNeededToReachGoal = 0;
 				isGoalAchieved = "Goal Achieved";
@@ -323,6 +334,10 @@ public class SubjectController {
 		}//end for
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+	// I decided against using grade prediction as I felt it was way to inaccurate and pointless.	
+		
+		////////////////////////////////////////////
 		//GRADE PREDICTION
 		for(int i=0; i<subjects.size(); i++){ //for each subject in the list
 			Subject subject = subjects.get(i);

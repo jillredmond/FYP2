@@ -58,8 +58,6 @@ public class Assignment implements Serializable{
 	
 	
 	
-	
-	
 	public String getDate() {
 		return date;
 	}

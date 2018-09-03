@@ -85,7 +85,7 @@ public class AssignmentController {
 		subject.addAssignment(assignment);
 		subjectRepository.save(subject);
 		
-	return "userProfile1";
+		return "redirect:/allSubjects";
 
 	}
 	

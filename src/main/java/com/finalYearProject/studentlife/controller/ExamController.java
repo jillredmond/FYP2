@@ -38,7 +38,12 @@ public class ExamController {
 	@RequestMapping(value = "/editexam/{examId}", method = RequestMethod.GET)
 	public String editExam(@PathVariable(value = "examId")Long examId,Model model) {
 		
+		Exam exam = examRepository.findOne(examId);
 		ExamDto dto = new ExamDto();
+		
+		dto.setExamGradeWorth(exam.getExamGradeWorth());
+		dto.setExamGradeAchieved(exam.getExamGradeAchieved());
+		dto.setExamTitle(exam.getExamTitle());
 		model.addAttribute("ExamId",examId);
 		model.addAttribute("ExamDto", dto);
 				
