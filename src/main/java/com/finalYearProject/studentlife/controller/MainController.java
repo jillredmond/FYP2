@@ -14,6 +14,7 @@ import java.util.Locale;
 
 import javax.validation.Valid;
 
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -36,10 +37,13 @@ import com.finalYearProject.studentlife.dto.AssignmentDto2;
 import com.finalYearProject.studentlife.dto.CalendarDTO;
 import com.finalYearProject.studentlife.dto.DayDto;
 import com.finalYearProject.studentlife.dto.ExamDto2;
+import com.finalYearProject.studentlife.dto.UserDto;
 import com.finalYearProject.studentlife.model.Assignment;
 import com.finalYearProject.studentlife.model.Exam;
+import com.finalYearProject.studentlife.model.Semester;
 import com.finalYearProject.studentlife.model.Subject;
 import com.finalYearProject.studentlife.model.User;
+import com.finalYearProject.studentlife.repository.SemesterRepository;
 import com.finalYearProject.studentlife.repository.SubjectRepository;
 import com.finalYearProject.studentlife.repository.UserRepository;
 
@@ -49,6 +53,8 @@ public class MainController {
 
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
+	SemesterRepository semesterRepository;
 
 	@GetMapping("/login")
 	public String login(Model model) {
@@ -73,15 +79,39 @@ public class MainController {
 			String firstname = user.getFirstName();
 			String surname = user.getSurname();
 			long userId = user.getUserId();
+			
+			Calendar cal = Calendar.getInstance();
+			String academicYear ="";
+			String semester="";
 
-			/*
-			 * System.out.println("===============================");
-			 * System.out.println(user.toString());
-			 * System.out.println("===============================");
-			 */
+			//set month + year to now
+
+				int year = Calendar.getInstance().get(Calendar.YEAR);
+
+				int month = Calendar.getInstance().get(Calendar.MONTH);
+				String stringMonth = getMonthForInt(month);
+			
+				if(month > 6)//if its currently in the second half of the year, make it semester 1 of current academic year
+				{
+					semester = "1";
+					academicYear=year + "/" + (year +1);
+				}
+				else //else make it semester 2 of current academic year
+				{
+					semester = "2";
+					academicYear=(year -1) + "/" + year;
+				}
+			
+			
+			
+		
 
 			List<Subject> subjects = user.getSubject();
+			List<Semester> semesters = user.getSemester();
 
+			model.addAttribute("semesters", semesters);
+			model.addAttribute("academicYear", academicYear);
+			model.addAttribute("semester", semester);
 			model.addAttribute("subjects", subjects);
 			model.addAttribute("emailAddress", email);
 			model.addAttribute("firstName", firstname);
@@ -93,24 +123,63 @@ public class MainController {
 		return "userProfile1";
 
 	}
+	
+	@PostMapping("/addCurrentSem")//If the user has no semesters, make a semester with the current academic year.
+	public String addSemesterForCurrentDate(ModelMap map){
 
-	// public static String getCurrentUserLogin(@ModelAttribute("userx") @Valid
-	// UserRegistrationDto userDto, BindingResult result,Model model) {
-	// SecurityContext securityContext = SecurityContextHolder.getContext();
-	// org.springframework.security.core.Authentication authentication =
-	// securityContext.getAuthentication();
-	// String userName = null;
-	// if (authentication != null) {
-	// if (authentication.getPrincipal() instanceof UserDetails) {
-	// UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-	// userName = springSecurityUser.getUsername();
-	// } else if (authentication.getPrincipal() instanceof String) {
-	// userName = (String) authentication.getPrincipal();
-	// }
-	// }
-	// model.addAttribute("username", userName);
-	// return "userProfile1";
-	// }
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		if (loggedInUser != null) {
+			String email = loggedInUser.getName();
+
+			User user = userR.findByEmailAddress(email);
+			String firstname = user.getFirstName();
+			String surname = user.getSurname();
+			long userId = user.getUserId();
+			
+			Calendar cal = Calendar.getInstance();
+			String academicYear ="";
+			String semester="";
+
+			//set month + year to now
+
+				int year = Calendar.getInstance().get(Calendar.YEAR);
+				int yearA = 0;//first year of academic year. IE '2018' if academic year of 2018/2019
+				int month = Calendar.getInstance().get(Calendar.MONTH);
+				String stringMonth = getMonthForInt(month);
+			
+				if(month > 6)//if its currently in the second half of the year, make it semester 1 of current academic year
+				{
+					semester = "1";
+					academicYear=year + "/" + (year +1);
+					yearA = year;
+				}
+				else //else make it semester 2 of current academic year
+				{
+					semester = "2";
+					academicYear=(year -1) + "/" + year;
+					yearA = year-1;
+				}
+			
+			
+				Semester semesterObject = new Semester();
+				semesterObject.setAcademicYear(yearA);
+				semesterObject.setNum(Integer.parseInt(semester));
+				
+			//	Collection<Semester> semesters = user.getSemester();
+				
+				
+				user.addSemester(semesterObject);
+				
+				semesterRepository.save(semesterObject);
+				userRepo.save(user);
+		
+		}
+
+		 return  "redirect:/userProfile1";
+
+	}
+
+
 
 	@GetMapping("/addSubject")
 	public String addSubject() {
@@ -198,8 +267,13 @@ public class MainController {
 		}
 
 		// find out how many days in the month
-		YearMonth yearMonthObject = YearMonth.of(year, Calendar.getInstance().get(Calendar.MONTH));
+		YearMonth yearMonthObject = YearMonth.of(year, monthNum);
+
 		int daysInMonth = yearMonthObject.lengthOfMonth();
+		
+		System.out.println("=====");
+		System.out.println(daysInMonth);
+		System.out.println("=====");
 
 		// int monthNum = yearMonthObject.getMonthValue());
 

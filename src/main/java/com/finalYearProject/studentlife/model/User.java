@@ -36,6 +36,9 @@ public class User implements UserDetails {
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	public List<Subject> subject;
 	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	public List<Semester> semester;
+	
 
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -54,6 +57,18 @@ public class User implements UserDetails {
 		
 		return subject;
 	}
+
+	
+	
+	public List<Semester> getSemester() {
+		return semester;
+	}
+
+	public void setSemester(List<Semester> semester) {
+		this.semester = semester;
+	}
+
+
 
 	private String username;
 	
@@ -282,6 +297,11 @@ public class User implements UserDetails {
 	public void addSubject(Subject Subject){
 
 		getSubject().add(Subject);
+	}
+	
+	public void addSemester(Semester semester){
+
+		getSemester().add(semester);
 	}
 
 	

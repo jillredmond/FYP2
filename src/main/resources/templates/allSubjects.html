@@ -27,7 +27,7 @@ table {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-    width:70%;
+    width:80%;
 }
  
 tr:nth-child(even) {
@@ -111,15 +111,15 @@ tr:nth-child(even) {
 				<td><a th:href="@{/editsubject/} + ${subject.subjectId}">Edit
 						Subject</a></td>
 			</tr>
-
+	<tr>
+				<td><b> Subject Grade Goal: </b><span
+					th:text="${subject.subjectGradeGoal}"></span></td>
+			</tr>
 			<tr>
 				<td><b> Has Goal been achieved?  </b><span
 					th:text="${subject.isGoalAchieved}"></span></td>
 			</tr>
-			<tr>
-				<td><b> Subject Grade Goal: </b><span
-					th:text="${subject.subjectGradeGoal}"></span></td>
-			</tr>
+		
 			<tr>
 				<td><b>Is your grade higher than your grade goal?</b><span
 					th:text="${subject.isGradeAboveGoal}"></span></td>
@@ -153,14 +153,15 @@ tr:nth-child(even) {
 
 
 		<h4>
-			<b><span th:text="${subject.subjectName}"></span><span> Assignments:</span></b></h4><div align="right">% Of Module:</div>
+			<b><span th:text="${subject.subjectName}"></span><span> Assignments:</span></b></h4><div align="right">% Worth Of Module:        |           Grade achieved:</div>
 		
 		<div th:each="assignment : ${subject.assignment}">
 			<table>
 				<tr>
 					<td class="tds"><span th:text="${assignment.assignmentTitle}"></span> <a
 						th:href="@{/editassignment/} + ${assignment.assignmentId}">Edit</a></td>
-												<td> <button type="button"  th:text="${assignment.assignmentGradeWorth}" class="btn btn-info">Info</button> </td>
+												<td> <button  type="button"  th:text="${assignment.assignmentGradeWorth}" class="btn btn-info" >Info</button>
+												<button type="button"  th:text="${assignment.assignmentGradeAchieved}" class="btn btn-info">Info</button> </td>
 						
 				</tr>
 
@@ -171,21 +172,22 @@ tr:nth-child(even) {
 		</div>
 
 		<h4>
-			<b><span th:text="${subject.subjectName}"></span> Exams:</b></h4><div align="right">% Of Module:</div>
+			<b><span th:text="${subject.subjectName}"></span> Exams:</b></h4><div align="right">% Worth Of Module:        |           Grade achieved:</div>
 	
 		<div th:each="exam : ${subject.exam}">
 			<table>
 				<tr>
 					<td><span th:text="${exam.examTitle}"></span> <a
 						th:href="@{/editexam/} + ${exam.examId}">Edit </a></td>
-						<td> <button type="button"  th:text="${exam.examGradeWorth}" class="btn btn-info">Info</button> </td>
+						<td> <button type="button"  th:text="${exam.examGradeWorth}" class="btn btn-info">Info</button> 
+						 <button type="button"  th:text="${exam.examGradeAchieved}" class="btn btn-info">Info</button></td>
 				</tr>
 				
 			</table>
 </div>
 <div th:if="${not #lists.isEmpty(subject.attendance)}">
 			<h4>
-				<b><span th:text="${subject.subjectName}"></span><span> Attendance:</span></b></h4><div align="right">% Of Module:</div>
+				<b><span th:text="${subject.subjectName}"></span><span> Attendance:</span></b></h4><div align="right">% Worth Of Module:        |           Grade achieved:</div>
 	
 			<div th:each="attendance : ${subject.attendance}">
 				<table>
@@ -194,7 +196,8 @@ tr:nth-child(even) {
 							th:href="@{/editattendance/} + ${attendance.attendanceId}">Edit
 							
 						</a></td>
-							<td> <button type="button"  th:text="${attendance.attendanceGradeWorth}" class="btn btn-info">Info</button> </td>
+							<td> <button type="button"  th:text="${attendance.attendanceWorth}" class="btn btn-info">Info</button> 
+							<button  type="button"  th:text="${attendance.attendanceAchieved}" class="btn btn-info">Info</button></td>
 					</tr>
 					</table>
 					</div>
