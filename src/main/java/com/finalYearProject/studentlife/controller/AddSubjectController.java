@@ -1,5 +1,7 @@
 package com.finalYearProject.studentlife.controller;
 
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.finalYearProject.studentlife.model.Semester;
 import com.finalYearProject.studentlife.model.Subject;
 import com.finalYearProject.studentlife.model.User;
+import com.finalYearProject.studentlife.repository.SemesterRepository;
 import com.finalYearProject.studentlife.repository.SubjectRepository;
 import com.finalYearProject.studentlife.repository.UserRepository;
 import com.finalYearProject.studentlife.service.AddSubjectDto;
@@ -35,6 +39,8 @@ public class AddSubjectController {
 	private SubjectRepository subjectRepository;
 	@Autowired 
 	private UserRepository userRepository;
+	@Autowired 
+	private SemesterRepository semesterRepository;
 	
 	
 	@ModelAttribute("subject")
@@ -44,6 +50,27 @@ public class AddSubjectController {
 	
 	@GetMapping
 	public String showSubjectForm(Model model) {
+		
+		
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();   
+    
+		User user = userRepository.findByEmailAddress(email);
+		
+		ArrayList<String> semesters = new ArrayList<String>();
+
+		for(Semester sem : user.getSemester())
+		{
+			semesters.add(sem.getSemesterName());
+		}
+		
+		
+		
+
+		model.addAttribute("semesters", semesters);
+		
+		
+		
 		return "addSubject";
 	}
 	
@@ -51,8 +78,9 @@ public class AddSubjectController {
 	public String addNewSubject(@ModelAttribute("subject") @Valid @RequestBody Subject subject,UserRegistrationDto userDto, BindingResult result, Model model) {
 		
 		subjectRepository.save(subject);
-		model.addAttribute("subjectName", subject.getSubjectName());
-		model.addAttribute("subjectGradeGoal", subject.getSubjectGradeGoal());
+
+
+		
 		
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		String email = loggedInUser.getName();   
@@ -60,7 +88,41 @@ public class AddSubjectController {
 		User user = userRepository.findByEmailAddress(email);
 	
 		user.addSubject(subject);
+		
+		String semesterName = subject.getSemester();
+		
+		long semId =-1;
+		
+		for(Semester sem : user.getSemester())
+		{
+			if(sem.getSemesterName().equals(semesterName))
+			{
+
+
+				
+				semId = sem.getSemesterId();
+			}
+		}
+
+		
+		
+		if(semId != -1)
+		{
+		Semester semester = semesterRepository.findOne(semId);
+		semester.addSubject(subject);
+		semesterRepository.save(semester);
+		}
+	
+		subjectRepository.save(subject);
+		
+		
+		
+		
+		
 	userRepository.save(user);
+	
+	model.addAttribute("subjectName", subject.getSubjectName());
+	model.addAttribute("subjectGradeGoal", subject.getSubjectGradeGoal());
 	return "redirect:/";
 
 	}

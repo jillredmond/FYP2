@@ -75,6 +75,12 @@ body {
 	<div class="container"><h2>Add A Subject</h2></div>
 	<div class="container">
 	<form class="form-group" action="#" th:action="@{/addsubject}" th:object="${subject}" method="post">
+				<select th:field="*{semester}" class="form-control" id="semester"
+				name="semester">
+
+				<option  th:each="Semester : ${semesters}" th:value="${Semester}"
+					th:text="${Semester}"></option>
+			</select>
 		<table class="table">
 			<tr>
 			<td> Subject Name:</td>

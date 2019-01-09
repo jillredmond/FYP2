@@ -57,7 +57,10 @@ public class Semester {
 		this.num = num;
 	}
 
-	
+	public void addSubject(Subject subject){
+
+		getSubject().add(subject);
+	}
 	
 	
 }

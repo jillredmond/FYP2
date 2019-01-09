@@ -32,6 +32,8 @@ public class Subject implements Serializable{
 	
 	private String subjectName;
 	
+	private String semester;
+	
 	private Double subjectGradeGoal;
 	
 	private Double caCompletedWorth; //The total value of all the CA the student has done so far. (not the result they got but what the CA is worth) for example assignment 1 is worth 20% 
@@ -116,6 +118,21 @@ public class Subject implements Serializable{
 
 	public void setAverageAssignmentGrade(Double averageAssignmentGrade) {
 		this.averageAssignmentGrade = averageAssignmentGrade;
+	}
+
+
+	
+
+
+	public String getSemester() {
+		return semester;
+	}
+
+
+
+
+	public void setSemester(String semester) {
+		this.semester = semester;
 	}
 
 

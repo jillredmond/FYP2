@@ -139,6 +139,7 @@ public class MainController {
 			Calendar cal = Calendar.getInstance();
 			String academicYear ="";
 			String semester="";
+			String name = "";
 
 			//set month + year to now
 
@@ -152,28 +153,30 @@ public class MainController {
 					semester = "1";
 					academicYear=year + "/" + (year +1);
 					yearA = year;
+					
+					name = academicYear + " Semester " + semester;
 				}
 				else //else make it semester 2 of current academic year
 				{
 					semester = "2";
 					academicYear=(year -1) + "/" + year;
 					yearA = year-1;
+					name = academicYear + " Semester " + semester;
 				}
 			
 			
 				Semester semesterObject = new Semester();
 				semesterObject.setAcademicYear(yearA);
 				semesterObject.setNum(Integer.parseInt(semester));
-				
-			//	Collection<Semester> semesters = user.getSemester();
-				
-				
+				semesterObject.setSemesterName(name);
+
 				user.addSemester(semesterObject);
 				
 				semesterRepository.save(semesterObject);
 				userRepo.save(user);
 		
 		}
+		
 
 		 return  "redirect:/userProfile1";
 
