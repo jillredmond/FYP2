@@ -64,10 +64,23 @@ body {
 								<li><a href="/addexam">Add New Exam</a></li>
 								<li><a href="/addattendance">Add New Attendance</a></li>
 							</ul></li>
+<!-- 							=Semester============================================ -->
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">Semesters <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li th:each="semester : ${semesters}">	<a th:text="${semester.semesterName}" th:href="@{/sem/} + ${semester.semesterId}"></a></li>
+								<li role="separator" class="divider"></li>						
+								<li><a href="/addsemester">Create New Semester</a></li>
+							</ul></li>
+<!-- 							=Semester============================================ -->
+							
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
-						<li><br><b><span th:text="'Signed in as ' + ${firstName} + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'">Name</span></b></li>
+						<li><br>
+						<b><span
+								th:text="'Signed in as ' + ${user.firstName} + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'">Name</span></b></li>
 						<li><a href="/logout">Logout</a></li>
 					</ul>
 				</div>
@@ -79,7 +92,8 @@ body {
 
 	<div class=container>
 
-		<div class="heading-text">
+		<div>
+
 			<h2 th:text="'Welcome, ' + ${firstName} + '!'">Name</h2>
 			<!-- 
    <a th:href="@{/edituser/} + ${userId}">Edit User</a>   -->
@@ -87,106 +101,140 @@ body {
 
 
 
-
-
 		<div class="container">
-	
+
 			<!-- <div th:if="${#lists.isEmpty(semesters)}"> -->
-			<div th:if="${semesters.empty}"> 
-		
-										
-									
-
-									
-
-
-
-Looks like you haven't added any semesters yet!
-<br>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Add Semester
-</button>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Semester</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-
-        
-         
-         <h2><span th:text="${academicYear} + ' Academic year'"></span></h2>
-         <h2><span th:text="'Semester ' + ${semester}"></span></h2>
-        
-        <br> Want to add a semester with different details? <a href="/calendar/000000/00">Click here.</a>
-        
-      </div>
-      <div class="modal-footer">
-      
-       <form action="#" th:action="@{/addCurrentSem}"  th:object="${semester}" method="post">
- <!--        <form action="/addCurrentSem" method="post"> -->
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input name="button" value="Add Semester" type="submit" class="btn btn-primary">
-        </form>
-       
-      </div>
-    </div>
-</div>
-</div>
-					
-			<div th:if="${!semesters.empty}"> 
+			<div th:if="${semesters != null}">
+			<div th:if="${semesters.empty}">
 
 
 
 
-				<div th:if="${subjects != null}">
-					<ul class="list-group">
-						<li class="list-group-item-info">My Subjects</li>
 
 
 
-						<li class="list-group-item" th:each="subject : ${subjects}">
-							<a th:href="@{/viewSubject} + ${subject.subjectId}"
-							th:text="${subject.subjectName}">View subject </a>
-						</li>
 
-					</ul>
+				Looks like you haven't added any semesters yet! <br>
+
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary" data-toggle="modal"
+					data-target="#exampleModal">Add Semester</button>
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Add Semester</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
 
 
+
+								<h2>
+									<span th:text="${academicYear} + ' Academic year'"></span>
+								</h2>
+								<h2>
+									<span th:text="'Semester ' + ${semester}"></span>
+								</h2>
+
+								<br> Want to add a semester with different details? <a
+									href="/calendar/000000/00">Click here.</a>
+
+							</div>
+							<div class="modal-footer">
+
+								<form action="#" th:action="@{/addCurrentSem}"
+									th:object="${semester}" method="post">
+									<!--        <form action="/addCurrentSem" method="post"> -->
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+									<input name="button" value="Add Semester" type="submit"
+										class="btn btn-primary">
+								</form>
+
+							</div>
+						</div>
+					</div>
 				</div>
-				<div th:unless="${subjects != null}">
-					<ul class="list-group">
-						<li class="list-group-item-info">My Subjects</li>
+</div>
+				<div th:if="${!semesters.empty}">
 
 
 
-						<li class="list-group-item-warning">No subjects added yet!</li>
 
-					</ul>
+					<div th:if="${subjects != null}">
+						<ul class="list-group">
+							<li class="list-group-item-info">My Subjects</li>
+
+
+
+							<li class="list-group-item" th:each="subject : ${subjects}">
+								<a th:href="@{/viewSubject} + ${subject.subjectId}"
+								th:text="${subject.subjectName}">View subject </a>
+							</li>
+
+						</ul>
+
+
+					</div>
+					<div th:unless="${subjects != null}">
+						<ul class="list-group">
+							<li class="list-group-item-info">My Subjects</li>
+
+
+
+							<li class="list-group-item-warning">No subjects added yet!</li>
+
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div>
+			<div>
 
-			<b> Email: </b> <span th:text="${emailAddress}"></span>
+				<b> Email: </b> <span th:text="${emailAddress}"></span>
 
-		</div>
-		<b>First name:</b><span th:text="${firstName}"></span>
-		<div>
-			<b>Surname:</b> <span th:text="${surname}"></span>
-		</div>
-		<div>
-			<!-- <a href="/allSubjects">View All Subjects</a>-->
-			<a href="/calendar/000000/00">Calendar</a>
-		</div>
-		<!--  <div>
+			</div>
+			<b>First name:</b><span th:text="${firstName}"></span>
+			<div>
+				<b>Surname:</b> <span th:text="${surname}"></span>
+			</div>
+			<div>
+				<!-- <a href="/allSubjects">View All Subjects</a>-->
+				<a href="/calendar/000000/00">Calendar</a>
+			</div>
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+				<!--  <div>
 <a href="/addsubject">Add New Subject</a>
 
 
@@ -216,11 +264,11 @@ Looks like you haven't added any semesters yet!
 	<a href="/calendar">Calendar</a>
 </div>
 -->
-		<!--   <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+				<!--   <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script> -->
 
-		<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
-		<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	</div>
+				<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+				<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+			</div>
 </body>
 </html>

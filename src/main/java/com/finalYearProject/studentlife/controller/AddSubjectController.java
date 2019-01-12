@@ -123,7 +123,7 @@ public class AddSubjectController {
 	
 	model.addAttribute("subjectName", subject.getSubjectName());
 	model.addAttribute("subjectGradeGoal", subject.getSubjectGradeGoal());
-	return "redirect:/";
+	return "redirect:/sem/" + semId;
 
 	}
 }

@@ -61,6 +61,11 @@ public class User implements UserDetails {
 	
 	
 	public List<Semester> getSemester() {
+		
+		if (semester==null)
+			semester = new ArrayList<Semester>();
+		
+		
 		return semester;
 	}
 

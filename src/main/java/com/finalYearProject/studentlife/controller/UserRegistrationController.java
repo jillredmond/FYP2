@@ -49,6 +49,8 @@ public class UserRegistrationController {
 	            return "registration";
 	        }
 
+	        
+	        
 	        userService.save(userDto);
 	        //this next bit of code displays the details of the user that just registered in the template userProfile1
 	        model.addAttribute("emailAddress", userDto.getEmailAddress());

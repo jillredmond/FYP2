@@ -68,7 +68,7 @@ public class AddExamController {
 
 	}
 	
-	@PostMapping("/addExam") //This was causing one problem i was getting. I had it as /addexam and it should have been addExam
+	@PostMapping("/addExam") 
 	public String addNewExam(@ModelAttribute("exam") @Valid @RequestBody Exam exam, BindingResult result, Model model) {
 		
 		

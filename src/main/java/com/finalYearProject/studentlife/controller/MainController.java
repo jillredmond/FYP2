@@ -75,6 +75,7 @@ public class MainController {
 		if (loggedInUser != null) {
 			String email = loggedInUser.getName();
 
+
 			User user = userR.findByEmailAddress(email);
 			String firstname = user.getFirstName();
 			String surname = user.getSurname();
@@ -109,6 +110,8 @@ public class MainController {
 			List<Subject> subjects = user.getSubject();
 			List<Semester> semesters = user.getSemester();
 
+
+			model.addAttribute("subjects", subjects);
 			model.addAttribute("semesters", semesters);
 			model.addAttribute("academicYear", academicYear);
 			model.addAttribute("semester", semester);
@@ -124,12 +127,16 @@ public class MainController {
 
 	}
 	
-	@PostMapping("/addCurrentSem")//If the user has no semesters, make a semester with the current academic year.
+/*	@PostMapping("/addCurrentSem")//If the user has no semesters, make a semester with the current academic year.
 	public String addSemesterForCurrentDate(ModelMap map){
 
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		if (loggedInUser != null) {
 			String email = loggedInUser.getName();
+			
+
+			
+			
 
 			User user = userR.findByEmailAddress(email);
 			String firstname = user.getFirstName();
@@ -180,10 +187,48 @@ public class MainController {
 
 		 return  "redirect:/userProfile1";
 
+	}*/
+	/*
+	@GetMapping("/sem/{id}")
+	public String semester(@PathVariable(value = "id") String id, Model model, Principal principal) {
+	//	User user = userRepo.findByEmailAddress(principal.getName());
+		
+
+
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		if (loggedInUser != null) {
+			String email = loggedInUser.getName();
+			Semester semester = new Semester();
+			User user = userR.findByEmailAddress(email);
+			
+			//this for each loops makes sure that the semester which the user is trying to view belongs to that user
+			for(Semester sem : user.getSemester())
+			{
+				if(sem.getSemesterId() == Long.parseLong(id))
+				{
+					semester = sem;
+				}
+				
+				
+			}
+			
+			List<Subject> subjects = semester.getSubject();
+			
+	
+
+			model.addAttribute("subjects", subjects);
+			model.addAttribute("semester", semester);
+			model.addAttribute("user", user);
+		}
+
+		
+		return "semesters";
+		
 	}
 
 
-
+*/
 	@GetMapping("/addSubject")
 	public String addSubject() {
 		return "addSubject";

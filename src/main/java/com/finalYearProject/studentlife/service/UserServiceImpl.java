@@ -2,6 +2,7 @@ package com.finalYearProject.studentlife.service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.finalYearProject.studentlife.model.Role;
 import com.finalYearProject.studentlife.model.User;
 import com.finalYearProject.studentlife.repository.UserRepository;
-
+import com.finalYearProject.studentlife.model.Semester;
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -48,6 +49,7 @@ public class UserServiceImpl implements UserService {
         user.setEmailAddress(registration.getEmailAddress());
         user.setPassword(passwordEncoder.encode(registration.getPassword()));
         user.setRoles(Arrays.asList(new Role("ROLE_USER")));
+      
         return userRepository.save(user);
     }
 
