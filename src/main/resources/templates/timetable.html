@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+
+
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<base>
+<title>Timetable</title>
+
+<style type="text/css">
+body {
+	padding-top: 50px;
+	padding-left: 2px;
+}
+
+.tg  {table-layout:fixed;width:980px; border-collapse:collapse;border-spacing:0;border-color:#bbb;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:12px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#594F4F;background-color:#E0FFEB;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:12px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#493F3F;background-color:#9DE0AD;}
+.tg .tg-s268{text-align:left}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+
+
+
+</style>
+
+</head>
+
+
+<body>
+	<div class=container>
+		<!-- navbar-static-top -->
+
+
+		<nav class="navbar navbar-default  navbar-fixed-top">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="userProfile1"> </a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+
+						<li><a href="/">Profile</a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">Menu <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="/calendar/000000/00">Calendar</a></li>
+								<li><a href="/timetable/00/00">Timetable</a></li>
+								<li><a href="/subjectSearch">Search For A Subject</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="/allSubjects">View All Subjects</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="/addsubject">Add New Subject</a></li>
+								<li><a href="/addassignment">Add New Assignment</a></li>
+								<li><a href="/addexam">Add New Exam</a></li>
+								<li><a href="/addattendance">Add New Attendance</a></li>
+							</ul></li>
+
+							
+					</ul>
+
+					<ul class="nav navbar-nav navbar-right">
+					
+						<li><a href="/logout">Logout</a></li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+	</div>
+
+	<div>
+
+
+
+
+<table class="tg">
+  <tr>
+    <th class="tg-s268"></th>
+    <th class="tg-s268">8:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-s268">9:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-s268">10:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-s268">11:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-s268">12:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-s268">13:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-s268">14:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-0lax">15:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-0lax">16:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-0lax">17:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-0lax">18:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-0lax">19:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th class="tg-0lax">20:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  <tr>
+    <td class="tg-s268">Monday</td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+  </tr>
+  <tr>
+    <td class="tg-s268">Tuesday</td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+  </tr>
+  <tr>
+    <td class="tg-s268">Wednesday</td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+  </tr>
+  <tr>
+    <td class="tg-s268">Thursday</td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+  </tr>
+  <tr>
+    <td class="tg-s268">Friday</td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+  </tr>
+  <tr>
+    <td class="tg-s268">Saturday</td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+  </tr>
+  <tr>
+    <td class="tg-s268">Sunday</td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax"></td>
+  </tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+				<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+				<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+			</div>
+</body>
+</html>

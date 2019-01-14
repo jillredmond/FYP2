@@ -116,11 +116,21 @@ public class SemesterController {
 				
 				semesterRepository.save(semesterObject);
 				userRepo.save(user);
+				
+				
+				
+				for(Semester sem : user.getSemester())
+				{
+					if(sem.getSemesterName().equals(semesterObject.getSemesterName()))
+					{
+						return "redirect:/sem/" + sem.getSemesterId();
+					}
+				}
 		
 		}
 		
 
-		 return  "redirect:/userProfile1";
+		 return  "redirect:/";
 
 	}
 	

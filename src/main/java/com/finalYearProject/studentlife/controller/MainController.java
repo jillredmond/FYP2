@@ -230,7 +230,22 @@ public class MainController {
 
 */
 	@GetMapping("/addSubject")
-	public String addSubject() {
+	public String addSubject(Model model) {
+		
+		
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userR.findByEmailAddress(email);
+		
+		List<Semester> semesters = user.getSemester();
+			
+			
+		model.addAttribute("user", user);
+		model.addAttribute("semesters", semesters);
+		
+		
+		
 		return "addSubject";
 	}
 
@@ -539,6 +554,21 @@ public class MainController {
 		return "calendar";
 	}
 
+	@GetMapping("/timetable/{id}/{semId}")
+	public String timetable(@PathVariable(value = "id") String id, Model model, Principal principal,
+			@PathVariable(value = "semId") String semId) {
+		
+		
+		
+		
+		
+		return "timetable";
+	
+	}
+	
+	
+	
+	
 	// convert month number to month name
 	String getMonthForInt(int num) {
 		String month = "wrong";
