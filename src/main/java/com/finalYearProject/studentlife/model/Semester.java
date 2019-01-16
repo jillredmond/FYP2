@@ -21,11 +21,25 @@ public class Semester {
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	public List<Subject> subject;
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	public List<TimetableClass> timetableClass;
 
 	private String semesterName;
 	
 	int academicYear;//if year is '2018' then this will represent 'year of 2018/19'
 	int num;//Semester 1/2
+	
+	
+	
+	
+	
+	public List<TimetableClass> getTimetableClass() {
+		return timetableClass;
+	}
+	public void setTimetableClass(List<TimetableClass> timetableClass) {
+		this.timetableClass = timetableClass;
+	}
 	public Long getSemesterId() {
 		return semesterId;
 	}

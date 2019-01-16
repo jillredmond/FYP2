@@ -37,11 +37,13 @@ import com.finalYearProject.studentlife.dto.AssignmentDto2;
 import com.finalYearProject.studentlife.dto.CalendarDTO;
 import com.finalYearProject.studentlife.dto.DayDto;
 import com.finalYearProject.studentlife.dto.ExamDto2;
+import com.finalYearProject.studentlife.dto.TimetableClassDto;
 import com.finalYearProject.studentlife.dto.UserDto;
 import com.finalYearProject.studentlife.model.Assignment;
 import com.finalYearProject.studentlife.model.Exam;
 import com.finalYearProject.studentlife.model.Semester;
 import com.finalYearProject.studentlife.model.Subject;
+import com.finalYearProject.studentlife.model.TimetableClass;
 import com.finalYearProject.studentlife.model.User;
 import com.finalYearProject.studentlife.repository.SemesterRepository;
 import com.finalYearProject.studentlife.repository.SubjectRepository;
@@ -74,80 +76,19 @@ public class MainController {
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		if (loggedInUser != null) {
 			String email = loggedInUser.getName();
-
-
-			User user = userR.findByEmailAddress(email);
-			String firstname = user.getFirstName();
-			String surname = user.getSurname();
-			long userId = user.getUserId();
-			
-			Calendar cal = Calendar.getInstance();
-			String academicYear ="";
-			String semester="";
-
-			//set month + year to now
-
-				int year = Calendar.getInstance().get(Calendar.YEAR);
-
-				int month = Calendar.getInstance().get(Calendar.MONTH);
-				String stringMonth = getMonthForInt(month);
-			
-				if(month > 6)//if its currently in the second half of the year, make it semester 1 of current academic year
-				{
-					semester = "1";
-					academicYear=year + "/" + (year +1);
-				}
-				else //else make it semester 2 of current academic year
-				{
-					semester = "2";
-					academicYear=(year -1) + "/" + year;
-				}
-			
-			
-			
-		
-
-			List<Subject> subjects = user.getSubject();
-			List<Semester> semesters = user.getSemester();
-
-
-			model.addAttribute("subjects", subjects);
-			model.addAttribute("semesters", semesters);
-			model.addAttribute("academicYear", academicYear);
-			model.addAttribute("semester", semester);
-			model.addAttribute("subjects", subjects);
-			model.addAttribute("emailAddress", email);
-			model.addAttribute("firstName", firstname);
-			model.addAttribute("surname", surname);
-			model.addAttribute("userIs", userId);
-			model.addAttribute("user", user);
-		}
-
-		return "userProfile1";
-
-	}
 	
-/*	@PostMapping("/addCurrentSem")//If the user has no semesters, make a semester with the current academic year.
-	public String addSemesterForCurrentDate(ModelMap map){
-
-		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-		if (loggedInUser != null) {
-			String email = loggedInUser.getName();
-			
-
-			
-			
-
 			User user = userR.findByEmailAddress(email);
 			String firstname = user.getFirstName();
 			String surname = user.getSurname();
 			long userId = user.getUserId();
-			
-			Calendar cal = Calendar.getInstance();
+
+			List<Semester> semesters = user.getSemester();
+/*			Calendar cal = Calendar.getInstance();
 			String academicYear ="";
 			String semester="";
 			String name = "";
 
+			//----------------------------------------setting default timetable to display to match todays date---------------------------------------
 			//set month + year to now
 
 				int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -170,82 +111,62 @@ public class MainController {
 					yearA = year-1;
 					name = academicYear + " Semester " + semester;
 				}
-			
-			
-				Semester semesterObject = new Semester();
-				semesterObject.setAcademicYear(yearA);
-				semesterObject.setNum(Integer.parseInt(semester));
-				semesterObject.setSemesterName(name);
-
-				user.addSemester(semesterObject);
 				
-				semesterRepository.save(semesterObject);
-				userRepo.save(user);
-		
-		}
-		
-
-		 return  "redirect:/userProfile1";
-
-	}*/
-	/*
-	@GetMapping("/sem/{id}")
-	public String semester(@PathVariable(value = "id") String id, Model model, Principal principal) {
-	//	User user = userRepo.findByEmailAddress(principal.getName());
-		
-
-
-
-		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-		if (loggedInUser != null) {
-			String email = loggedInUser.getName();
-			Semester semester = new Semester();
-			User user = userR.findByEmailAddress(email);
-			
-			//this for each loops makes sure that the semester which the user is trying to view belongs to that user
-			for(Semester sem : user.getSemester())
-			{
-				if(sem.getSemesterId() == Long.parseLong(id))
+				List<Semester> semesters = user.getSemester();	
+				Semester semesterOb = new Semester();
+				boolean found = false;
+				for(Semester sem : semesters)
 				{
-					semester = sem;
+					if(sem.getSemesterName().equals(name))
+					{
+						semesterOb = sem;
+						found = true;
+					}
 				}
 				
+				if(!found)
+				{
+					semesterOb = semesters.get(semesters.size()-1);//if there's no semester that matches the curremt date then default to most recent semester
+				}
+				*/
 				
-			}
+				
+				//----------------------------------------------------------------------------------------------------------------------
+				
 			
-			List<Subject> subjects = semester.getSubject();
+
+
+			List<Subject> subjects = user.getSubject();
 			
-	
 
 			model.addAttribute("subjects", subjects);
-			model.addAttribute("semester", semester);
+			model.addAttribute("semesters", semesters);
+/*			model.addAttribute("academicYear", academicYear);
+			model.addAttribute("semester", semester);*/
+			model.addAttribute("subjects", subjects);
+			model.addAttribute("emailAddress", email);
+			model.addAttribute("firstName", firstname);
+			model.addAttribute("surname", surname);
+			model.addAttribute("userIs", userId);
 			model.addAttribute("user", user);
 		}
 
-		
-		return "semesters";
-		
+		return "userProfile1";
+
 	}
 
-
-*/
 	@GetMapping("/addSubject")
 	public String addSubject(Model model) {
-		
-		
 
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		String email = loggedInUser.getName();
 		User user = userR.findByEmailAddress(email);
-		
+
 		List<Semester> semesters = user.getSemester();
-			
-			
+
 		model.addAttribute("user", user);
 		model.addAttribute("semesters", semesters);
-		
-		
-		
+
 		return "addSubject";
 	}
 
@@ -262,7 +183,7 @@ public class MainController {
 
 		int monthNum = Integer.valueOf(firstTwo(id));
 
-		//set month + year to now
+		// set month + year to now
 		if (id.equals("000000")) {
 			year = Calendar.getInstance().get(Calendar.YEAR);
 
@@ -280,11 +201,8 @@ public class MainController {
 			System.out.println("--------------");
 			System.out.println(cal.toString());
 
-		}//-----------------
-		
-		
-		
-		
+		} // -----------------
+
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 
 		Date firstDayOfMonth = cal.getTime();
@@ -333,7 +251,7 @@ public class MainController {
 		YearMonth yearMonthObject = YearMonth.of(year, monthNum);
 
 		int daysInMonth = yearMonthObject.lengthOfMonth();
-		
+
 		System.out.println("=====");
 		System.out.println(daysInMonth);
 		System.out.println("=====");
@@ -353,11 +271,10 @@ public class MainController {
 
 			days.add(0, " ");
 		}
-		
-		//------------
+
+		// ------------
 		String next = String.format("%02d", monthNum + 1);
 		String prev = String.format("%02d", monthNum - 1);
-
 
 		if (monthNum == 12) {
 			next = String.format("%02d", 1);
@@ -379,10 +296,8 @@ public class MainController {
 
 			yearPrev = year - 1;
 		}
-		//------------
-		
-		
-		
+		// ------------
+
 		ArrayList<CalendarDTO> calendarDtos = new ArrayList<CalendarDTO>();
 
 		ArrayList<DayDto> dayDtos = new ArrayList<DayDto>();
@@ -390,8 +305,7 @@ public class MainController {
 		ArrayList<ExamDto2> exams = new ArrayList<ExamDto2>();
 		ArrayList<AssignmentDto2> assignments = new ArrayList<AssignmentDto2>();
 
-		
-		//add to active days array
+		// add to active days array
 		for (Subject subject : user.getSubject()) {
 
 			for (Exam exam : subject.getExam()) {
@@ -403,13 +317,11 @@ public class MainController {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-		
-				if (date.getMonth()+1 == monthNum) {
+
+				if (date.getMonth() + 1 == monthNum) {
 					activeDays.add(String.valueOf(date.getDate()));
 				}
 
-	
-				
 			}
 			for (Assignment assignment : subject.getAssignment()) {
 
@@ -420,16 +332,13 @@ public class MainController {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-		
-				if (date.getMonth()+1 == monthNum) {
+
+				if (date.getMonth() + 1 == monthNum) {
 					activeDays.add(String.valueOf(date.getDate()));
-				}				
+				}
 			}
 		}
 
-
-		
-		
 		ArrayList<String> list = new ArrayList<String>();
 
 		boolean active = false;
@@ -439,7 +348,6 @@ public class MainController {
 			Calendar today = Calendar.getInstance();
 			today.set(Calendar.HOUR_OF_DAY, 0);
 
-			
 			if (day.equals(String.valueOf(today.getTime().getDate())) && monthNum == (today.getTime().getMonth() + 1)) {
 				String link = "<li><span data-toggle=\"tooltip\" title=\"Today!\" class=\"today\">" + day
 						+ "</span></li>";
@@ -448,13 +356,13 @@ public class MainController {
 			}
 			boolean dup = false;
 			for (String aDay : activeDays) {
-				
+
 				if (day.equals(aDay)) {
-	
+
 					if (dup == false) {
-						
+
 						System.out.println("TEST");
-						
+
 						String link = "<li><span class=\"active\"><a href=\"/calendar/"
 								+ String.format("%02d", monthNum) + year + "/"
 								+ String.format("%02d", Integer.parseInt(aDay)) + " \">" + day + "</a></span></li>";
@@ -474,7 +382,6 @@ public class MainController {
 
 		}
 
-		
 		for (String s : list) {
 			System.out.println(s);
 		}
@@ -483,12 +390,12 @@ public class MainController {
 
 			for (Subject subject : user.getSubject()) {
 				for (Exam exam : subject.getExam()) {
-					
+
 					ExamDto2 examDto = new ExamDto2();
 					examDto.setExamId(exam.getExamId());
 					examDto.setExamtitle(exam.getExamTitle());
 					examDto.setSubjectId(subject.getSubjectId());
-					
+
 					Date date = new Date();
 
 					SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -507,12 +414,12 @@ public class MainController {
 
 				}
 				for (Assignment assignment : subject.getAssignment()) {
-					
+
 					AssignmentDto2 assignmentDto = new AssignmentDto2();
 					assignmentDto.setAssignentId(assignment.getAssignmentId());
 					assignmentDto.setAssignmentTitle(assignment.getAssignmentTitle());
 					assignmentDto.setSubjectId(subject.getSubjectId());
-					
+
 					Date date = new Date();
 
 					SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -532,7 +439,7 @@ public class MainController {
 			}
 
 		}
-		
+
 		int selectedDay = Integer.parseInt(select);
 
 		model.addAttribute("selectedDay", selectedDay);
@@ -555,20 +462,88 @@ public class MainController {
 	}
 
 	@GetMapping("/timetable/{id}/{semId}")
-	public String timetable(@PathVariable(value = "id") String id, Model model, Principal principal,
+	public String timetable(@PathVariable(value = "id") String id, Model model,
 			@PathVariable(value = "semId") String semId) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+
+		String email = loggedInUser.getName();
+
+		User user = userR.findByEmailAddress(email);
+		
+	
+		
+		
+		TimetableClassDto dto = new TimetableClassDto();
+		TimetableClass timetableClass = new TimetableClass();
+		List<Subject> subjects = user.getSubject();
+		List<Semester> semesters = user.getSemester();
+		Semester semester = new Semester();
+		
+		
+		
+		for(Semester sem : semesters)
+		{
+			if(sem.getSemesterId() == Long.parseLong(semId))
+			{
+				semester = sem;
+			}
+		}
+		
+/*		<td class="tg-s268" onclick="openForm('m8')"></td>*/
 		
 		
 		
 		
-		
+		model.addAttribute("semester", semester);
+		model.addAttribute("semesters", semesters);
+		model.addAttribute("subjects", subjects);
+		model.addAttribute("timetableClass", timetableClass);
+		model.addAttribute("timetableClassDto", dto);
+
 		return "timetable";
-	
+
 	}
-	
-	
-	
-	
+
+	@PostMapping("/timetable/{id}/{semId}")
+	public String timetablePost(@ModelAttribute TimetableClassDto dto, @PathVariable(value = "id") String id,
+			Model model, @PathVariable(value = "semId") String semId) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userR.findByEmailAddress(email);
+
+		System.out.println("=======================");
+		System.out.println(dto.getCode() + " " + dto.getSubjectName());
+		System.out.println("=======================");
+
+/*		List<Semester> semesters = user.getSemester();
+		
+		Semester semester = new Semester();
+		
+		
+		
+		for(Semester sem : semesters)
+		{
+			if(sem.getSemesterId() == Long.parseLong(semId))
+			{
+				semester = sem;
+			}
+		}
+		
+		
+		
+		
+		List<Subject> subjects = user.getSubject();
+		model.addAttribute("semester", semester);
+		model.addAttribute("semesters", semesters);
+		model.addAttribute("subjects", subjects);
+		model.addAttribute("timetableClassDto", dto);*/
+
+		return "redirect://timetable/00/" + semId;
+
+	}
+
 	// convert month number to month name
 	String getMonthForInt(int num) {
 		String month = "wrong";

@@ -22,14 +22,132 @@ body {
 	padding-left: 2px;
 }
 
-.tg  {table-layout:fixed;width:980px; border-collapse:collapse;border-spacing:0;border-color:#bbb;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:12px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#594F4F;background-color:#E0FFEB;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:12px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#493F3F;background-color:#9DE0AD;}
-.tg .tg-s268{text-align:left}
-.tg .tg-0lax{text-align:left;vertical-align:top}
+h3 {
+padding-top: 10px;
+  margin: 0;
+    display: inline-block;
+}
 
+.tg {
+	table-layout: fixed;
+	width: 980px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border-color: #bbb;
+}
 
+.tg td {
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	padding: 12px 2px;
+	border-style: solid;
+	border-width: 1px;
+	overflow: hidden;
+	word-break: normal;
+	border-color: #bbb;
+	color: #594F4F;
+	background-color: #E0FFEB;
+}
 
+.tg th {
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	padding: 12px 2px;
+	border-style: solid;
+	border-width: 1px;
+	overflow: hidden;
+	word-break: normal;
+	border-color: #bbb;
+	color: #493F3F;
+	background-color: #9DE0AD;
+}
+
+.tg .tg-s268 {
+	text-align: left
+}
+
+.tg .tg-s269 {
+	text-align: left
+}
+
+.tg .tg-0lax {
+	text-align: left;
+	vertical-align: top
+}
+
+.tg .active, .tg-s268:hover {
+	background: #b3ffe0;
+}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+	background-color: #555;
+	color: white;
+	padding: 16px 20px;
+	border: none;
+	cursor: pointer;
+	opacity: 0.8;
+	position: fixed;
+	bottom: 23px;
+	right: 28px;
+	width: 280px;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+	display: none;
+	position: fixed;
+	bottom: 0;
+	right: 15px;
+	border: 3px solid #f1f1f1;
+	z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+	max-width: 300px;
+	padding: 10px;
+	background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+	width: 100%;
+	padding: 15px;
+	margin: 5px 0 22px 0;
+	border: none;
+	background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus
+	{
+	background-color: #ddd;
+	outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+	background-color: #4CAF50;
+	color: white;
+	padding: 16px 20px;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	margin-bottom: 10px;
+	opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+	background-color: grey;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+	opacity: 1;
+}
 </style>
 
 </head>
@@ -76,11 +194,11 @@ body {
 								<li><a href="/addattendance">Add New Attendance</a></li>
 							</ul></li>
 
-							
+
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
-					
+
 						<li><a href="/logout">Logout</a></li>
 					</ul>
 				</div>
@@ -92,156 +210,240 @@ body {
 
 	<div>
 
+		<div>
+			<h3 th:text="${semester.semesterName}">Name</h3>
+			<ul class="nav navbar-nav">
+										<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">Timetables <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li th:each="semester : ${semesters}">	<a th:text="${semester.semesterName}" th:href="@{/timetable/00/} + ${semester.semesterId}"></a></li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<div id="myDIV">
+
+			<table class="tg" id="table">
+				<tr>
+					<th class="tg-s269"></th>
+					<th class="tg-s269">8:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-s269">9:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-s269">10:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-s269">11:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-s269">12:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-s269">13:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-s269">14:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-0lax">15:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-0lax">16:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-0lax">17:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-0lax">18:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-0lax">19:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th class="tg-0lax">20:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+				</tr>
+				<tr>
+					<td class="tg-s269">Monday</td>
+					<td class="tg-s268" onclick="openForm('m8')"></td>
+					<td class="tg-s268" onclick="openForm('m9')"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+				</tr>
+				<tr>
+					<td class="tg-s269">Tuesday</td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+				</tr>
+				<tr>
+					<td class="tg-s269">Wednesday</td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+				</tr>
+				<tr>
+					<td class="tg-s269">Thursday</td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+				</tr>
+				<tr>
+					<td class="tg-s269">Friday</td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+				</tr>
+				<tr>
+					<td class="tg-s269">Saturday</td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+				</tr>
+				<tr>
+					<td class="tg-s269">Sunday</td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+					<td class="tg-s268"></td>
+				</tr>
+			</table>
+		</div>
+
+
+		<div class="form-popup" id="myForm">
+			<form action="/action_page.php" class="form-container"
+				th:action="@{/timetable/00/} + ${semester.semesterId}" th:object="${timetableClassDto}"
+				method="post">
+				<h2>Add Class</h2>
+				<select th:field="*{subjectName}" class="form-control"
+					id="subjectName" name="subject">
+
+					<option th:each="Subject : ${subjects}"
+						th:value="${Subject.subjectName}" th:text="${Subject.subjectName}"></option>
+				</select>
+				<div id="container"></div>
+				<button type="submit" class="btn">Add</button>
+				<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+			</form>
+		</div>
 
 
 
-<table class="tg">
-  <tr>
-    <th class="tg-s268"></th>
-    <th class="tg-s268">8:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-s268">9:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-s268">10:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-s268">11:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-s268">12:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-s268">13:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-s268">14:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-0lax">15:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-0lax">16:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-0lax">17:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-0lax">18:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-0lax">19:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-    <th class="tg-0lax">20:00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-  </tr>
-  <tr>
-    <td class="tg-s268">Monday</td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-  </tr>
-  <tr>
-    <td class="tg-s268">Tuesday</td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-  </tr>
-  <tr>
-    <td class="tg-s268">Wednesday</td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-  </tr>
-  <tr>
-    <td class="tg-s268">Thursday</td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-  </tr>
-  <tr>
-    <td class="tg-s268">Friday</td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-  </tr>
-  <tr>
-    <td class="tg-s268">Saturday</td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-  </tr>
-  <tr>
-    <td class="tg-s268">Sunday</td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-s268"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-  </tr>
-</table>
+
+
+	</div>
 
 
 
 
 
 
+	<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+	<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
-
-
-</div>
-
-
-
-
-				<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
-				<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-			</div>
 </body>
+
+<script th:inline="javascript">
+
+var header = document.getElementById("myDIV");
+
+//Get the container element
+var btnContainer = document.getElementById("myDIV");
+
+// Get all inner cells of table
+var btns = btnContainer.getElementsByClassName("tg-s268");
+
+
+//Loop through the buttons and add the active class to the current/clicked button
+for (var i = 0; i < btns.length; i++) {
+btns[i].addEventListener("click", function() {
+ var current = document.getElementsByClassName("active");
+
+ // If there's no active class
+ if (current.length > 0) { 
+   current[0].className = current[0].className.replace(" active", "");
+ }
+
+ // Add the active class to the current/clicked button
+ this.className += " active";
+});
+}
+//run this code when a cell is click, opens a mini form to add a class to that time
+function openForm(code) {
+  document.getElementById("myForm").style.display = "block";
+  
+  var container = document.getElementById("container");
+
+  var div = document.createElement("div");
+
+  container.appendChild(div);
+  
+
+
+  //Add a hiddin input to form with sends what time slot they want to add a class to
+      var input = document.createElement("input");
+      input.type = "hidden";
+      input.name ="code";
+      input.value = code;
+      div.appendChild(input);
+
+     
+      
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+
+
+</script>
+
 </html>
