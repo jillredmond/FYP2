@@ -76,5 +76,10 @@ public class Semester {
 		getSubject().add(subject);
 	}
 	
+	public void addTimetableClass(TimetableClass timetableClass){
+
+		getTimetableClass().add(timetableClass);
+	}
+	
 	
 }

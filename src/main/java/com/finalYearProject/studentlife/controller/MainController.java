@@ -47,6 +47,7 @@ import com.finalYearProject.studentlife.model.TimetableClass;
 import com.finalYearProject.studentlife.model.User;
 import com.finalYearProject.studentlife.repository.SemesterRepository;
 import com.finalYearProject.studentlife.repository.SubjectRepository;
+import com.finalYearProject.studentlife.repository.TimetableClassRepository;
 import com.finalYearProject.studentlife.repository.UserRepository;
 
 @Controller
@@ -57,6 +58,8 @@ public class MainController {
 	UserRepository userRepo;
 	@Autowired
 	SemesterRepository semesterRepository;
+	@Autowired
+	TimetableClassRepository classRepository;
 
 	@GetMapping("/login")
 	public String login(Model model) {
@@ -76,23 +79,20 @@ public class MainController {
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		if (loggedInUser != null) {
 			String email = loggedInUser.getName();
-	
+
 			User user = userR.findByEmailAddress(email);
 			String firstname = user.getFirstName();
 			String surname = user.getSurname();
 			long userId = user.getUserId();
-
-			List<Semester> semesters = user.getSemester();
-/*			Calendar cal = Calendar.getInstance();
+			
+			Calendar cal = Calendar.getInstance();
 			String academicYear ="";
 			String semester="";
-			String name = "";
 
-			//----------------------------------------setting default timetable to display to match todays date---------------------------------------
 			//set month + year to now
 
 				int year = Calendar.getInstance().get(Calendar.YEAR);
-				int yearA = 0;//first year of academic year. IE '2018' if academic year of 2018/2019
+
 				int month = Calendar.getInstance().get(Calendar.MONTH);
 				String stringMonth = getMonthForInt(month);
 			
@@ -100,49 +100,24 @@ public class MainController {
 				{
 					semester = "1";
 					academicYear=year + "/" + (year +1);
-					yearA = year;
-					
-					name = academicYear + " Semester " + semester;
 				}
 				else //else make it semester 2 of current academic year
 				{
 					semester = "2";
 					academicYear=(year -1) + "/" + year;
-					yearA = year-1;
-					name = academicYear + " Semester " + semester;
 				}
-				
-				List<Semester> semesters = user.getSemester();	
-				Semester semesterOb = new Semester();
-				boolean found = false;
-				for(Semester sem : semesters)
-				{
-					if(sem.getSemesterName().equals(name))
-					{
-						semesterOb = sem;
-						found = true;
-					}
-				}
-				
-				if(!found)
-				{
-					semesterOb = semesters.get(semesters.size()-1);//if there's no semester that matches the curremt date then default to most recent semester
-				}
-				*/
-				
-				
-				//----------------------------------------------------------------------------------------------------------------------
-				
+			
 			
 
+			List<Semester> semesters = user.getSemester();
 
 			List<Subject> subjects = user.getSubject();
-			
 
 			model.addAttribute("subjects", subjects);
 			model.addAttribute("semesters", semesters);
-/*			model.addAttribute("academicYear", academicYear);
-			model.addAttribute("semester", semester);*/
+			model.addAttribute("academicYear", academicYear);
+			model.addAttribute("semester", semester);
+
 			model.addAttribute("subjects", subjects);
 			model.addAttribute("emailAddress", email);
 			model.addAttribute("firstName", firstname);
@@ -470,31 +445,132 @@ public class MainController {
 		String email = loggedInUser.getName();
 
 		User user = userR.findByEmailAddress(email);
-		
-	
-		
-		
+
 		TimetableClassDto dto = new TimetableClassDto();
 		TimetableClass timetableClass = new TimetableClass();
 		List<Subject> subjects = user.getSubject();
 		List<Semester> semesters = user.getSemester();
+		
 		Semester semester = new Semester();
-		
-		
-		
-		for(Semester sem : semesters)
-		{
-			if(sem.getSemesterId() == Long.parseLong(semId))
-			{
+
+		for (Semester sem : semesters) {
+			if (sem.getSemesterId() == Long.parseLong(semId)) {
 				semester = sem;
 			}
 		}
 		
-/*		<td class="tg-s268" onclick="openForm('m8')"></td>*/
+	
+
+		
+		List<TimetableClass> classes = semester.getTimetableClass();
 		
 		
 		
-		
+
+		/* <td class="tg-s268" onclick="openForm('m8')"></td> */
+
+		ArrayList<String> monday = new ArrayList<String>();
+		ArrayList<String> tuesday = new ArrayList<String>();
+		ArrayList<String> wednesday = new ArrayList<String>();
+		ArrayList<String> thursday = new ArrayList<String>();
+		ArrayList<String> friday = new ArrayList<String>();
+		ArrayList<String> saturday = new ArrayList<String>();
+		ArrayList<String> sunday = new ArrayList<String>();
+
+		String day = "m";
+		boolean finished = false;
+
+		while (finished == false) {
+			ArrayList<String> html = new ArrayList<String>();
+
+			int num = 8;
+			for (int i = 0; i < 13; i++) {
+				boolean found = false;
+				String timeCode = day + num;
+				for(TimetableClass t : classes)
+				{
+					if(t.getCode().equals(timeCode))
+					{
+						found = true;
+						html.add("<td class=\"tg-s268\" onclick=\"openRemoveForm('" + timeCode + "','"+ t.getSubjectName() +"')\">"+ t.getSubjectName() +"</td>");
+						
+					}
+				}
+				if(!found)
+				{
+					html.add("<td class=\"tg-s268\" onclick=\"openForm('" + timeCode + "')\"></td>");
+				}
+				num++;
+			}
+
+			if (day.equals("sun")) {
+				sunday = html;
+				finished = true;
+			}
+			if (day.equals("s")) {
+				saturday = html;
+				day = "sun";
+			}
+			if (day.equals("f")) {
+				friday = html;
+				day = "s";
+			}
+			if (day.equals("th")) {
+				thursday = html;
+				day = "f";
+			}
+			if (day.equals("w")) {
+				wednesday = html;
+				day = "th";
+			}
+			if (day.equals("t")) {
+				tuesday = html;
+				day = "w";
+			}
+			if (day.equals("m")) {
+				monday = html;
+				day = "t";
+			}
+
+		}
+
+/*		System.out.println("========");
+		for (String s : monday) {
+			System.out.println(s);
+		}
+		System.out.println("========");
+		for (String s : tuesday) {
+			System.out.println(s);
+		}
+		System.out.println("========");
+		for (String s : wednesday) {
+			System.out.println(s);
+		}
+		System.out.println("========");
+		for (String s : thursday) {
+			System.out.println(s);
+		}
+		System.out.println("========");
+		for (String s : friday) {
+			System.out.println(s);
+		}
+		System.out.println("========");
+		for (String s : saturday) {
+			System.out.println(s);
+		}
+		System.out.println("========");
+		for (String s : sunday) {
+			System.out.println(s);
+		}
+		System.out.println("========");*/
+
+		model.addAttribute("monday", monday);
+		model.addAttribute("tuesday", tuesday);
+		model.addAttribute("wednesday", wednesday);
+		model.addAttribute("thursday", thursday);
+		model.addAttribute("friday", friday);
+		model.addAttribute("saturday", saturday);
+		model.addAttribute("sunday", sunday);
 		model.addAttribute("semester", semester);
 		model.addAttribute("semesters", semesters);
 		model.addAttribute("subjects", subjects);
@@ -512,37 +588,91 @@ public class MainController {
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		String email = loggedInUser.getName();
 		User user = userR.findByEmailAddress(email);
+		
+		List<Subject> subjects = user.getSubject();
 
 		System.out.println("=======================");
 		System.out.println(dto.getCode() + " " + dto.getSubjectName());
 		System.out.println("=======================");
 
-/*		List<Semester> semesters = user.getSemester();
+		TimetableClass ttClass = new TimetableClass();
+		ttClass.setCode(dto.getCode());
+	
 		
+		for(Subject subject : subjects)
+		{
+			if(dto.getSubjectName().equals(subject.getSubjectName()))
+			{
+				ttClass.setSubjectName(subject.getSubjectName());
+				ttClass.setSubjectId(String.valueOf(subject.getSubjectId()));
+			}
+			
+		}
+		
+		Semester semester = semesterRepository.findOne(Long.parseLong(semId));
+		semester.addTimetableClass(ttClass);
+
+		semesterRepository.save(semester);
+		
+		
+		
+		return "redirect://timetable/00/" + semId;
+
+	}
+	
+	@PostMapping("/timetable/remove/{semId}")
+	public String timetablePostRemoveClass(@ModelAttribute TimetableClassDto dto, String id,
+			Model model, @PathVariable(value = "semId") String semId) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userR.findByEmailAddress(email);
+		
+		List<Subject> subjects = user.getSubject();
+
+		System.out.println("=======================");
+		System.out.println(dto.getCode() + " " + dto.getSubjectName());
+		System.out.println("=======================");
+
+	//	Semester semester = semesterRepository.findOne(Long.parseLong(semId));
+		List<Semester> semesters = user.getSemester();
 		Semester semester = new Semester();
-		
-		
-		
 		for(Semester sem : semesters)
 		{
 			if(sem.getSemesterId() == Long.parseLong(semId))
 			{
 				semester = sem;
+				
+				System.out.println("TESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTEST");
+				System.out.println("TESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTEST");
+				System.out.println("TESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTEST");
+				System.out.println("TESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTEST");
+				System.out.println("TESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTEST");
+				System.out.println("TESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTEST");
+		
+				System.out.println("TESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTEST");
 			}
 		}
 		
-		
-		
-		
-		List<Subject> subjects = user.getSubject();
-		model.addAttribute("semester", semester);
-		model.addAttribute("semesters", semesters);
-		model.addAttribute("subjects", subjects);
-		model.addAttribute("timetableClassDto", dto);*/
+		List<TimetableClass> list = semester.getTimetableClass();
 
+		for(TimetableClass cls : list)
+		{
+			if(cls.getSubjectName().equals(dto.getSubjectName()))
+			{
+				list.remove(cls);
+			}
+		}
+		
+		semester.setTimetableClass(list);
+		
+		semesterRepository.save(semester);
+		
 		return "redirect://timetable/00/" + semId;
 
 	}
+	
+	
 
 	// convert month number to month name
 	String getMonthForInt(int num) {
@@ -554,6 +684,7 @@ public class MainController {
 		}
 		return month;
 	}
+
 
 	// get first 2 characters of string
 	public String firstTwo(String str) {

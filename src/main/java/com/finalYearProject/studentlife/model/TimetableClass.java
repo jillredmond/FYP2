@@ -10,20 +10,14 @@ public class TimetableClass {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long semesterId;
+	private Long timetableClassId;
 	
 	String subjectId;
 	String code;
 	String subjectName;
 	
 	
-	public TimetableClass(Long semesterId, String subjectId, String code, String subjectName) {
-		super();
-		this.semesterId = semesterId;
-		this.subjectId = subjectId;
-		this.code = code;
-		this.subjectName = subjectName;
-	}
+
 
 
 	public TimetableClass() {
@@ -31,14 +25,20 @@ public class TimetableClass {
 	}
 
 
-	public Long getSemesterId() {
-		return semesterId;
+
+
+	public Long getTimetableClassId() {
+		return timetableClassId;
 	}
 
 
-	public void setSemesterId(Long semesterId) {
-		this.semesterId = semesterId;
+
+
+	public void setTimetableClassId(Long timetableClassId) {
+		this.timetableClassId = timetableClassId;
 	}
+
+
 
 
 	public String getSubjectId() {

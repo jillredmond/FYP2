@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.finalYearProject.studentlife.model.Semester;
 import com.finalYearProject.studentlife.model.Subject;
+import com.finalYearProject.studentlife.model.TimetableClass;
 import com.finalYearProject.studentlife.model.User;
 import com.finalYearProject.studentlife.repository.SemesterRepository;
 import com.finalYearProject.studentlife.repository.SubjectRepository;
@@ -72,8 +73,11 @@ public class AddSemesterController {
 		}
 		
 		
-		
-		
+/*		if(semester.getTimetableClass()==null)
+		{
+			semester.setTimetableClass(new ArrayList<>(semester.getTimetableClass()));
+		}
+		*/
 			semesterRepository.save(semester);
 			
 

@@ -16,6 +16,7 @@ import javax.validation.Valid;
 
 import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,9 +44,11 @@ import com.finalYearProject.studentlife.model.Assignment;
 import com.finalYearProject.studentlife.model.Exam;
 import com.finalYearProject.studentlife.model.Semester;
 import com.finalYearProject.studentlife.model.Subject;
+import com.finalYearProject.studentlife.model.TimetableClass;
 import com.finalYearProject.studentlife.model.User;
 import com.finalYearProject.studentlife.repository.SemesterRepository;
 import com.finalYearProject.studentlife.repository.SubjectRepository;
+import com.finalYearProject.studentlife.repository.TimetableClassRepository;
 import com.finalYearProject.studentlife.repository.UserRepository;
 
 @Controller
@@ -54,8 +58,9 @@ public class SemesterController {
 	UserRepository userRepo;
 	@Autowired
 	SemesterRepository semesterRepository;
-
-
+	
+	@Autowired
+	TimetableClassRepository timetableClassRepository;
 
 	@Autowired
 	UserRepository userR;
@@ -105,13 +110,17 @@ public class SemesterController {
 					yearA = year-1;
 					name = academicYear + " Semester " + semester;
 				}
+
 			
 			
 				Semester semesterObject = new Semester();
 				semesterObject.setAcademicYear(yearA);
 				semesterObject.setNum(Integer.parseInt(semester));
 				semesterObject.setSemesterName(name);
-
+				
+	
+				
+			
 				user.addSemester(semesterObject);
 				
 				semesterRepository.save(semesterObject);
@@ -189,5 +198,8 @@ public class SemesterController {
 	public String firstTwo(String str) {
 		return str.length() < 2 ? str : str.substring(0, 2);
 	}
+	
+
+
 
 }

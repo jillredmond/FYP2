@@ -127,11 +127,11 @@ padding-top: 10px;
 	outline: none;
 }
 
-/* Set a style for the submit/login button */
+/* Set a style for the add/remove class button */
 .form-container .btn {
 	background-color: #4CAF50;
 	color: white;
-	padding: 16px 20px;
+	padding: 5px 20px;
 	border: none;
 	cursor: pointer;
 	width: 100%;
@@ -243,115 +243,31 @@ padding-top: 10px;
 				</tr>
 				<tr>
 					<td class="tg-s269">Monday</td>
-					<td class="tg-s268" onclick="openForm('m8')"></td>
-					<td class="tg-s268" onclick="openForm('m9')"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
+					<td th:remove="tag" th:each="item : ${monday}" th:utext="${item}"></td>
 				</tr>
 				<tr>
 					<td class="tg-s269">Tuesday</td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
+				    <td th:remove="tag" th:each="item : ${tuesday}" th:utext="${item}"></td>
 				</tr>
 				<tr>
 					<td class="tg-s269">Wednesday</td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
+					<td th:remove="tag" th:each="item : ${wednesday}" th:utext="${item}"></td>
 				</tr>
 				<tr>
 					<td class="tg-s269">Thursday</td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
+					<td th:remove="tag" th:each="item : ${thursday}" th:utext="${item}"></td>
 				</tr>
 				<tr>
 					<td class="tg-s269">Friday</td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
+					<td th:remove="tag" th:each="item : ${friday}" th:utext="${item}"></td>
 				</tr>
 				<tr>
 					<td class="tg-s269">Saturday</td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
+					<td th:remove="tag" th:each="item : ${saturday}" th:utext="${item}"></td>
 				</tr>
 				<tr>
 					<td class="tg-s269">Sunday</td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
-					<td class="tg-s268"></td>
+					<td th:remove="tag" th:each="item : ${sunday}" th:utext="${item}"></td>
 				</tr>
 			</table>
 		</div>
@@ -361,7 +277,7 @@ padding-top: 10px;
 			<form action="/action_page.php" class="form-container"
 				th:action="@{/timetable/00/} + ${semester.semesterId}" th:object="${timetableClassDto}"
 				method="post">
-				<h2>Add Class</h2>
+				<b>Add Class</b>
 				<select th:field="*{subjectName}" class="form-control"
 					id="subjectName" name="subject">
 
@@ -369,10 +285,22 @@ padding-top: 10px;
 						th:value="${Subject.subjectName}" th:text="${Subject.subjectName}"></option>
 				</select>
 				<div id="container"></div>
-				<button type="submit" class="btn">Add</button>
+				<button type="submit" class="btn">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;&nbsp;</button>
 				<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
 			</form>
 		</div>
+
+
+		<div class="form-popup" id="removeForm">
+			<form action="/action_page.php" class="form-container"
+				th:action="@{/timetable/remove/} + ${semester.semesterId}" th:object="${timetableClassDto}"
+				method="post">
+				<div id="container2"></div>
+				<button type="submit" class="btn">Remove</button>
+				<button type="button" class="btn cancel" onclick="removeClose()">Close</button>
+			</form>
+		</div>
+
 
 
 
@@ -417,6 +345,7 @@ btns[i].addEventListener("click", function() {
 }
 //run this code when a cell is click, opens a mini form to add a class to that time
 function openForm(code) {
+	removeClose();
   document.getElementById("myForm").style.display = "block";
   
   var container = document.getElementById("container");
@@ -441,6 +370,39 @@ function openForm(code) {
 function closeForm() {
   document.getElementById("myForm").style.display = "none";
 }
+
+function openRemoveForm(code, name) {
+	closeForm();
+	  document.getElementById("removeForm").style.display = "block";
+	  
+	  var container = document.getElementById("container2");
+
+	  var div = document.createElement("div");
+
+	  container.appendChild(div);
+	  
+
+
+	  //Add a hiddin input to form with sends what time slot they want to add a class to
+	      var input = document.createElement("input");
+	      input.type = "hidden";
+	      input.name ="code";
+	      input.value = code;
+	      div.appendChild(input);
+
+	      var input = document.createElement("input");
+	      input.type = "hidden";
+	      input.name ="subjectName";
+	      input.value = name;
+	      div.appendChild(input);
+
+	     
+	      
+	}
+
+function removeClose() {
+	  document.getElementById("removeForm").style.display = "none";
+	}
 
 
 
