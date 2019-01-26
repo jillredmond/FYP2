@@ -161,6 +161,10 @@ public class MainController {
 		String month = "Error";
 		int year = Integer.valueOf(id.substring(id.length() - 4));
 		String firstDay = "DayError";
+		
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		
+		System.out.println("CURRENT YEAR: " + currentYear);
 		Calendar cal = Calendar.getInstance();
 
 		int monthNum = Integer.valueOf(firstTwo(id));
@@ -294,6 +298,9 @@ public class MainController {
 			for (Exam exam : subject.getExam()) {//if there's any exams on this day, make it an 'active day'
 
 				Date date = new Date();
+				
+				//String upToNCharacters = exam.getDate().substring(0, Math.min(exam.getDate().length(), 4));
+				
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 				try {
 					date = sdf2.parse(exam.getDate());
@@ -301,7 +308,7 @@ public class MainController {
 					e.printStackTrace();
 				}
 
-				if (date.getMonth() + 1 == monthNum) {
+				if (date.getMonth() + 1 == monthNum && Integer.parseInt(exam.getDate().substring(0, Math.min(exam.getDate().length(), 4))) == year) {
 					activeDays.add(String.valueOf(date.getDate()));
 				}
 
@@ -316,7 +323,7 @@ public class MainController {
 					e.printStackTrace();
 				}
 
-				if (date.getMonth() + 1 == monthNum) {
+				if (date.getMonth() + 1 == monthNum && Integer.parseInt(assignment.getDate().substring(0, Math.min(assignment.getDate().length(), 4))) == year) {
 					activeDays.add(String.valueOf(date.getDate()));
 				}
 			}
@@ -331,7 +338,7 @@ public class MainController {
 				e.printStackTrace();
 			}
 
-			if (date.getMonth() + 1 == monthNum) {
+			if (date.getMonth() + 1 == monthNum && Integer.parseInt(event.getDate().substring(0, Math.min(event.getDate().length(), 4))) == year) {
 				activeDays.add(String.valueOf(date.getDate()));
 			}
 		}
@@ -344,8 +351,11 @@ public class MainController {
 
 			Calendar today = Calendar.getInstance();
 			today.set(Calendar.HOUR_OF_DAY, 0);
+			
+			
 
-			if (day.equals(String.valueOf(today.getTime().getDate())) && monthNum == (today.getTime().getMonth() + 1)) {
+
+			if (day.equals(String.valueOf(today.getTime().getDate())) && monthNum == (today.getTime().getMonth() + 1) && year == currentYear ) {
 				String link = "<li><span data-toggle=\"tooltip\" title=\"Today!\" class=\"today\"><a class=\"a2\" href=\"/calendar/"
 			+ String.format("%02d", monthNum) + year + "/" + String.format("%02d", Integer.parseInt(day)) + " \">" + day + "</a></span></li>";
 						
@@ -426,7 +436,13 @@ public class MainController {
 						e.printStackTrace();
 					}
 
-					if (date.getDate() == Integer.parseInt(select)) {
+					System.out.println("0000000000");
+					System.out.println("Date.getyear = " + date.getYear() + " year: " + year);
+					System.out.println("0000000000");
+					
+					
+					
+					if (date.getDate() == Integer.parseInt(select) && date.getMonth() + 1 == monthNum && Integer.parseInt(exam.getDate().substring(0, Math.min(exam.getDate().length(), 4))) == year) {
 						exams.add(examDto);
 					}
 					System.out.println("[===============]");
@@ -450,7 +466,7 @@ public class MainController {
 						e.printStackTrace();
 					}
 
-					if (date.getDate() == Integer.parseInt(select)) {
+					if (date.getDate() == Integer.parseInt(select) && date.getMonth() + 1 == monthNum && Integer.parseInt(assignment.getDate().substring(0, Math.min(assignment.getDate().length(), 4))) == year) {
 						assignments.add(assignmentDto);
 					}
 					System.out.println(date.getDate() + Integer.parseInt(select));
@@ -469,7 +485,7 @@ public class MainController {
 					e.printStackTrace();
 				}
 
-				if (date.getDate() == Integer.parseInt(select)) {
+				if (date.getDate() == Integer.parseInt(select) && date.getMonth() + 1 == monthNum &&Integer.parseInt(event.getDate().substring(0, Math.min(event.getDate().length(), 4))) == year) {
 					events.add(event);
 				}
 				System.out.println(date.getDate() + Integer.parseInt(select));
