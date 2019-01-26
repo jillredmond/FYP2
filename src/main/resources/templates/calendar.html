@@ -70,7 +70,14 @@ body {
 	text-align: center;
 }
 
-a {
+/* a {
+	color: white;
+} */
+.a1 {
+	color: #3d3d3d;
+}
+
+.a2 {
 	color: white;
 }
 
@@ -122,6 +129,75 @@ a {
 	.weekdays li, .days li {
 		width: 12.2%;
 	}
+}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+	background-color: #555;
+	color: white;
+	padding: 16px 20px;
+	border: none;
+	cursor: pointer;
+	opacity: 0.8;
+	position: fixed;
+	bottom: 23px;
+	right: 28px;
+	width: 280px;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+	display: none;
+	position: fixed;
+	bottom: 0;
+	right: 15px;
+	border: 3px solid #f1f1f1;
+	z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+	max-width: 300px;
+	padding: 10px;
+	background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+	width: 100%;
+	padding: 15px;
+	margin: 5px 0 22px 0;
+	border: none;
+	background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus
+	{
+	background-color: #ddd;
+	outline: none;
+}
+
+/* Set a style for the add/remove class button */
+.form-container .btn {
+	background-color: #4CAF50;
+	color: white;
+	padding: 5px 20px;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	margin-bottom: 10px;
+	opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+	background-color: grey;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+	opacity: 1;
 }
 </style>
 
@@ -209,28 +285,6 @@ a {
 		</ul>
 
 
-		<!-- th:if="${s == items.day}"
-th:text="${teacher.active} ? 'ACTIVE' : 'RETIRED'" /> -->
-		<!-- 
-	<ul class="days">
-
-		<li th:each="s : ${days}" th:with="found=${false}">
-			<span th:each="item : ${items}" >
-			<span th:if="{$item.day == s}">
-			
-					<span th:text="${s}" th:classappend="active" th:href
-						  th:with="${found} = true"></span>
-             </span> 
-			</span> 
-			
-		    <span th:if="{$found == false}">
-		    	 <span th:text="${s}"></span>
-
-			</span>
-		</li>
-
-	</ul> -->
-
 		<div th:if="${list != null}">
 
 			<ul class="days">
@@ -254,6 +308,10 @@ th:text="${teacher.active} ? 'ACTIVE' : 'RETIRED'" /> -->
 </table> -->
 
 		<div th:if="${selectedDay != 00}">
+
+
+			<span th:utext="${addEvent}"></span>
+
 			<div th:if="${not #lists.isEmpty(exams)}">
 
 
@@ -268,7 +326,7 @@ th:text="${teacher.active} ? 'ACTIVE' : 'RETIRED'" /> -->
 
 
 					<li class="list-group-item-info" th:text="'Exam '"></li>
-					<li style="background-color: #1abc9c;" class="list-group-item"
+					<li style="background-color: #e0e0e0;" class="list-group-item"
 						th:each="exam : ${exams}"><a
 						th:href="@{/viewSubject} + ${exam.subjectId}"><span
 							th:text="${exam.examtitle}"></span></a></li>
@@ -280,16 +338,64 @@ th:text="${teacher.active} ? 'ACTIVE' : 'RETIRED'" /> -->
 
 				<ul class="list-group">
 					<li class="list-group-item-info" th:text="'Assignment '"></li>
-					<li style="background-color: #1abc9c;" class="list-group-item"
+					<li style="background-color: #e0e0e0;" class="list-group-item"
 						th:each="ass : ${assignments}"><a
 						th:href="@{/viewSubject} + ${ass.subjectId}"><span
 							th:text="${ass.assignmentTitle}"></span></a></li>
 				</ul>
 
 			</div>
+			<div th:if="${not #lists.isEmpty(events)}">
+
+				<ul class="list-group">
+					<li class="list-group-item-info" th:text="'Event '"></li>
+					<li style="background-color: #e0e0e0;" class="list-group-item"
+						th:each="event : ${events}"><label><span
+							th:text="${event.title}"></span></label> <span
+						th:text="${event.description}"> </span>
+						
+	
+						
+					<button type="submit" form="form1" class="close" value="Submit" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						
+							
+							
+						</button>			<form id="form1"
+				th:action="@{/calendar/} + ${monthNum} + ${year} + @{/} + ${selectedDay} + @{/} + ${event.eventId}"
+			 method="post">
+						
+							
+							</form></li>
+				</ul>
+
+			</div>
 		</div>
 
+	
+
 	</div>
+	<!-- 	Pop up form for adding an event -->
+	<div class="form-popup" id="myForm">
+		<form class="form-container"
+			th:action="@{/calendar/} + ${monthNum} + ${year} + @{/} + ${selectedDay}"
+			th:object="${event}" method="post">
+
+			Title<input size="6" type="text" th:field="*{title}" /> Description<br>
+			<textarea id="txtArea" rows="2" cols="30" th:field="*{description}"></textarea>
+			<br> <br> Remind me&nbsp;<input type="number" size="2"
+				id="reminder" name="reminder" min="1" max="1000"
+				th:field="*{reminder}"> days before
+			<div id="container"></div>
+			<button type="submit" class="btn">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;&nbsp;</button>
+			<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+		</form>
+	</div>
+
+
+
+
+
 
 
 
@@ -302,5 +408,37 @@ th:text="${teacher.active} ? 'ACTIVE' : 'RETIRED'" /> -->
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
 });
+
+
+// opens a mini form to add an event to day
+function openForm(day) {
+	//removeClose();
+  document.getElementById("myForm").style.display = "block";
+  
+  var container = document.getElementById("container");
+  document.getElementById("container").innerHTML = "";
+ // document.getElementById("container2").innerHTML = "";
+
+  var div = document.createElement("div");
+
+  container.appendChild(div);
+  
+
+
+  //Add a hiddin input added to the form which sends what time slot they want to add a class to
+      var input = document.createElement("input");
+      input.type = "hidden";
+      input.name ="day";
+      input.value = day;
+      div.appendChild(input);
+
+     
+      
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
 </script>
 </html>

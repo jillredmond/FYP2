@@ -38,7 +38,7 @@ public class Assignment implements Serializable{
 	//The grade the student got in the assingment (results)
 	private Double assignmentGradeAchieved;
 
-	
+	private int reminder;
 	
 	public Assignment() {
 		
@@ -58,6 +58,14 @@ public class Assignment implements Serializable{
 	
 	
 	
+	public int getReminder() {
+		return reminder;
+	}
+
+	public void setReminder(int reminder) {
+		this.reminder = reminder;
+	}
+
 	public String getDate() {
 		return date;
 	}

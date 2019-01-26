@@ -30,8 +30,7 @@ public class Semester {
 	int academicYear;//if year is '2018' then this will represent 'year of 2018/19'
 	int num;//Semester 1/2
 	
-	
-	
+
 	
 	
 	public List<TimetableClass> getTimetableClass() {

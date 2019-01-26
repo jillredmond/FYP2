@@ -18,7 +18,22 @@ public class Exam implements Serializable{
 	private String subject;
 	
 	private String examTitle;
+	private int reminder;
 	
+	public int getReminder() {
+		return reminder;
+	}
+
+
+
+
+
+	public void setReminder(int reminder) {
+		this.reminder = reminder;
+	}
+
+
+
 	//The percentage of the module the exam is worth:
 	private Double examGradeWorth;
 	

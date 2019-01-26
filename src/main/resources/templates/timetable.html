@@ -244,6 +244,7 @@ padding-top: 10px;
 				<tr>
 					<td class="tg-s269">Monday</td>
 					<td th:remove="tag" th:each="item : ${monday}" th:utext="${item}"></td>
+
 				</tr>
 				<tr>
 					<td class="tg-s269">Tuesday</td>
@@ -273,7 +274,7 @@ padding-top: 10px;
 		</div>
 
 
-		<div class="form-popup" id="myForm">
+		<div class="form-popup" id="myForm"> <!-- add class form -->
 			<form action="/action_page.php" class="form-container"
 				th:action="@{/timetable/00/} + ${semester.semesterId}" th:object="${timetableClassDto}"
 				method="post">
@@ -291,7 +292,7 @@ padding-top: 10px;
 		</div>
 
 
-		<div class="form-popup" id="removeForm">
+		<div class="form-popup" id="removeForm"> <!-- remove class form -->
 			<form action="/action_page.php" class="form-container"
 				th:action="@{/timetable/remove/} + ${semester.semesterId}" th:object="${timetableClassDto}"
 				method="post">
@@ -328,13 +329,13 @@ var btnContainer = document.getElementById("myDIV");
 // Get all inner cells of table
 var btns = btnContainer.getElementsByClassName("tg-s268");
 
-
+//this for loops makes a cell you clicked highlighted
 //Loop through the buttons and add the active class to the current/clicked button
 for (var i = 0; i < btns.length; i++) {
 btns[i].addEventListener("click", function() {
  var current = document.getElementsByClassName("active");
 
- // If there's no active class
+ // If there's no cell selected
  if (current.length > 0) { 
    current[0].className = current[0].className.replace(" active", "");
  }
@@ -349,6 +350,8 @@ function openForm(code) {
   document.getElementById("myForm").style.display = "block";
   
   var container = document.getElementById("container");
+  document.getElementById("container").innerHTML = "";
+  document.getElementById("container2").innerHTML = "";
 
   var div = document.createElement("div");
 
@@ -356,8 +359,8 @@ function openForm(code) {
   
 
 
-  //Add a hiddin input to form with sends what time slot they want to add a class to
-      var input = document.createElement("input");
+  //Add a hiddin input added to the form which sends what time slot they want to add a class to
+      var input = document.createElement("input"); 
       input.type = "hidden";
       input.name ="code";
       input.value = code;
@@ -373,10 +376,13 @@ function closeForm() {
 
 function openRemoveForm(code, name) {
 	closeForm();
+	
 	  document.getElementById("removeForm").style.display = "block";
 	  
 	  var container = document.getElementById("container2");
-
+	  document.getElementById("container2").innerHTML = "";
+	  document.getElementById("container").innerHTML = "";
+	  
 	  var div = document.createElement("div");
 
 	  container.appendChild(div);
