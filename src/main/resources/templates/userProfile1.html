@@ -20,6 +20,14 @@
 body {
 	padding-top: 45px;
 }
+
+ul {
+	list-style-type: none;
+}
+
+.f1{
+	display: inline;
+}
 </style>
 
 </head>
@@ -65,21 +73,23 @@ body {
 								<li><a href="/addexam">Add New Exam</a></li>
 								<li><a href="/addattendance">Add New Attendance</a></li>
 							</ul></li>
-<!-- 							=Semester============================================ -->
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
+						<!-- 							=Semester============================================ -->
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">Semesters <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li th:each="semester : ${semesters}">	<a th:text="${semester.semesterName}" th:href="@{/sem/} + ${semester.semesterId}"></a></li>
-								<li role="separator" class="divider"></li>						
+								<li th:each="semester : ${semesters}"><a
+									th:text="${semester.semesterName}"
+									th:href="@{/sem/} + ${semester.semesterId}"></a></li>
+								<li role="separator" class="divider"></li>
 								<li><a href="/addsemester">Create New Semester</a></li>
 							</ul></li>
-<!-- 							=Semester============================================ -->
-							
+						<!-- 							=Semester============================================ -->
+
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
-<!-- 						<li><br>
+						<!-- 						<li><br>
 						<b><span
 								th:text="'Signed in as ' + ${user.firstName} + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'">Name</span></b></li> -->
 						<li><a href="/logout">Logout</a></li>
@@ -99,34 +109,205 @@ body {
 			<!-- 
    <a th:href="@{/edituser/} + ${userId}">Edit User</a>   -->
 		</div>
+
+
+		<div class="row">
+			<div class="col-sm-6">
+
+
+
+				<ul class="list-group">
+					<li class="list-group-item-danger" th:text="'Reminders '"></li>
+		<!--Event Reminders------------------------------------------------------------------------------------------------->
+					<li th:if="${!#lists.isEmpty(events)}" class="list-group-item-success" th:text="'Events '"></li>
+					<li class="list-group-item" th:each="event : ${events}"><label><span
+							th:text="${event.title}"></span></label> <!-- 	<span th:text="${event.description}"></span>  -->
+						<!-- 	<span th:text="${event.reminder} + ' days'"></span> -->
+
+						<form class="f1" th:action="@{/eventDeleteHome/} + ${event.eventId}" method="post"><button type="submit" class="close" value="Submit"
+							aria-label="Close">
+							&nbsp; <span aria-hidden="true">&times;</span>
+
+						</button> </form>
+							<span th:text="${event.reminder} + ' days'" class="badge badge-danger"></span>
 		
-		
-		
+						
+						
+						
+						
+						</li>
+		<!--Exam Reminders-------------------------------------------------------------------------------------------------->
+	
+					<li th:if="${!#lists.isEmpty(exams)}" class="list-group-item-success" th:text="'Exams '"></li>
+					<li class="list-group-item" th:each="exam : ${exams}"><label><span
+							th:text="${exam.examTitle}"></span></label>
+
+
+
+						<form class="f1"
+							th:action="@{/examDeleteHome/} + ${exam.examId}" method="post">	<button type="submit"  class="close" value="Submit"
+							aria-label="Close">
+							&nbsp; <span aria-hidden="true">&times;</span>
+
+						</button> </form><span th:text="${exam.reminder} + ' days'"
+						class="badge badge-danger"></span></li>
+		<!--Assignment Reminders-------------------------------------------------------------------------------------------->
+
+					<li th:if="${!#lists.isEmpty(assignments)}" class="list-group-item-success" th:text="'Assignments '"></li>
+					<li class="list-group-item" th:each="assignment : ${assignments}"><label><span
+							th:text="${assignment.assignmentTitle}"></span></label> <!-- 	<span th:text="${event.description}"></span>  -->
+						<!-- 	<span th:text="${event.reminder} + ' days'"></span> -->
+
+
 
 			
-			
-			
-			
-		<div class="container">
+						<form class="f1"
+							th:action="@{/assignmentDeleteHome/} + ${assignment.assignmentId}" method="post">		<button type="submit"  class="close" value="Submit"
+							aria-label="Close">
+							&nbsp; <span aria-hidden="true">&times;</span>
 
-			<!-- <div th:if="${#lists.isEmpty(semesters)}"> -->
-			<div th:if="${semesters != null}">
-			<div th:if="${semesters.empty}">
-
-
-
-
+						</button></form>	 <span th:text="${assignment.reminder} + ' days'"
+						class="badge badge-danger"></span></li>
+				</ul>
+		<!------------------------------------------------------------------------------------------------------------------>
+			</div>
 
 
 
 
-				Looks like you haven't added any semesters yet! <br>
 
-				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-primary" data-toggle="modal"
-					data-target="#exampleModal">Add Semester</button>
+			<div class="col-sm-6">
+
+
+
+				<!--  <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#editEventModal">
+    <span class="glyphicon glyphicon-edit"></span> 
+  </button> -->
+
+
+
+
+				<div class="container">
+
+					<!-- <div th:if="${#lists.isEmpty(semesters)}"> -->
+					<div th:if="${semesters != null}">
+						<div th:if="${semesters.empty}">
+
+
+
+
+
+
+
+
+							Looks like you haven't added any semesters yet! <br>
+
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-primary" data-toggle="modal"
+								data-target="#exampleModal">Add Semester</button>
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Add
+												Semester</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+
+
+
+											<h2>
+												<span th:text="${academicYear} + ' Academic year'"></span>
+											</h2>
+											<h2>
+												<span th:text="'Semester ' + ${semester}"></span>
+											</h2>
+
+											<br> Want to add a semester with different details? <a
+												href="/calendar/000000/00">Click here.</a>
+
+										</div>
+										<div class="modal-footer">
+
+											<form action="#" th:action="@{/addCurrentSem}"
+												th:object="${semester}" method="post">
+												<!--        <form action="/addCurrentSem" method="post"> -->
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Close</button>
+												<input name="button" value="Add Semester" type="submit"
+													class="btn btn-primary">
+											</form>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div th:if="${!semesters.empty}">
+
+
+
+							<ul class="nav navbar-nav">
+								<li class="dropdown">
+									<button class="btn dropdown-toggle" type="button"
+										data-toggle="dropdown">
+										Semesters <span class="glyphicon glyphicon-chevron-down"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li th:each="semester : ${semesters}"><a
+											th:text="${semester.semesterName}"
+											th:href="@{/sem/} + ${semester.semesterId}"></a></li>
+										<li role="separator" class="divider"></li>
+										<li><a href="/addsemester">Create New Semester</a></li>
+									</ul>
+								</li>
+
+								<li class="dropdown">
+									<button class="btn dropdown-toggle" type="button"
+										data-toggle="dropdown">
+										Timetables <span class="glyphicon glyphicon-chevron-down"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li th:each="semester : ${semesters}"><a
+											th:text="${semester.semesterName}"
+											th:href="@{/timetable/00/} + ${semester.semesterId}"></a></li>
+									</ul>
+								</li>
+
+
+							</ul>
+						</div>
+					</div>
+					<div>
+						<br>
+						<br> <b> Email: </b> <span th:text="${emailAddress}"></span>
+
+					</div>
+					<b>First name:</b><span th:text="${firstName}"></span>
+					<div>
+						<b>Surname:</b> <span th:text="${surname}"></span>
+					</div>
+					<div>
+						<!-- <a href="/allSubjects">View All Subjects</a>-->
+						<a href="/calendar/000000/00">Calendar</a>
+					</div>
+
+
+
+				</div>
+
+
 				<!-- Modal -->
-				<div class="modal fade" id="exampleModal" tabindex="-1"
+				<div class="modal fade" id="editEventModal" tabindex="-1"
 					role="dialog" aria-labelledby="exampleModalLabel"
 					aria-hidden="true">
 					<div class="modal-dialog" role="document">
@@ -168,48 +349,16 @@ body {
 						</div>
 					</div>
 				</div>
-</div>
-				<div th:if="${!semesters.empty}">
-
-
-
-			<ul class="nav navbar-nav">
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false">Semesters <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li th:each="semester : ${semesters}">	<a th:text="${semester.semesterName}" th:href="@{/sem/} + ${semester.semesterId}"></a></li>
-								<li role="separator" class="divider"></li>						
-								<li><a href="/addsemester">Create New Semester</a></li>
-							</ul></li>
-							
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false">Timetables <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li th:each="semester : ${semesters}">	<a th:text="${semester.semesterName}" th:href="@{/timetable/00/} + ${semester.semesterId}"></a></li>
-							</ul></li>
-							
-							
-			</ul>
-				</div>
-			</div>
-			<div>
-
-				<b> Email: </b> <span th:text="${emailAddress}"></span>
-
-			</div>
-			<b>First name:</b><span th:text="${firstName}"></span>
-			<div>
-				<b>Surname:</b> <span th:text="${surname}"></span>
-			</div>
-			<div>
-				<!-- <a href="/allSubjects">View All Subjects</a>-->
-				<a href="/calendar/000000/00">Calendar</a>
 			</div>
 
 
-	
+
+
+
+
+		</div>
+	</div>
+	<!-- row -->
 
 
 
@@ -219,21 +368,11 @@ body {
 
 
 
+	</div>
 
 
 
-
-
-
-
-
-
-
-</div>
-
-
-
-				<!--  <div>
+	<!--  <div>
 <a href="/addsubject">Add New Subject</a>
 
 
@@ -263,11 +402,11 @@ body {
 	<a href="/calendar">Calendar</a>
 </div>
 -->
-				<!--   <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+	<!--   <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script> -->
 
-				<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
-				<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-			</div>
+	<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+	<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</div>
 </body>
 </html>

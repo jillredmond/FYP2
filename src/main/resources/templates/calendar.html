@@ -24,6 +24,10 @@ ul {
 	list-style-type: none;
 }
 
+.f1{
+	display: inline;
+}
+
 body {
 	font-family: Verdana, sans-serif;
 }
@@ -311,16 +315,16 @@ body {
 
 
 			<span th:utext="${addEvent}"></span>
-
+<br>
 			<div th:if="${not #lists.isEmpty(exams)}">
 
 
 				<br>
 
 				<ul class="list-group">
-					<li class="list-group-item-info"
+				<li class="list-group-item-info"
 						th:text="'On ' + ${month} + ' ' + ${selectedDay} + ' you have: '">
-					</li>
+					</li> 
 				</ul>
 				<ul class="list-group">
 
@@ -355,18 +359,14 @@ body {
 						th:text="${event.description}"> </span>
 						
 	
-						
-					<button type="submit" form="form1" class="close" value="Submit" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						
 							
-							
-						</button>			<form id="form1"
-				th:action="@{/calendar/} + ${monthNum} + ${year} + @{/} + ${selectedDay} + @{/} + ${event.eventId}"
-			 method="post">
-						
-							
-							</form></li>
+									
+				<form class="f1" th:action="@{/calendar/} + ${monthNum} + ${year} + @{/} + ${selectedDay} + @{/} + ${event.eventId}"
+			 method="post"><button type="submit" class="close" value="Submit"
+							aria-label="Close">
+							&nbsp; <span aria-hidden="true">&times;</span>
+
+						</button> </form></li>
 				</ul>
 
 			</div>

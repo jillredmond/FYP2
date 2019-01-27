@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
@@ -49,7 +50,9 @@ import com.finalYearProject.studentlife.model.Semester;
 import com.finalYearProject.studentlife.model.Subject;
 import com.finalYearProject.studentlife.model.TimetableClass;
 import com.finalYearProject.studentlife.model.User;
+import com.finalYearProject.studentlife.repository.AssignmentRepository;
 import com.finalYearProject.studentlife.repository.EventRepository;
+import com.finalYearProject.studentlife.repository.ExamRepository;
 import com.finalYearProject.studentlife.repository.SemesterRepository;
 import com.finalYearProject.studentlife.repository.SubjectRepository;
 import com.finalYearProject.studentlife.repository.TimetableClassRepository;
@@ -59,14 +62,16 @@ import com.finalYearProject.studentlife.repository.UserRepository;
 
 public class MainController {
 
-
 	@Autowired
 	SemesterRepository semesterRepository;
 	@Autowired
 	TimetableClassRepository classRepository;
 	@Autowired
 	EventRepository eventRepository;
-
+	@Autowired
+	ExamRepository examRepository;
+	@Autowired
+	AssignmentRepository assignmentRepository;
 
 	@GetMapping("/login")
 	public String login(Model model) {
@@ -91,40 +96,141 @@ public class MainController {
 			String firstname = user.getFirstName();
 			String surname = user.getSurname();
 			long userId = user.getUserId();
-			
+
 			Calendar cal = Calendar.getInstance();
-			String academicYear ="";
-			String semester="";
+			String academicYear = "";
+			String semester = "";
 
-			//set month + year to now
+			// set month + year to now
 
-				int year = Calendar.getInstance().get(Calendar.YEAR);
+			int year = Calendar.getInstance().get(Calendar.YEAR);
 
-				int month = Calendar.getInstance().get(Calendar.MONTH);
-				String stringMonth = getMonthForInt(month);
-			
-				if(month > 6)//if its currently in the second half of the year, make it semester 1 of current academic year
-				{
-					semester = "1";
-					academicYear=year + "/" + (year +1);
+			int month = Calendar.getInstance().get(Calendar.MONTH);
+
+			int day = Calendar.getInstance().get(Calendar.DATE);
+			System.out.println("Year :" + year);
+			System.out.println("Month  :" + month);
+			System.out.println("Day :" + day);
+
+			// String stringMonth = getMonthForInt(month);
+
+			if (month > 6)// if its currently in the second half of the year, make it semester 1 of
+							// current academic year
+			{
+				semester = "1";
+				academicYear = year + "/" + (year + 1);
+			} else // else make it semester 2 of current academic year
+			{
+				semester = "2";
+				academicYear = (year - 1) + "/" + year;
+			}
+
+			ArrayList<Event> events = new ArrayList<Event>();
+			ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+			ArrayList<Exam> exams = new ArrayList<Exam>();
+
+			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String currentDate = year + "-" + String.format("%02d", month + 1) + "-" + String.format("%02d", day);
+			System.out.print("Current date " + currentDate);
+
+			for (Event event : user.getEvent()) {
+				long diff = 0;
+				long difference = 0;
+				try {
+					Date date1 = myFormat.parse(currentDate);
+					Date date2 = myFormat.parse(event.getDate());
+					diff = date2.getTime() - date1.getTime();
+					System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+					difference = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+				} catch (ParseException e) {
+					e.printStackTrace();
 				}
-				else //else make it semester 2 of current academic year
-				{
-					semester = "2";
-					academicYear=(year -1) + "/" + year;
+
+				System.out.println("Date : " + event.getDate());
+				System.out.println(event.getTitle());
+
+				System.out.println("Diff: " + difference);
+
+				if (difference <= event.getReminder() && difference > -1) {
+					event.setReminder(safeLongToInt(difference));
+					events.add(event);
 				}
-			
-			
+
+			}
+			for (Subject subject : user.getSubject()) {
+				for (Exam exam : subject.getExam()) {
+
+					long diff = 0;
+					long difference = 0;
+					try {
+						Date date1 = myFormat.parse(currentDate);
+						Date date2 = myFormat.parse(exam.getDate());
+						diff = date2.getTime() - date1.getTime();
+						System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+						difference = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					System.out.println("Date : " + exam.getDate());
+					System.out.println(exam.getExamTitle());
+
+					System.out.println("Diff: " + difference);
+
+					if (difference <= exam.getReminder() && difference > -1) {
+						exam.setReminder(safeLongToInt(difference));
+						exams.add(exam);
+					}
+
+				}
+				for (Assignment assignment : subject.getAssignment()) {
+
+					long diff = 0;
+					long difference = 0;
+					try {
+						Date date1 = myFormat.parse(currentDate);
+						Date date2 = myFormat.parse(assignment.getDate());
+						diff = date2.getTime() - date1.getTime();
+						System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+						difference = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					System.out.println("Date : " + assignment.getDate());
+					System.out.println(assignment.getAssignmentTitle());
+
+					System.out.println("Diff: " + difference);
+
+					if (difference <= assignment.getReminder() && difference > -1) {
+						assignment.setReminder(safeLongToInt(difference));
+						assignments.add(assignment);
+					}
+
+				}
+
+			}
+
+			/*
+			 * String inputString1 = "23 01 1997"; String inputString2 = "27 04 1997";
+			 * 
+			 * try { Date date1 = myFormat.parse(inputString1); Date date2 =
+			 * myFormat.parse(inputString2); long diff = date2.getTime() - date1.getTime();
+			 * System.out.println ("Days: " + TimeUnit.DAYS.convert(diff,
+			 * TimeUnit.MILLISECONDS)); } catch (ParseException e) { e.printStackTrace(); }
+			 */
 
 			List<Semester> semesters = user.getSemester();
 
 			List<Subject> subjects = user.getSubject();
 
+			model.addAttribute("assignnments", assignments);
+			model.addAttribute("exams", exams);
+			model.addAttribute("events", events);
 			model.addAttribute("subjects", subjects);
 			model.addAttribute("semesters", semesters);
 			model.addAttribute("academicYear", academicYear);
 			model.addAttribute("semester", semester);
-
 			model.addAttribute("subjects", subjects);
 			model.addAttribute("emailAddress", email);
 			model.addAttribute("firstName", firstname);
@@ -137,20 +243,7 @@ public class MainController {
 
 	}
 
-	@GetMapping("/addSubject")
-	public String addSubject(Model model) {
 
-		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-		String email = loggedInUser.getName();
-		User user = userR.findByEmailAddress(email);
-
-		List<Semester> semesters = user.getSemester();
-
-		model.addAttribute("user", user);
-		model.addAttribute("semesters", semesters);
-
-		return "addSubject";
-	}
 
 	@GetMapping("/calendar/{id}/{select}")
 	public String calendar(@PathVariable(value = "id") String id, Model model, Principal principal,
@@ -161,9 +254,9 @@ public class MainController {
 		String month = "Error";
 		int year = Integer.valueOf(id.substring(id.length() - 4));
 		String firstDay = "DayError";
-		
+
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-		
+
 		System.out.println("CURRENT YEAR: " + currentYear);
 		Calendar cal = Calendar.getInstance();
 
@@ -295,12 +388,13 @@ public class MainController {
 		// add to active days array
 		for (Subject subject : user.getSubject()) {
 
-			for (Exam exam : subject.getExam()) {//if there's any exams on this day, make it an 'active day'
+			for (Exam exam : subject.getExam()) {// if there's any exams on this day, make it an 'active day'
 
 				Date date = new Date();
-				
-				//String upToNCharacters = exam.getDate().substring(0, Math.min(exam.getDate().length(), 4));
-				
+
+				// String upToNCharacters = exam.getDate().substring(0,
+				// Math.min(exam.getDate().length(), 4));
+
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 				try {
 					date = sdf2.parse(exam.getDate());
@@ -308,12 +402,14 @@ public class MainController {
 					e.printStackTrace();
 				}
 
-				if (date.getMonth() + 1 == monthNum && Integer.parseInt(exam.getDate().substring(0, Math.min(exam.getDate().length(), 4))) == year) {
+				if (date.getMonth() + 1 == monthNum && Integer
+						.parseInt(exam.getDate().substring(0, Math.min(exam.getDate().length(), 4))) == year) {
 					activeDays.add(String.valueOf(date.getDate()));
 				}
 
 			}
-			for (Assignment assignment : subject.getAssignment()) {//if there's any assignemtns on this day, make it an 'active day'
+			for (Assignment assignment : subject.getAssignment()) {// if there's any assignemtns on this day, make it an
+																	// 'active day'
 
 				Date date = new Date();
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -323,13 +419,13 @@ public class MainController {
 					e.printStackTrace();
 				}
 
-				if (date.getMonth() + 1 == monthNum && Integer.parseInt(assignment.getDate().substring(0, Math.min(assignment.getDate().length(), 4))) == year) {
+				if (date.getMonth() + 1 == monthNum && Integer.parseInt(
+						assignment.getDate().substring(0, Math.min(assignment.getDate().length(), 4))) == year) {
 					activeDays.add(String.valueOf(date.getDate()));
 				}
 			}
 		}
-		for(Event event : user.getEvent())
-		{
+		for (Event event : user.getEvent()) {
 			Date date = new Date();
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 			try {
@@ -338,7 +434,8 @@ public class MainController {
 				e.printStackTrace();
 			}
 
-			if (date.getMonth() + 1 == monthNum && Integer.parseInt(event.getDate().substring(0, Math.min(event.getDate().length(), 4))) == year) {
+			if (date.getMonth() + 1 == monthNum
+					&& Integer.parseInt(event.getDate().substring(0, Math.min(event.getDate().length(), 4))) == year) {
 				activeDays.add(String.valueOf(date.getDate()));
 			}
 		}
@@ -351,27 +448,23 @@ public class MainController {
 
 			Calendar today = Calendar.getInstance();
 			today.set(Calendar.HOUR_OF_DAY, 0);
-			
-			
 
-
-			if (day.equals(String.valueOf(today.getTime().getDate())) && monthNum == (today.getTime().getMonth() + 1) && year == currentYear ) {
+			if (day.equals(String.valueOf(today.getTime().getDate())) && monthNum == (today.getTime().getMonth() + 1)
+					&& year == currentYear) {
 				String link = "<li><span data-toggle=\"tooltip\" title=\"Today!\" class=\"today\"><a class=\"a2\" href=\"/calendar/"
-			+ String.format("%02d", monthNum) + year + "/" + String.format("%02d", Integer.parseInt(day)) + " \">" + day + "</a></span></li>";
-						
-					
+						+ String.format("%02d", monthNum) + year + "/" + String.format("%02d", Integer.parseInt(day))
+						+ " \">" + day + "</a></span></li>";
+
 				list.add(link);
 				active = true;
 			}
 			boolean dup = false;
 			for (String aDay : activeDays) {
 
-				if (day.equals(aDay) && !(day.equals(String.valueOf(today.getTime().getDate())) && monthNum == (today.getTime().getMonth() + 1))) {
+				if (day.equals(aDay) && !(day.equals(String.valueOf(today.getTime().getDate()))
+						&& monthNum == (today.getTime().getMonth() + 1))) {
 
 					if (dup == false) {
-						
-						
-			
 
 						System.out.println("TEST");
 
@@ -388,24 +481,21 @@ public class MainController {
 			}
 
 			if (active == false) {
-			//	String link = "<li><span onclick=\"openForm('"+ day +"')>" + day + "</span></li>";
-		
-			if(isNumeric(day))
-				{
-					
-				
-				//makes html for days that are not 'active'. This contains the url for whatever day it is
-				String link = "<li><span><a class=\"a1\" href=\"/calendar/"
-						+ String.format("%02d", monthNum) + year + "/"
-						+ String.format("%02d", Integer.parseInt(day)) + " \">" + day + "</a></span></li>";
+				// String link = "<li><span onclick=\"openForm('"+ day +"')>" + day +
+				// "</span></li>";
 
-				list.add(link);
+				if (isNumeric(day)) {
+
+					// makes html for days that are not 'active'. This contains the url for whatever
+					// day it is
+					String link = "<li><span><a class=\"a1\" href=\"/calendar/" + String.format("%02d", monthNum) + year
+							+ "/" + String.format("%02d", Integer.parseInt(day)) + " \">" + day + "</a></span></li>";
+
+					list.add(link);
+				} else {
+					String link = "<li>" + day + "</li>";
+					list.add(link);
 				}
-			else
-			{
-				String link = "<li>" + day + "</li>";
-				list.add(link);
-			}
 			}
 
 		}
@@ -415,9 +505,9 @@ public class MainController {
 		}
 
 		String addEvent = "";
-		
-		if (!select.equals("00")) {//if a day has been selected, make exam/assignment/event appear below calendar
-			addEvent = "<a href=\"javascript:openForm(' "+ select +"');\">Add Event</a> on " + month + " " + select;
+
+		if (!select.equals("00")) {// if a day has been selected, make exam/assignment/event appear below calendar
+			addEvent = "<a href=\"javascript:openForm(' " + select + "');\">Add Event</a> on " + month + " " + select;
 			for (Subject subject : user.getSubject()) {
 				for (Exam exam : subject.getExam()) {
 
@@ -439,10 +529,9 @@ public class MainController {
 					System.out.println("0000000000");
 					System.out.println("Date.getyear = " + date.getYear() + " year: " + year);
 					System.out.println("0000000000");
-					
-					
-					
-					if (date.getDate() == Integer.parseInt(select) && date.getMonth() + 1 == monthNum && Integer.parseInt(exam.getDate().substring(0, Math.min(exam.getDate().length(), 4))) == year) {
+
+					if (date.getDate() == Integer.parseInt(select) && date.getMonth() + 1 == monthNum && Integer
+							.parseInt(exam.getDate().substring(0, Math.min(exam.getDate().length(), 4))) == year) {
 						exams.add(examDto);
 					}
 					System.out.println("[===============]");
@@ -466,15 +555,17 @@ public class MainController {
 						e.printStackTrace();
 					}
 
-					if (date.getDate() == Integer.parseInt(select) && date.getMonth() + 1 == monthNum && Integer.parseInt(assignment.getDate().substring(0, Math.min(assignment.getDate().length(), 4))) == year) {
+					if (date.getDate() == Integer.parseInt(select) && date.getMonth() + 1 == monthNum
+							&& Integer.parseInt(assignment.getDate().substring(0,
+									Math.min(assignment.getDate().length(), 4))) == year) {
 						assignments.add(assignmentDto);
 					}
 					System.out.println(date.getDate() + Integer.parseInt(select));
 
 				}
 			}
-			for(Event event : user.getEvent()) {
-				
+			for (Event event : user.getEvent()) {
+
 				Date date = new Date();
 
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -485,19 +576,18 @@ public class MainController {
 					e.printStackTrace();
 				}
 
-				if (date.getDate() == Integer.parseInt(select) && date.getMonth() + 1 == monthNum &&Integer.parseInt(event.getDate().substring(0, Math.min(event.getDate().length(), 4))) == year) {
+				if (date.getDate() == Integer.parseInt(select) && date.getMonth() + 1 == monthNum && Integer
+						.parseInt(event.getDate().substring(0, Math.min(event.getDate().length(), 4))) == year) {
 					events.add(event);
 				}
 				System.out.println(date.getDate() + Integer.parseInt(select));
 			}
-			
-			
 
 		}
 
 		int selectedDay = Integer.parseInt(select);
 		Event event = new Event();
-		
+
 		model.addAttribute("events", events);
 		model.addAttribute("event", event);
 		model.addAttribute("selectedDay", selectedDay);
@@ -519,92 +609,120 @@ public class MainController {
 
 		return "calendar";
 	}
-	
-	
-	
 
 	@PostMapping("/calendar/{id}/{select}")
 	public String calendarAddEvent(@PathVariable(value = "id") String id, Model model, Principal principal,
 			@PathVariable(value = "select") String select, @ModelAttribute Event event) {
-		
+
 		System.out.println(event.getDate());
 		System.out.println(event.getDescription());
 		System.out.println(event.getReminder());
 		System.out.println(event.getTitle());
-		
-		
-		
+
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		String email = loggedInUser.getName();
 		User user = userR.findByEmailAddress(email);
-		
-		String month = id.substring(0, Math.min(id.length(), 2));//get month from url
-		String year  = id.substring(id.length() - 4); //get year from url
-		String date  = year + "-" + month + "-" + select;
+
+		String month = id.substring(0, Math.min(id.length(), 2));// get month from url
+		String year = id.substring(id.length() - 4); // get year from url
+		String date = year + "-" + month + "-" + select;
 		System.out.println(date);
-		
+
 		event.setDate(date);
 		user.addEvent(event);
 		eventRepository.save(event);
 		userR.save(user);
 
-		
-		
-		
-		String url = "redirect:/calendar/"+id+"/" + select;
+		String url = "redirect:/calendar/" + id + "/" + select;
 
 		return url;
 	}
-	
+
 	@PostMapping("/calendar/{id}/{select}/{eventId}")
 	public String calendarDeleteEvent(@PathVariable(value = "id") String id, Model model, Principal principal,
 			@PathVariable(value = "select") String select, @PathVariable(value = "eventId") String eventId) {
-		
 
-		
-		
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		String email = loggedInUser.getName();
 		User user = userR.findByEmailAddress(email);
-		
-		List<Event> list =  user.getEvent();
+
+		List<Event> list = user.getEvent();
 		Iterator<Event> itr = list.iterator();
 
-		
-		while (itr.hasNext()) 
-		{
+		while (itr.hasNext()) {
 			Event s = itr.next();
-			
-			if(s.getEventId() == Long.parseLong(eventId))
-			{
-				
+
+			if (s.getEventId() == Long.parseLong(eventId)) {
+
 				System.out.println("================================");
 				System.out.println("================================");
 				System.out.println("================================");
-				
-				
 
 				itr.remove();
 			}
 		}
-		
+
 		System.out.println(list.toString());
 		user.setEvent(list);
 		userR.save(user);
-		
-		eventRepository.delete(Long.parseLong(eventId));
-		
 
-		
-		String url = "redirect:/calendar/"+id+"/" + select;
+		eventRepository.delete(Long.parseLong(eventId));
+
+		String url = "redirect:/calendar/" + id + "/" + select;
+
+		return url;
+	}
+
+	@PostMapping("/eventDeleteHome/{eventId}")//Delete reminder for an event
+	public String homeDeleteEvent(Model model, @PathVariable(value = "eventId") String eventId) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userR.findByEmailAddress(email);
+
+		Event event = eventRepository.findOne(Long.parseLong(eventId));
+		event.setReminder(-1);
+		eventRepository.save(event);
+
+		String url = "redirect:/";
 
 		return url;
 	}
 	
-	
+	@PostMapping("/examDeleteHome/{examId}")//Delete reminder for an exam
+	public String homeDeleteExam(Model model, @PathVariable(value = "examId") String examId) {
 
-	//------------------------timetable-----------------------------------------------------
-	@GetMapping("/timetable/{id}/{semId}")//This method displays timetable.
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userR.findByEmailAddress(email);
+
+		Exam exam = examRepository.findOne(Long.parseLong(examId));
+		exam.setReminder(-1);
+		examRepository.save(exam);
+
+		String url = "redirect:/";
+
+		return url;
+	}
+	
+	@PostMapping("/assignmentDeleteHome/{assignmentId}")//Delete reminder for an assignment
+	public String homeDeleteAssignment(Model model, @PathVariable(value = "examId") String assignmentId) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userR.findByEmailAddress(email);
+
+		Assignment assignment =  assignmentRepository.findOne(Long.parseLong(assignmentId));
+		assignment.setReminder(-1);
+		assignmentRepository.save(assignment);
+
+		String url = "redirect:/";
+
+		return url;
+	}
+
+	// ------------------------timetable-----------------------------------------------------
+	@GetMapping("/timetable/{id}/{semId}") // This method displays timetable.
 	public String timetable(@PathVariable(value = "id") String id, Model model,
 			@PathVariable(value = "semId") String semId) {
 
@@ -618,22 +736,16 @@ public class MainController {
 		TimetableClass timetableClass = new TimetableClass();
 		List<Subject> subjects = user.getSubject();
 		List<Semester> semesters = user.getSemester();
-		
+
 		Semester semester = new Semester();
 
-		for (Semester sem : semesters) {//get semester object with 'semId'
+		for (Semester sem : semesters) {// get semester object with 'semId'
 			if (sem.getSemesterId() == Long.parseLong(semId)) {
 				semester = sem;
 			}
 		}
-		
-	
 
-		
 		List<TimetableClass> classes = semester.getTimetableClass();
-		
-
-	
 
 		ArrayList<String> monday = new ArrayList<String>();
 		ArrayList<String> tuesday = new ArrayList<String>();
@@ -646,32 +758,33 @@ public class MainController {
 		String day = "m";
 		boolean finished = false;
 
-		while (finished == false) {//will loop 7 times, for 7 days
+		while (finished == false) {// will loop 7 times, for 7 days
 			ArrayList<String> html = new ArrayList<String>();
 
 			int num = 8;
-			for (int i = 0; i < 13; i++) {//This for loop loops 13 times, once for each timeslot/cell
+			for (int i = 0; i < 13; i++) {// This for loop loops 13 times, once for each timeslot/cell
 				boolean found = false;
 				String timeCode = day + num;
-				
-				for(TimetableClass t : classes)//check to see if a class exits in this timeslot/cell
+
+				for (TimetableClass t : classes)// check to see if a class exits in this timeslot/cell
 				{
-					if(t.getCode().equals(timeCode))
-					{
+					if (t.getCode().equals(timeCode)) {
 						found = true;
-						html.add("<td class=\"tg-s268\" onclick=\"openRemoveForm('" + timeCode + "','"+ t.getSubjectName() +"')\">"+ t.getSubjectName() +"</td>");
-						//make html for cell with a class
+						html.add("<td class=\"tg-s268\" onclick=\"openRemoveForm('" + timeCode + "','"
+								+ t.getSubjectName() + "')\">" + t.getSubjectName() + "</td>");
+						// make html for cell with a class
 					}
 				}
-				
-				if(!found)
-				{
-					html.add("<td class=\"tg-s268\" onclick=\"openForm('" + timeCode + "')\"></td>");//make html for cell with no class
+
+				if (!found) {
+					html.add("<td class=\"tg-s268\" onclick=\"openForm('" + timeCode + "')\"></td>");// make html for
+																										// cell with no
+																										// class
 					/* <td class="tg-s268" onclick="openForm('m8')"></td> */
 					/* <td class="tg-s268" onclick="openForm('m9')"></td> */
 				}
 				num++;
-			}//end for loop
+			} // end for loop
 
 			if (day.equals("sun")) {
 				sunday = html;
@@ -704,8 +817,6 @@ public class MainController {
 
 		}
 
-
-
 		model.addAttribute("monday", monday);
 		model.addAttribute("tuesday", tuesday);
 		model.addAttribute("wednesday", wednesday);
@@ -723,111 +834,97 @@ public class MainController {
 
 	}
 
-	@PostMapping("/timetable/{id}/{semId}")//add class to timetable post method
+	@PostMapping("/timetable/{id}/{semId}") // add class to timetable post method
 	public String timetablePost(@ModelAttribute TimetableClassDto dto, @PathVariable(value = "id") String id,
 			Model model, @PathVariable(value = "semId") String semId) {
 
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		String email = loggedInUser.getName();
 		User user = userR.findByEmailAddress(email);
-		
-		List<Subject> subjects = user.getSubject();
 
+		List<Subject> subjects = user.getSubject();
 
 		TimetableClass ttClass = new TimetableClass();
 		ttClass.setCode(dto.getCode());
-	
-		
-		for(Subject subject : subjects)
-		{
-			if(dto.getSubjectName().equals(subject.getSubjectName()))
-			{
+
+		for (Subject subject : subjects) {
+			if (dto.getSubjectName().equals(subject.getSubjectName())) {
 				ttClass.setSubjectName(subject.getSubjectName());
 				ttClass.setSubjectId(String.valueOf(subject.getSubjectId()));
 			}
-			
+
 		}
-		
+
 		Semester semester = semesterRepository.findOne(Long.parseLong(semId));
 		semester.addTimetableClass(ttClass);
 
 		semesterRepository.save(semester);
-		
-		
-		
+
 		String url = "redirect:/timetable/00/" + semId;
 
 		return url;
 
 	}
 
-	
-	@PostMapping("/timetable/remove/{semId}")//remove class from timetable post method
-	public String timetablePostRemoveClass(@ModelAttribute TimetableClassDto dto, String id,
-			Model model, @PathVariable(value = "semId") String semId) {
+	@PostMapping("/timetable/remove/{semId}") // remove class from timetable post method
+	public String timetablePostRemoveClass(@ModelAttribute TimetableClassDto dto, String id, Model model,
+			@PathVariable(value = "semId") String semId) {
 
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		String email = loggedInUser.getName();
 		User user = userR.findByEmailAddress(email);
-		
+
 		List<Subject> subjects = user.getSubject();
 
 		System.out.println("=======================");
 		System.out.println(dto.getCode() + " " + dto.getSubjectName());
 		System.out.println("=======================");
 
-	//	Semester semester = semesterRepository.findOne(Long.parseLong(semId));
+		// Semester semester = semesterRepository.findOne(Long.parseLong(semId));
 		List<Semester> semesters = user.getSemester();
 		Semester semester = new Semester();
-		for(Semester sem : semesters)
-		{
-			if(sem.getSemesterId() == Long.parseLong(semId))
-			{
+		for (Semester sem : semesters) {
+			if (sem.getSemesterId() == Long.parseLong(semId)) {
 				semester = sem;
-				
-				System.out.println("TESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTEST");
+
+				System.out.println(
+						"TESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTESTTESTTESTEST");
 			}
 		}
-		
+
 		List<TimetableClass> list = semester.getTimetableClass();
 		Iterator<TimetableClass> itr = list.iterator();
-/*		for(TimetableClass cls : list)
-		{
-			if(cls.getSubjectName().equals(dto.getSubjectName()))
-			{
-				cls.remove();
-			}*/
-		//}
-		
+		/*
+		 * for(TimetableClass cls : list) {
+		 * if(cls.getSubjectName().equals(dto.getSubjectName())) { cls.remove(); }
+		 */
+		// }
+
 		long id2 = -1;
-		
-		while (itr.hasNext()) 
-		{
+
+		while (itr.hasNext()) {
 			TimetableClass s = itr.next();
-			
-			if(s.getSubjectName().equals(dto.getSubjectName()) && s.getCode().equals(dto.getCode()))
-			{
+
+			if (s.getSubjectName().equals(dto.getSubjectName()) && s.getCode().equals(dto.getCode())) {
 				classRepository.delete(s.getTimetableClassId());
 				id2 = s.getTimetableClassId();
 				itr.remove();
 			}
 		}
-		
-		
-		
+
 		semester.setTimetableClass(list);
-		
+
 		semesterRepository.save(semester);
-		
+
 		classRepository.delete(id2);
-		
+
 		String url = "redirect:/timetable/00/" + semId;
 
 		return url;
 
 	}
-	
-	//-----------------------------------------------------------------------------
+
+	// -----------------------------------------------------------------------------
 
 	// convert month number to month name
 	String getMonthForInt(int num) {
@@ -840,24 +937,26 @@ public class MainController {
 		return month;
 	}
 
-
 	// get first 2 characters of string
 	public String firstTwo(String str) {
 		return str.length() < 2 ? str : str.substring(0, 2);
 	}
-	
-	//for checking if a String is numeric
-	public static boolean isNumeric(String str)  
-	{  
-	  try  
-	  {  
-	    double d = Double.parseDouble(str);  
-	  }  
-	  catch(NumberFormatException nfe)  
-	  {  
-	    return false;  
-	  }  
-	  return true;  
+
+	// for checking if a String is numeric
+	public static boolean isNumeric(String str) {
+		try {
+			double d = Double.parseDouble(str);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
 	}
 
+	// convert long to int
+	public static int safeLongToInt(long l) {
+		if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+			throw new IllegalArgumentException(l + " cannot be cast to int without changing its value.");
+		}
+		return (int) l;
+	}
 }

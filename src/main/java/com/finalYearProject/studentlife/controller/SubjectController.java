@@ -29,6 +29,7 @@ import com.finalYearProject.studentlife.dto.SubjectDto;
 import com.finalYearProject.studentlife.model.Assignment;
 import com.finalYearProject.studentlife.model.Attendance;
 import com.finalYearProject.studentlife.model.Exam;
+import com.finalYearProject.studentlife.model.Semester;
 import com.finalYearProject.studentlife.model.Subject;
 import com.finalYearProject.studentlife.model.User;
 import com.finalYearProject.studentlife.repository.AssignmentRepository;
@@ -92,6 +93,21 @@ public class SubjectController {
 //	public String getSubjects(Model model) {
 //		return "allSubjects";
 //	}
+	
+	@GetMapping("/addSubject")
+	public String addSubject(Model model) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userRepository.findByEmailAddress(email);
+
+		List<Semester> semesters = user.getSemester();
+
+		model.addAttribute("user", user);
+		model.addAttribute("semesters", semesters);
+
+		return "addSubject";
+	}
 
 	@GetMapping("/allSubjects")
 	public String showSubjects(@ModelAttribute("subject") @Valid UserRegistrationDto userDto, BindingResult result, Model model) {
@@ -477,7 +493,14 @@ public class SubjectController {
 	//SUBJECT SEARCH
 	@PostMapping("/subjectSearch")
 	public String subjectSearchPost(ModelMap map, @ModelAttribute Subject subject, Model model) {
-		List<Subject> subjects = subjectRepository.findAll();
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();   
+			
+		User user = userRepository.findByEmailAddress(email);
+		
+		
+		
+		List<Subject> subjects = user.getSubject();
 		
 		if(subject.getSubjectName()!="") {
 			
