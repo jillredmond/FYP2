@@ -25,8 +25,20 @@ ul {
 	list-style-type: none;
 }
 
-.f1{
+.f1 {
 	display: inline;
+}
+
+/* ul li a {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  padding: 1px;
+} */
+a {
+display: inline;
+  color: black;
+  text-decoration: none; /* no underline */
 }
 </style>
 
@@ -105,89 +117,13 @@ ul {
 
 		<div>
 
-			<h2 th:text="'Welcome, ' + ${firstName} + '!'">Name</h2>
-			<!-- 
-   <a th:href="@{/edituser/} + ${userId}">Edit User</a>   -->
-		</div>
+
+			<div class="row">
+				<div class="col-sm-6">
+
+					<h2 th:text="'Welcome, ' + ${firstName} + '!'">Name</h2>
 
 
-		<div class="row">
-			<div class="col-sm-6">
-
-
-
-				<ul class="list-group">
-					<li class="list-group-item-danger" th:text="'Reminders '"></li>
-		<!--Event Reminders------------------------------------------------------------------------------------------------->
-					<li th:if="${!#lists.isEmpty(events)}" class="list-group-item-success" th:text="'Events '"></li>
-					<li class="list-group-item" th:each="event : ${events}"><label><span
-							th:text="${event.title}"></span></label> <!-- 	<span th:text="${event.description}"></span>  -->
-						<!-- 	<span th:text="${event.reminder} + ' days'"></span> -->
-
-						<form class="f1" th:action="@{/eventDeleteHome/} + ${event.eventId}" method="post"><button type="submit" class="close" value="Submit"
-							aria-label="Close">
-							&nbsp; <span aria-hidden="true">&times;</span>
-
-						</button> </form>
-							<span th:text="${event.reminder} + ' days'" class="badge badge-danger"></span>
-		
-						
-						
-						
-						
-						</li>
-		<!--Exam Reminders-------------------------------------------------------------------------------------------------->
-	
-					<li th:if="${!#lists.isEmpty(exams)}" class="list-group-item-success" th:text="'Exams '"></li>
-					<li class="list-group-item" th:each="exam : ${exams}"><label><span
-							th:text="${exam.examTitle}"></span></label>
-
-
-
-						<form class="f1"
-							th:action="@{/examDeleteHome/} + ${exam.examId}" method="post">	<button type="submit"  class="close" value="Submit"
-							aria-label="Close">
-							&nbsp; <span aria-hidden="true">&times;</span>
-
-						</button> </form><span th:text="${exam.reminder} + ' days'"
-						class="badge badge-danger"></span></li>
-		<!--Assignment Reminders-------------------------------------------------------------------------------------------->
-
-					<li th:if="${!#lists.isEmpty(assignments)}" class="list-group-item-success" th:text="'Assignments '"></li>
-					<li class="list-group-item" th:each="assignment : ${assignments}"><label><span
-							th:text="${assignment.assignmentTitle}"></span></label> <!-- 	<span th:text="${event.description}"></span>  -->
-						<!-- 	<span th:text="${event.reminder} + ' days'"></span> -->
-
-
-
-			
-						<form class="f1"
-							th:action="@{/assignmentDeleteHome/} + ${assignment.assignmentId}" method="post">		<button type="submit"  class="close" value="Submit"
-							aria-label="Close">
-							&nbsp; <span aria-hidden="true">&times;</span>
-
-						</button></form>	 <span th:text="${assignment.reminder} + ' days'"
-						class="badge badge-danger"></span></li>
-				</ul>
-		<!------------------------------------------------------------------------------------------------------------------>
-			</div>
-
-
-
-
-
-			<div class="col-sm-6">
-
-
-
-				<!--  <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#editEventModal">
-    <span class="glyphicon glyphicon-edit"></span> 
-  </button> -->
-
-
-
-
-				<div class="container">
 
 					<!-- <div th:if="${#lists.isEmpty(semesters)}"> -->
 					<div th:if="${semesters != null}">
@@ -287,80 +223,307 @@ ul {
 							</ul>
 						</div>
 					</div>
+
+				</div>
+				<div class="col-sm-6">
 					<div>
-						<br>
-						<br> <b> Email: </b> <span th:text="${emailAddress}"></span>
+						<br> <br> <b> Email: </b> <span
+							th:text="${emailAddress}"></span>
 
 					</div>
 					<b>First name:</b><span th:text="${firstName}"></span>
 					<div>
 						<b>Surname:</b> <span th:text="${surname}"></span>
 					</div>
-					<div>
-						<!-- <a href="/allSubjects">View All Subjects</a>-->
+					<!-- 				<div>
+						<a href="/allSubjects">View All Subjects</a>
 						<a href="/calendar/000000/00">Calendar</a>
-					</div>
-
-
+					</div> -->
+					<br>
 
 				</div>
 
+			</div>
 
-				<!-- Modal -->
-				<div class="modal fade" id="editEventModal" tabindex="-1"
-					role="dialog" aria-labelledby="exampleModalLabel"
-					aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Add Semester</h5>
-								<button type="button" class="close" data-dismiss="modal"
-									aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
+			<!-- 
+   <a th:href="@{/edituser/} + ${userId}">Edit User</a>   -->
+		</div>
+
+
+		<div class="row">
+			<div class="col-sm-6">
+				<!-- REMINDER COLUMN -->
 
 
 
-								<h2>
-									<span th:text="${academicYear} + ' Academic year'"></span>
-								</h2>
-								<h2>
-									<span th:text="'Semester ' + ${semester}"></span>
-								</h2>
+				<ul class="list-group">
+					<li class="list-group-item-danger" th:text="'Reminders '"></li>
+					<!--Event Reminders------------------------------------------------------------------------------------------------->
+					<li th:if="${!#lists.isEmpty(events)}"
+						class="list-group-item-success" th:text="'Events '"></li>
+					<li class="list-group-item" th:each="event : ${events}"><label><span
+							th:text="${event.title}"></span></label> <!-- 	<span th:text="${event.description}"></span>  -->
+						<!-- 	<span th:text="${event.reminder} + ' days'"></span> -->
 
-								<br> Want to add a semester with different details? <a
-									href="/calendar/000000/00">Click here.</a>
+						<form class="f1"
+							th:action="@{/eventDeleteHome/} + ${event.eventId}" method="post">
+							<button type="submit" class="close" value="Submit"
+								aria-label="Close">
+								&nbsp; <span aria-hidden="true">&times;</span>
 
-							</div>
-							<div class="modal-footer">
+							</button>
+						</form> <span th:text="${event.reminder} + ' days'"
+						class="badge badge-danger"></span></li>
+					<!--Exam Reminders-------------------------------------------------------------------------------------------------->
 
-								<form action="#" th:action="@{/addCurrentSem}"
-									th:object="${semester}" method="post">
-									<!--        <form action="/addCurrentSem" method="post"> -->
-									<button type="button" class="btn btn-secondary"
-										data-dismiss="modal">Close</button>
-									<input name="button" value="Add Semester" type="submit"
-										class="btn btn-primary">
-								</form>
+					<li th:if="${!#lists.isEmpty(exams)}"
+						class="list-group-item-success" th:text="'Exams '"></li>
+					<li class="list-group-item" th:each="exam : ${exams}"><label><span
+							th:text="${exam.examTitle}"></span></label>
 
-							</div>
-						</div>
-					</div>
-				</div>
+
+
+						<form class="f1" th:action="@{/examDeleteHome/} + ${exam.examId}"
+							method="post">
+							<button type="submit" class="close" value="Submit"
+								aria-label="Close">
+								&nbsp; <span aria-hidden="true">&times;</span>
+
+							</button>
+						</form> <span th:text="${exam.reminder} + ' days'"
+						class="badge badge-danger"></span></li>
+					<!--Assignment Reminders-------------------------------------------------------------------------------------------->
+
+					<li th:if="${!#lists.isEmpty(assignments)}"
+						class="list-group-item-success" th:text="'Assignments '"></li>
+					<li class="list-group-item" th:each="assignment : ${assignments}"><label><span
+							th:text="${assignment.assignmentTitle}"></span></label> <!-- 	<span th:text="${event.description}"></span>  -->
+						<!-- 	<span th:text="${event.reminder} + ' days'"></span> -->
+
+
+
+					
+						<form class="f1"
+							th:action="@{/assignmentDeleteHome/} + ${assignment.assignmentId}"
+							method="post">
+							<button type="submit" class="close" value="Submit"
+								aria-label="Close">
+								&nbsp; <span aria-hidden="true">&times;</span>
+
+							</button>
+						</form> <span th:text="${assignment.reminder} + ' days'"
+						class="badge badge-danger"></span></li>
+				</ul>
+				<!------------------------------------------------------------------------------------------------------------------>
 			</div>
 
 
 
 
 
+			<div class="col-sm-6">
+				<!--  NOTEBOOK COLUMN -->
 
+
+				<ul class="list-group">
+
+					<!--Notebook------------------------------------------------------------------------------------------------->
+					<li class="list-group-item-info" th:text="'Notebook '"></li>
+					<li th:if="${!#lists.isEmpty(notes)}" class="list-group-item"
+						th:each="item : ${notes}"><label><a th:href="@{/editNote/} + ${item.noteId}"><span
+							th:text="${item.title}"></span></a></label>
+
+
+						<form class="f1" th:action="@{/noteDeleteHome/} + ${item.noteId}"
+							method="post">
+							<button type="submit" class="close" value="Submit"
+								aria-label="Close">
+								&nbsp; <span aria-hidden="true">&times;</span>
+
+							</button>
+						</form></li>
+
+				</ul>
+				<!-- <div style="cursor:pointer" th:onclick="window.location.href='@{/editNote/} + ${item.noteId}'"> -->
+<!-- th:href="@{/editNote/} + ${item.noteId}" -->
+
+				<!-- Button trigger add note modal -->
+				
+
+
+<form action="addNote">
+  <button type="submit" class="btn btn-info btn-sm"
+					>Add Note</button>
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+		</div>
+		<!-- row -->
+
+
+
+<!-- 	view Note
+ 		<div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+			
+					<div class="modal-body">
+									<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+
+						<form  th:action="@{/addNote}" th:object="${Note}"
+							method="post">
+	
+							<table class="table">
+								<tr>
+									<td>Title</td>
+									<td><input type="text" th:field="*{title}" /></td>
+									
+								</tr>
+								<tr>
+									<td>Content</td>
+									<td><textarea id="txtArea" rows="16" cols="70" th:field="*{description}"></textarea></td>
+							
+						
+								<tr>
+									<td>			<button type="submit" class="btn btn-info btn-sm"
+					data-toggle="modal" data-target="#addNoteModal">Add Note</button></td>
+					<td></td>
+								</tr>
+							</table>
+
+						</form>
+
+					</div>
+					<div class="modal-footer">
+
+
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		<div class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form  th:action="@{/addNote}" th:object="${Note}"
+							method="post">
+	
+							<table class="table">
+								<tr>
+									<td>Title</td>
+									<td><input type="text" th:field="*{title}" th:value="*{item.title}" /></td>
+									
+								</tr>
+								<tr>
+									<td>Content</td>
+									<td><textarea id="txtArea" rows="16" cols="70" th:field="*{description}" th:value="*{item.description}"></textarea></td>
+							
+						
+								<tr>
+									<td>			<button type="submit" class="btn btn-info btn-sm"
+					data-toggle="modal" data-target="#addNoteModal">Save changes</button></td>
+					<td></td>
+								</tr>
+							</table>
+
+						</form>
+
+      </div>
+      <div class="modal-footer">
+     
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+		
+		
+		 --> 
+	</div>
+
+	<!-- edit semester modal NOT FINISHED Modal -->
+	<div class="modal fade" id="editEventModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add Semester</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+
+
+					<h2>
+						<span th:text="${academicYear} + ' Academic year'"></span>
+					</h2>
+					<h2>
+						<span th:text="'Semester ' + ${semester}"></span>
+					</h2>
+
+					<br> Want to add a semester with different details? <a
+						href="/calendar/000000/00">Click here.</a>
+
+				</div>
+				<div class="modal-footer">
+
+					<form action="#" th:action="@{/addCurrentSem}"
+						th:object="${semester}" method="post">
+						<!--        <form action="/addCurrentSem" method="post"> -->
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+						<input name="button" value="Add Semester" type="submit"
+							class="btn btn-primary">
+					</form>
+
+				</div>
+			</div>
 		</div>
 	</div>
-	<!-- row -->
-
-
+	</div>
 
 
 

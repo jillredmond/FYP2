@@ -46,6 +46,7 @@ import com.finalYearProject.studentlife.dto.UserDto;
 import com.finalYearProject.studentlife.model.Assignment;
 import com.finalYearProject.studentlife.model.Event;
 import com.finalYearProject.studentlife.model.Exam;
+import com.finalYearProject.studentlife.model.Note;
 import com.finalYearProject.studentlife.model.Semester;
 import com.finalYearProject.studentlife.model.Subject;
 import com.finalYearProject.studentlife.model.TimetableClass;
@@ -53,6 +54,7 @@ import com.finalYearProject.studentlife.model.User;
 import com.finalYearProject.studentlife.repository.AssignmentRepository;
 import com.finalYearProject.studentlife.repository.EventRepository;
 import com.finalYearProject.studentlife.repository.ExamRepository;
+import com.finalYearProject.studentlife.repository.NoteRepository;
 import com.finalYearProject.studentlife.repository.SemesterRepository;
 import com.finalYearProject.studentlife.repository.SubjectRepository;
 import com.finalYearProject.studentlife.repository.TimetableClassRepository;
@@ -72,6 +74,8 @@ public class MainController {
 	ExamRepository examRepository;
 	@Autowired
 	AssignmentRepository assignmentRepository;
+	@Autowired
+	NoteRepository noteRepository;
 
 	@GetMapping("/login")
 	public String login(Model model) {
@@ -108,9 +112,9 @@ public class MainController {
 			int month = Calendar.getInstance().get(Calendar.MONTH);
 
 			int day = Calendar.getInstance().get(Calendar.DATE);
-			System.out.println("Year :" + year);
+/*			System.out.println("Year :" + year);
 			System.out.println("Month  :" + month);
-			System.out.println("Day :" + day);
+			System.out.println("Day :" + day);*/
 
 			// String stringMonth = getMonthForInt(month);
 
@@ -219,11 +223,26 @@ public class MainController {
 			 * System.out.println ("Days: " + TimeUnit.DAYS.convert(diff,
 			 * TimeUnit.MILLISECONDS)); } catch (ParseException e) { e.printStackTrace(); }
 			 */
+			
+			ArrayList<Note> notes = new ArrayList<Note>();
+			
+			for(Note note : user.getNote())
+			{
+				notes.add(note);
+			}
+			
+			System.out.println(notes.toString());
+			
 
 			List<Semester> semesters = user.getSemester();
 
 			List<Subject> subjects = user.getSubject();
+			
+			//Note note = new Note();
 
+			model.addAttribute("notes", notes);
+			//model.addAttribute("note", note);
+			model.addAttribute("Note", new Note()); 
 			model.addAttribute("assignnments", assignments);
 			model.addAttribute("exams", exams);
 			model.addAttribute("events", events);
@@ -925,6 +944,87 @@ public class MainController {
 	}
 
 	// -----------------------------------------------------------------------------
+	
+	@GetMapping("/addNote")
+	public String addSubject(Model model) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userR.findByEmailAddress(email);
+
+
+		model.addAttribute("user", user);
+		model.addAttribute("Note", new Note()); 
+
+		return "addNote";
+	}
+	
+	@GetMapping("/editNote/{id}")
+	public String viewNote(Model model, @PathVariable(value = "id") String id) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userR.findByEmailAddress(email);
+
+		Note note = noteRepository.findOne(Long.parseLong(id));
+		
+		System.out.println("Note title " + note.getTitle());
+
+		model.addAttribute("user", user);
+		model.addAttribute("Note", new Note()); 
+		model.addAttribute("note", note); 
+
+		return "editNote";
+	}
+	
+	@PostMapping("/editNote/{id}")//edit note
+	public String editNote( Model model, @ModelAttribute Note Note,  @PathVariable(value = "id") String id) {
+
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+	//	User user = userR.findByEmailAddress(email);
+
+		Note note = noteRepository.findOne(Long.parseLong(id));
+
+		note.setTitle(Note.getTitle());
+		note.setDescription(Note.getDescription());
+	//	user.addNote(note);
+		noteRepository.save(note);
+		//userR.save(user);
+
+		String url = "redirect:/";
+
+		return url;
+	}
+	
+	@PostMapping("/addNote")//Add note to notebook
+	public String addNote( Model model, @ModelAttribute Note note) {
+
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userR.findByEmailAddress(email);
+		
+		int y = Calendar.getInstance().get(Calendar.YEAR);
+		int m = Calendar.getInstance().get(Calendar.MONTH)+1;
+		int d = Calendar.getInstance().get(Calendar.DATE);
+
+		String month = String.format("%02d", m);
+		String year = String.valueOf(y);
+		String date = year + "-" + month + "-" + String.format("%02d", d);
+		System.out.println(date);
+
+		note.setDate(date);
+		user.addNote(note);
+		noteRepository.save(note);
+		userR.save(user);
+
+		String url = "redirect:/";
+
+		return url;
+	}
+	
 
 	// convert month number to month name
 	String getMonthForInt(int num) {

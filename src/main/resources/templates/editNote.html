@@ -15,6 +15,14 @@
 body {
 	padding-top: 45px;
 }
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+}
 </style>
 </head>
 <body>
@@ -72,45 +80,39 @@ body {
 	</div>
 
 
-	<div class="container"><h2>Add Exam</h2></div>
-<div th:if="${not #lists.isEmpty(subjects)}">
-<!-- <div th:if="${subjects != null}"> -->
+	<div class="container"><h2>View Note</h2></div>
 
 	<div class="container">
-		<form action="#" th:action="@{/addExam}" th:object="${exam}"
-			method="post">
-			<select th:field="*{subject}" class="form-control" id="subject"
-				name="subject">
-
-				<option  th:each="Subject : ${subjects}" th:value="${Subject}"
-					th:text="${Subject}"></option>
-			</select>
-			<table class="table">
-				<tr>
-					<td>Exam Title</td>
-					<td><input type="text" th:field="*{examTitle}" /></td>
-					<!--   	<td th:if="${#fields.hasErrors('examTitlee')}" th:errors="*{examTitle}">error message</td>  -->
-				</tr>
-				<tr>
-					<td>Exam Grade Worth</td>
-					<td><input th:field="*{examGradeWorth}" /></td>
-					<!--	<td th:if="${#fields.hasErrors('examGradeWorth')}" th:errors="*{examGradeWorth}">error message</td> -->
-				</tr>
-				<tr>
-					<td>Due Date</td>
-					<td> <input type="date" th:field="*{date}"/></td>
-				</tr>
-				<tr>
-					<td><button type="submit">Submit post</button></td>
-				</tr>
-			</table>
-
-		</form>
+						<form  th:action="@{/editNote/} + ${note.noteId}" th:object="${Note}"
+							method="post">
+	
+							<table class="table">
+								<tr>
+									<td>Title</td>
+									<td><input type="text"  name="title" id="title" th:value="${note.title}"/></td>
+									
+								</tr>
+								<tr>
+									<td>Content</td>
+									<td><textarea id="txtArea" rows="12" cols="100" th:field="*{description}" th:text="${note.description}"></textarea></td>
+							
+						
+								<tr>
+									<td>			<button type="submit" class="btn btn-info btn-sm"
+					data-toggle="modal" data-target="#addNoteModal">Save changes</button></td>
+					<td>  <a href="/" class="btn btn-danger btn-sm">Cancel</a></td>
+								</tr>
+							</table>
+					<input type="hidden" name="noteId" th:field="*{noteId}" th:value="${note.noteId}" ></input>
+					<input type="hidden" name="date" th:field="*{date}" th:value="${note.date}" ></input>
+					
+                  
+						</form>
 
 	</div>
-	</div>
-<div th:if="${#lists.isEmpty(subjects)}">
-	You must add a subject to add an exam!
-</div>
+
+
+
+
 </body>
 </html>

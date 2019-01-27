@@ -37,10 +37,16 @@ public class User implements UserDetails {
 	public List<Subject> subject;
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	public List<Note> note;
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	public List<Semester> semester;
 
 	@OneToMany(fetch=FetchType.LAZY,orphanRemoval = true,  cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
 	public List<Event> event;
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	public List<Contact> contact;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -77,6 +83,34 @@ public class User implements UserDetails {
 	
 	
 	
+
+
+	public List<Contact> getContact() {
+		return contact;
+	}
+
+
+
+	public void setContact(List<Contact> contact) {
+		this.contact = contact;
+	}
+
+
+
+	public List<Note> getNote() {
+		
+		if (note==null)
+			note = new ArrayList<Note>();
+		
+		return note;
+	}
+
+
+
+	public void setNote(List<Note> note) {
+		this.note = note;
+	}
+
 
 
 	public List<Event> getEvent() {
@@ -337,6 +371,15 @@ public class User implements UserDetails {
 		getEvent().add(event);
 	}
 	
+	public void addNote(Note note){
+
+		getNote().add(note);
+	}
+	
+	public void addContact(Contact contact) {
+		getContact().add(contact);
+		
+	}
 	
 
 }

@@ -30,6 +30,8 @@ public class Subject implements Serializable{
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	public List<Attendance> attendance;
 	
+
+	
 	private String subjectName;
 	
 	private String semester;
