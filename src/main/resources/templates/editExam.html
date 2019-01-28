@@ -15,12 +15,11 @@ body {
 
 
 <body>
-<div class=container>
-<!-- navbar-static-top -->
+	<div class=container>
+		<!-- navbar-static-top -->
 
 
-	
-	<nav class="navbar navbar-default  navbar-fixed-top">
+		<nav class="navbar navbar-default  navbar-fixed-top" style="background-color:#e7ffe0">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
@@ -31,8 +30,7 @@ body {
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="userProfile1"> 
-					</a>
+					<a class="navbar-brand" href="userProfile1"> </a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -40,26 +38,25 @@ body {
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 
-						<li><a href="/">Profile</a></li>
+						<li><a href="/">Home</a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">Menu <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="/calendar/000000/00">Calendar</a></li>
+								<li><a href="/timetable/00/00">Timetable</a></li>
+								<li><a href="/contact">Contacts</a></li>
 								<li><a href="/subjectSearch">Search For A Subject</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="/allSubjects">View All Subjects</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="/addsubject">Add New Subject</a></li>
-								<li><a href="/addassignment">Add New Assignment</a></li>
-								<li><a href="/addexam">Add New Exam</a></li>
-								<li><a href="/addattendance">Add New Attendance</a></li>
+			
 							</ul></li>
+				
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
+						<!-- 						<li><br>
+						<b><span
+								th:text="'Signed in as ' + ${user.firstName} + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'">Name</span></b></li> -->
 						<li><a href="/logout">Logout</a></li>
-
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -83,12 +80,21 @@ body {
 		<input id="examGradeAchieved" class="form-control" th:field="*{examGradeAchieved}" />
 		
 		</div>
-			<div>
+<!-- 			<div>
 		<label for="examGradeWorth" class="control-label">Exam Worth: </label>
 		<input id="examGradeWorth" class="form-control" th:field="*{examGradeWorth}" />
 		
-		</div>
+		</div> -->
+							<div>
+		<label for="date" class="control-label">Date </label>
+		<input id="date" type="date" class="form-control" th:field="*{date}" required />
 		
+		</div>
+					<div>
+		<label for="reminder" class="control-label">Reminder: (days before)</label>
+		<input id="reminder" class="form-control" th:field="*{reminder}"  size="2"  name="reminder" min="0" max="1000"/> 
+		
+		</div>
 
 		
 	  	<input type="hidden" name="examId" th:value="${ExamId}" />

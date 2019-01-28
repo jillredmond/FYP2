@@ -50,7 +50,7 @@ display: inline;
 		<!-- navbar-static-top -->
 
 
-		<nav class="navbar navbar-default  navbar-fixed-top">
+		<nav class="navbar navbar-default  navbar-fixed-top" style="background-color:#e7ffe0">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
@@ -69,35 +69,18 @@ display: inline;
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 
-						<li><a href="/">Profile</a></li>
+						<li><a href="/">Home</a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">Menu <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="/calendar/000000/00">Calendar</a></li>
 								<li><a href="/timetable/00/00">Timetable</a></li>
+								<li><a href="/contact">Contacts</a></li>
 								<li><a href="/subjectSearch">Search For A Subject</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="/allSubjects">View All Subjects</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="/addsubject">Add New Subject</a></li>
-								<li><a href="/addassignment">Add New Assignment</a></li>
-								<li><a href="/addexam">Add New Exam</a></li>
-								<li><a href="/addattendance">Add New Attendance</a></li>
+			
 							</ul></li>
-						<!-- 							=Semester============================================ -->
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false">Semesters <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li th:each="semester : ${semesters}"><a
-									th:text="${semester.semesterName}"
-									th:href="@{/sem/} + ${semester.semesterId}"></a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="/addsemester">Create New Semester</a></li>
-							</ul></li>
-						<!-- 							=Semester============================================ -->
-
+				
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
@@ -261,8 +244,8 @@ display: inline;
 					<!--Event Reminders------------------------------------------------------------------------------------------------->
 					<li th:if="${!#lists.isEmpty(events)}"
 						class="list-group-item-success" th:text="'Events '"></li>
-					<li class="list-group-item" th:each="event : ${events}"><label><a th:href="@{/editNote/} + ${item.noteId}"><label><span
-							th:text="${event.title}"></span></a></label> <!-- 	<span th:text="${event.description}"></span>  -->
+					<li class="list-group-item" th:each="event : ${events}"><label><span
+							th:text="${event.title}"></span></label> <!-- 	<span th:text="${event.description}"></span>  -->
 						<!-- 	<span th:text="${event.reminder} + ' days'"></span> -->
 
 						<form class="f1"
@@ -387,98 +370,8 @@ display: inline;
 
 			</div>
 		</div>
-		<!-- row -->
-
-
-
-<!-- 	view Note
- 		<div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-			
-					<div class="modal-body">
-									<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-
-						<form  th:action="@{/addNote}" th:object="${Note}"
-							method="post">
 	
-							<table class="table">
-								<tr>
-									<td>Title</td>
-									<td><input type="text" th:field="*{title}" /></td>
-									
-								</tr>
-								<tr>
-									<td>Content</td>
-									<td><textarea id="txtArea" rows="16" cols="70" th:field="*{description}"></textarea></td>
-							
-						
-								<tr>
-									<td>			<button type="submit" class="btn btn-info btn-sm"
-					data-toggle="modal" data-target="#addNoteModal">Add Note</button></td>
-					<td></td>
-								</tr>
-							</table>
 
-						</form>
-
-					</div>
-					<div class="modal-footer">
-
-
-					</div>
-				</div>
-			</div>
-		</div> 
-		
-		<div class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form  th:action="@{/addNote}" th:object="${Note}"
-							method="post">
-	
-							<table class="table">
-								<tr>
-									<td>Title</td>
-									<td><input type="text" th:field="*{title}" th:value="*{item.title}" /></td>
-									
-								</tr>
-								<tr>
-									<td>Content</td>
-									<td><textarea id="txtArea" rows="16" cols="70" th:field="*{description}" th:value="*{item.description}"></textarea></td>
-							
-						
-								<tr>
-									<td>			<button type="submit" class="btn btn-info btn-sm"
-					data-toggle="modal" data-target="#addNoteModal">Save changes</button></td>
-					<td></td>
-								</tr>
-							</table>
-
-						</form>
-
-      </div>
-      <div class="modal-footer">
-     
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-		
-		
-		 --> 
 	</div>
 
 	<!-- edit semester modal NOT FINISHED Modal -->

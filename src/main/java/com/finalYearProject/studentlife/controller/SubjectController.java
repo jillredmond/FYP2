@@ -1,6 +1,7 @@
 package com.finalYearProject.studentlife.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.finalYearProject.studentlife.dto.SubjectDto;
 import com.finalYearProject.studentlife.model.Assignment;
 import com.finalYearProject.studentlife.model.Attendance;
+import com.finalYearProject.studentlife.model.Event;
 import com.finalYearProject.studentlife.model.Exam;
 import com.finalYearProject.studentlife.model.Semester;
 import com.finalYearProject.studentlife.model.Subject;
@@ -35,6 +37,7 @@ import com.finalYearProject.studentlife.model.User;
 import com.finalYearProject.studentlife.repository.AssignmentRepository;
 import com.finalYearProject.studentlife.repository.AttendanceRepository;
 import com.finalYearProject.studentlife.repository.ExamRepository;
+import com.finalYearProject.studentlife.repository.SemesterRepository;
 import com.finalYearProject.studentlife.repository.SubjectRepository;
 import com.finalYearProject.studentlife.repository.UserRepository;
 import com.finalYearProject.studentlife.service.UserRegistrationDto;
@@ -54,6 +57,8 @@ public class SubjectController {
 	AssignmentRepository assignmentRepository;
 	@Autowired
 	AttendanceRepository attendanceRepository;
+	@Autowired
+	SemesterRepository semesterRepository;
 	
 	//local varibales
 	double allAttendanceTotalResults =0;
@@ -109,6 +114,60 @@ public class SubjectController {
 		return "addSubject";
 	}
 
+	
+	@PostMapping("/subjectDelete/{subjectId}/{semId}")//Delete subject
+	public String homeDeleteEvent(Model model, @PathVariable(value = "subjectId") String subjectId,  @PathVariable(value = "semId") String semId) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userRepository.findByEmailAddress(email);
+		Semester semester = semesterRepository.findOne(Long.parseLong(semId));
+		
+		List<Subject> list = user.getSubject();//we need to delete the subject from user first, then we can delete
+		Iterator<Subject> itr = list.iterator();
+
+		while (itr.hasNext()) {
+			Subject s = itr.next();
+
+			if (s.getSubjectId() == Long.parseLong(subjectId)) {
+
+	
+
+				itr.remove();
+			}
+		}
+		
+		user.setSubject(list);
+		userRepository.save(user);
+		
+		List<Subject> list2 = semester.getSubject();//we need to delete the subject from user first, then we can delete
+		Iterator<Subject> itr2 = list2.iterator();
+
+		while (itr2.hasNext()) {
+			Subject s = itr2.next();
+
+			if (s.getSubjectId() == Long.parseLong(subjectId)) {
+
+	
+
+				itr2.remove();
+			}
+		}
+		
+		semester.setSubject(list2);
+		semesterRepository.save(semester);
+		
+		
+		
+		
+		subjectRepository.delete(Long.parseLong(subjectId));
+
+		String url = "redirect:/sem/" + semId;
+
+		return url;
+	}
+	
+	
 	@GetMapping("/allSubjects")
 	public String showSubjects(@ModelAttribute("subject") @Valid UserRegistrationDto userDto, BindingResult result, Model model) {
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();

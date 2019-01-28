@@ -138,9 +138,7 @@ public class AddExamController {
 
 		String message="  "+  max + "/100 percentage has been assigned.";
 		
-		String message2="			<div class=\"alert alert-primary\" role=\"alert\">\r\n" + 
-				"					"+ max+"/100 percentage has been assigned.\r\n" + 
-				"					</div>";
+		String message2="			<span class=\"alert alert-warning\" role=\"alert\"> " + max+"/100 percentage has been assigned." + "</span>";
 
 		if(max > 99)
 		{
@@ -155,7 +153,7 @@ public class AddExamController {
 		System.out.println(check);
 		
 		
-		model.addAttribute("message", message);
+		model.addAttribute("message", message2);
 		model.addAttribute("max", check);		
 		model.addAttribute("subject", subject);
 

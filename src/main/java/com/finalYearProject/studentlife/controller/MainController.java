@@ -783,7 +783,7 @@ public class MainController {
 		return url;
 	}
 
-	// ------------------------timetable-----------------------------------------------------
+	// ------------------------timetable---------------------------------------------------------------------------------------------------------------------------------------------------------
 	@GetMapping("/timetable/{id}/{semId}") // This method displays timetable.
 	public String timetable(@PathVariable(value = "id") String id, Model model,
 			@PathVariable(value = "semId") String semId) {
@@ -800,11 +800,19 @@ public class MainController {
 		List<Semester> semesters = user.getSemester();
 
 		Semester semester = new Semester();
-
+		
+		
+		if(semId.equals("00"))
+		{
+			semester = semesters.get(semesters.size()-1);
+		}
+		else
+		{
 		for (Semester sem : semesters) {// get semester object with 'semId'
 			if (sem.getSemesterId() == Long.parseLong(semId)) {
 				semester = sem;
 			}
+		}
 		}
 
 		List<TimetableClass> classes = semester.getTimetableClass();

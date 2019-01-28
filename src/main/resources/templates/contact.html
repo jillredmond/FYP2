@@ -15,19 +15,18 @@
 body {
 	padding-top: 45px;
 }
+
 .f1 {
 	display: inline;
 }
-
 </style>
 </head>
 <body>
 	<div class=container>
-<!-- navbar-static-top -->
+		<!-- navbar-static-top -->
 
 
-	
-	<nav class="navbar navbar-default  navbar-fixed-top">
+		<nav class="navbar navbar-default  navbar-fixed-top" style="background-color:#e7ffe0">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
@@ -38,8 +37,7 @@ body {
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="userProfile1"> 
-					</a>
+					<a class="navbar-brand" href="userProfile1"> </a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -47,26 +45,25 @@ body {
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 
-						<li><a href="/">Profile</a></li>
+						<li><a href="/">Home</a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">Menu <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="/calendar/000000/00">Calendar</a></li>
+								<li><a href="/timetable/00/00">Timetable</a></li>
+								<li><a href="/contact">Contacts</a></li>
 								<li><a href="/subjectSearch">Search For A Subject</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="/allSubjects">View All Subjects</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="/addsubject">Add New Subject</a></li>
-								<li><a href="/addassignment">Add New Assignment</a></li>
-								<li><a href="/addexam">Add New Exam</a></li>
-								<li><a href="/addattendance">Add New Attendance</a></li>
+			
 							</ul></li>
+				
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
+						<!-- 						<li><br>
+						<b><span
+								th:text="'Signed in as ' + ${user.firstName} + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'">Name</span></b></li> -->
 						<li><a href="/logout">Logout</a></li>
-
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -74,144 +71,140 @@ body {
 			<!-- /.container-fluid -->
 		</nav>
 	</div>
-	
-	
-	
-	
-	
 
 
-	<div class="container"><h2>Contacts</h2>
-	
-								<!-- Button trigger modal -->
-							<button type="button" class="btn btn-primary" data-toggle="modal"
-								data-target="#exampleModal">Add Contact</button>
-	
-	<br>
-	
-<div th:if="${!contacts.empty}">
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add Contact</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
 
 
+					<form th:action="@{/contact/}+ ${contact.contactId}"
+						th:object="${contact}" method="post">
+						<table>
+							<tr>
+								<td>Name:</td>
+								<td><input type="text" th:field="*{name}" /></td>
+							</tr>
+							<tr>
+								<td>Email:</td>
+								<td><input type="text" th:field="*{email}" /></td>
+							</tr>
+							<tr>
+								<td>Details:</td>
+								<td><input type="text" th:field="*{details}" /></td>
+							</tr>
+							<tr>
+								<td>
+									<!-- <button type="submit" class="btn btn-info btn-sm">Save</button></td> -->
+								<td></td>
+							</tr>
+						</table>
+
+						<div class="modal-footer">
 
 
+							<!--        <form action="/addCurrentSem" method="post"> -->
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<input name="button" value="Add Contact" type="submit"
+								class="btn btn-primary">
+						</div>
+					</form>
 
-
-				<div th:each="contact : ${contacts}">
-				
-				<div class="row">
-				<div class="col-sm-10">
-		
-						<table class="table">
-					<tr>
-						<td>Name: </td>
-						<td th:text="${contact.name}"></td>
-							
-					</tr>
-					<tr>
-						<td>Email: </td>
-						<td th:text="${contact.email}"></td>
-					
-					</tr>
-					<tr>
-						<td>Details: </td>
-						<td th:text="${contact.details}"></td>
-					
-					</tr>
-					<tr>
-						<td></td>
-						<td>				</td>
-					</tr>
-				</table>
-		
+				</div>
 			</div>
+		</div>
+	</div>
 
-<form  th:action="@{/deleteContact/} + ${contact.contactId}"
-							method="post">
-								
-			<button type="submit" class="btn btn-danger" value="Submit"
-								>
-								Delete
 
-							</button>
-						</form>
-			
-			<div class="col-sm-2">
-		
-			
-			</div>
-	</div></div>
-	
+
+
+
+
+
 	<div class="container">
-	
+		<h2>Contacts</h2>
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target="#exampleModal">Add Contact</button>
+
+		<br>
+
+		<div th:if="${!contacts.empty}">
+
+
+
+
+			<div th:each="contact : ${contacts}">
+
+				<div class="row">
+					<div class="col-sm-10">
+
+						<table class="table">
+							<tr>
+								<td>Name:</td>
+								<td th:text="${contact.name}"></td>
+
+							</tr>
+							<tr>
+								<td>Email:</td>
+								<td th:text="${contact.email}"></td>
+
+							</tr>
+							<tr>
+								<td>Details:</td>
+								<td th:text="${contact.details}"></td>
+
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+							</tr>
+						</table>
+
+					</div>
+
+					<form th:action="@{/deleteContact/} + ${contact.contactId}"
+						method="post">
+
+						<button type="submit" class="btn btn-danger" value="Submit">
+							Delete</button>
+					</form>
+
+					<div class="col-sm-2"></div>
+				</div>
+			</div>
+
+			<div class="container">
+
 				<form class="f1" action="/editContact">
-  <button type="submit" class="btn btn-info btn-sm"
-					>edit</button>
+					<button type="submit" class="btn btn-info btn-sm">edit</button>
 
 
-	</form>
-	
-	
-	
-	
-
-
-							<!-- Modal -->
-							<div class="modal fade" id="exampleModal" tabindex="-1"
-								role="dialog" aria-labelledby="exampleModalLabel"
-								aria-hidden="true">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLabel">Add
-												Semester</h5>
-											<button type="button" class="close" data-dismiss="modal"
-												aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-
-
-	<form  th:action="@{/contact/}+ ${contact.contactId}" th:object="${contact}"	method="post">
-				<table>
-					<tr>
-						<td>Name:</td>
-						<td><input type="text" th:field="*{name}" /></td>				
-					</tr>
-					<tr>
-						<td>Email:</td>
-						<td><input type="text" th:field="*{email}" /></td>				
-					</tr>
-					<tr>
-						<td>Details:</td>
-						<td><input type="text" th:field="*{details}" /></td>				
-					</tr>
-					<tr>
-					<td>			<!-- <button type="submit" class="btn btn-info btn-sm">Save</button></td> -->
-					<td></td>
-					</tr>
-				</table>
-			
-										<div class="modal-footer">
-
-											
-												<!--        <form action="/addCurrentSem" method="post"> -->
-												<button type="button" class="btn btn-secondary"
-													data-dismiss="modal">Close</button>
-												<input name="button" value="Add Contact" type="submit"
-													class="btn btn-primary">
-													</div>
-											</form>
-
-										</div>
-									</div>
-								</div>
-							</div>					
+				</form>
 
 
 
 
-</div></div></div>
+
+
+
+
+
+
+			</div>
+		</div>
+	</div>
 </body>
 
 <script th:inline="javascript">

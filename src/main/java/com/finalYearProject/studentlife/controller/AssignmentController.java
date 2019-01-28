@@ -1,6 +1,7 @@
 package com.finalYearProject.studentlife.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -25,9 +26,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.finalYearProject.studentlife.dto.AssignmentDto;
+import com.finalYearProject.studentlife.dto.ExamDto;
 import com.finalYearProject.studentlife.model.Assignment;
 import com.finalYearProject.studentlife.model.Attendance;
 import com.finalYearProject.studentlife.model.Exam;
+import com.finalYearProject.studentlife.model.Semester;
 import com.finalYearProject.studentlife.model.Subject;
 import com.finalYearProject.studentlife.model.User;
 import com.finalYearProject.studentlife.repository.AssignmentRepository;
@@ -91,10 +94,24 @@ public class AssignmentController {
 	}
 	
 	@RequestMapping(value = "/editassignment/{assignmentId}", method = RequestMethod.GET)
-	public String editAssignment(@PathVariable(value = "assignmentId")Long assignmnetId,Model model) {
+	public String editAssignment(@PathVariable(value = "assignmentId")Long assignmentId,Model model) {
 		
 		AssignmentDto dto = new AssignmentDto();
-		model.addAttribute("AssignmentId", assignmnetId);
+		
+
+		Assignment assignment = assignmentRepository.findOne(assignmentId);
+		
+		
+		dto.setAssignmentGradeWorth(assignment.getAssignmentGradeWorth());
+		dto.setAssignmentGradeAchieved(assignment.getAssignmentGradeAchieved());
+		dto.setAssignmentTitle(assignment.getAssignmentTitle());
+		dto.setDate(assignment.getDate());
+		dto.setReminder(assignment.getReminder());
+		
+		
+		
+		
+		model.addAttribute("AssignmentId", assignmentId);
 		model.addAttribute("AssignmentDto", dto);
 		
 		return "editAssignment";
@@ -104,6 +121,27 @@ public class AssignmentController {
 	public String editAssignment(ModelMap map, @ModelAttribute AssignmentDto dto, BindingResult result) {
 		
 		Assignment assignment = assignmentRepository.findOne(dto.getAssignmentId());
+		
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();   
+    
+		User user = userRepository.findByEmailAddress(email);
+	
+		
+		long subId = 0;
+		for(Subject subject : user.getSubject())
+		{
+			for(Assignment e : subject.getAssignment())
+			{
+				if(dto.getAssignmentId() == e.getAssignmentId())
+				{
+					subId = subject.getSubjectId();
+				}
+			}
+			
+		}
+		
+
 		System.out.println("-------------------------------------------------------------------------------------------");
 		System.out.println("ASSIGNMENT title" + assignment.getAssignmentTitle() + "grade achieved:" + assignment.getAssignmentGradeAchieved()+ " grade required" +  assignment.getAssignmentGradeRequired()+ "grade worth" + assignment.getAssignmentGradeWorth());
 		System.out.println("DTO title" + dto.getAssignmentTitle() +  " dto grade achoeved:" + dto.getAssignmentGradeAchieved()+  "dto grade worth"  + dto.getAssignmentGradeWorth());
@@ -119,9 +157,14 @@ public class AssignmentController {
 		if(dto.getAssignmentGradeWorth()!=null) {
 			assignment.setAssignmentGradeWorth(dto.getAssignmentGradeWorth());
 		}
+		
+		assignment.setDate(dto.getDate());
+		assignment.setReminder(dto.getReminder());
+		
+		
 		assignmentRepository.save(assignment);
 		
-		return "redirect:/allSubjects";
+		return "redirect:/viewSubject" + subId;
 		
 	}
 	
@@ -217,9 +260,7 @@ public class AssignmentController {
 		
 					String message="  "+  max + "/100 percentage has been assigned.";
 					
-					String message2="			<div class=\"alert alert-primary\" role=\"alert\">\r\n" + 
-							"					"+ max+"/100 percentage has been assigned.\r\n" + 
-							"					</div>";
+					String message2="			<span class=\"alert alert-warning\" role=\"alert\"> " + max+"/100 percentage has been assigned." + "</span>";
 		
 					if(max > 99)
 					{
@@ -234,7 +275,7 @@ public class AssignmentController {
 					System.out.println(check);
 					
 					
-					model.addAttribute("message", message);
+					model.addAttribute("message", message2);
 					model.addAttribute("max", check);		
 					model.addAttribute("subject", subject);
 
@@ -260,6 +301,41 @@ public class AssignmentController {
 					return "redirect:/viewSubject" + id;
 					
 				
+				}
+				
+				
+				@PostMapping("/assignmentDelete/{assignmentId}/{subId}")//Delete assignment
+				public String deleteAssignment(Model model, @PathVariable(value = "assignmentId") String assignmentId,  @PathVariable(value = "subId") String subId) {
+
+					Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+					String email = loggedInUser.getName();
+					User user = userRepository.findByEmailAddress(email);
+					Subject subject= subjectRepository.findOne(Long.parseLong(subId));
+					
+					List<Assignment> list = subject.getAssignment();//we need to delete the assignment from subject first, then we can delete
+					Iterator<Assignment> itr = list.iterator();
+
+					while (itr.hasNext()) {
+						Assignment s = itr.next();
+
+						if (s.getAssignmentId() == Long.parseLong(assignmentId)) {
+
+				
+
+							itr.remove();
+						}
+					}
+					
+					subject.setAssignment(list);
+					subjectRepository.save(subject);
+					
+			
+					
+					assignmentRepository.delete(Long.parseLong(assignmentId));
+
+					String url = "redirect:/viewSubject" + subId;
+
+					return url;
 				}
 			 
 			 

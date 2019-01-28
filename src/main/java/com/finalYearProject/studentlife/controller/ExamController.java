@@ -1,11 +1,14 @@
 package com.finalYearProject.studentlife.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -23,10 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.finalYearProject.studentlife.dto.AttendanceDto;
 import com.finalYearProject.studentlife.dto.ExamDto;
+import com.finalYearProject.studentlife.model.Assignment;
 import com.finalYearProject.studentlife.model.Attendance;
 import com.finalYearProject.studentlife.model.Exam;
 import com.finalYearProject.studentlife.model.User;
+import com.finalYearProject.studentlife.model.Subject;
 import com.finalYearProject.studentlife.repository.ExamRepository;
+import com.finalYearProject.studentlife.repository.SubjectRepository;
+import com.finalYearProject.studentlife.repository.UserRepository;
 
 //@RestController
 @Controller
@@ -34,6 +41,10 @@ public class ExamController {
 	
 	@Autowired
 	ExamRepository examRepository;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	SubjectRepository subjectRepository;
 	
 	@RequestMapping(value = "/editexam/{examId}", method = RequestMethod.GET)
 	public String editExam(@PathVariable(value = "examId")Long examId,Model model) {
@@ -44,6 +55,8 @@ public class ExamController {
 		dto.setExamGradeWorth(exam.getExamGradeWorth());
 		dto.setExamGradeAchieved(exam.getExamGradeAchieved());
 		dto.setExamTitle(exam.getExamTitle());
+		dto.setDate(exam.getDate());
+		dto.setReminder(exam.getReminder());
 		model.addAttribute("ExamId",examId);
 		model.addAttribute("ExamDto", dto);
 				
@@ -56,6 +69,26 @@ public class ExamController {
 		
 		Exam exam = examRepository.findOne(dto.getExamId());
 		
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();   
+    
+		User user = userRepository.findByEmailAddress(email);
+	
+		
+		long subId = 0;
+		for(Subject subject : user.getSubject())
+		{
+			for(Exam e : subject.getExam())
+			{
+				if(dto.getExamId() == e.getExamId())
+				{
+					subId = subject.getSubjectId();
+				}
+			}
+			
+		}
+		
+		
 		if(dto.getExamTitle()!=null) {
 			exam.setExamTitle(dto.getExamTitle());
 		}
@@ -67,157 +100,51 @@ public class ExamController {
 		if(dto.getExamGradeWorth()!=null) {
 			exam.setExamGradeWorth(dto.getExamGradeWorth());
 		}
+		
+		exam.setDate(dto.getDate());
+		exam.setReminder(dto.getReminder());
 		examRepository.save(exam);
 		
-		return "redirect:/allSubjects";
+		return "redirect:/viewSubject" + subId;
 		
 	}
 	
 	
+	@PostMapping("/examDelete/{examId}/{subId}")//Delete exam
+	public String deleteExam(Model model, @PathVariable(value = "examId") String examId,  @PathVariable(value = "subId") String subId) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userRepository.findByEmailAddress(email);
+		Subject subject= subjectRepository.findOne(Long.parseLong(subId));
+		
+		List<Exam> list = subject.getExam();//we need to delete the exam from subject first, then we can delete
+		Iterator<Exam> itr = list.iterator();
+
+		while (itr.hasNext()) {
+			Exam s = itr.next();
+
+			if (s.getExamId() == Long.parseLong(examId)) {
+
 	
-	
-	
-//	@RequestMapping(value = "/editExam/{examId}", method = RequestMethod.GET)
-//	public String editExam(@PathVariable String examId) {
-//		System.out.println(examId + "TESTING EXAM ID !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//		return "allSubjects"; 
-//		
-//	}
-//	
-//	@RequestMapping(value="/exam/{examId}", method=RequestMethod.GET)
-//		public String EditExam(@ModelAttribute("exam") @Valid @PathVariable Long examId, BindingResult result, Model model) {
-//		Exam exam = examRepository.findOne(examId);
-//		model.addAttribute("exam",exam);
-//		return "editExam";
-//	}
-//	
-//	
-//	
-	
-	
-	
-	
-	
-	
- 
-//	//@RequestMapping(value = "/editExam/{examId}", method = { RequestMethod.GET})
-//	@RequestMapping(value = "/exam/{examId}", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
-//	public String editExam(@ModelAttribute("exam") @PathVariable(value = "examId")Long examId, @RequestBody Exam exam,Model model, BindingResult result) {
-//				
-//		System.out.println(examId + "******************************");
-//			 	examRepository.findOne(examId);
-//				model.addAttribute("examTitle", exam.getExamTitle());
-//				model.addAttribute("examGradeWorth", exam.getExamGradeWorth());
-//				model.addAttribute("examGradeAchieved", exam.getExamGradeAchieved());
-//			 
-//			 
-//			exam.setExamTitle(exam.getExamTitle());
-//			 exam.setExamGradeWorth(exam.getExamGradeWorth());
-//			 exam.setExamGradeAchieved(exam.getExamGradeAchieved());
-//		
-//			  examRepository.save(exam);
-//		
-//		return "editExam";
-//	}
-	
-	
-	
-	
-	
-	
-//	@RequestMapping(value = "/editExam/{examId}", method = { RequestMethod.POST, RequestMethod.PUT})
-//	public String editExam(@ModelAttribute("exam") @PathVariable(value = "examId")Long examId, @RequestBody Exam exam,Model model, BindingResult result) {
-//				
-//		System.out.println(examId + "******************************");
-//			 	examRepository.findOne(examId);
-//				model.addAttribute("examTitle", exam.getExamTitle());
-//				model.addAttribute("examGradeWorth", exam.getExamGradeWorth());
-//				model.addAttribute("examGradeAchieved", exam.getExamGradeAchieved());
-//			 
-//			 
-//			exam.setExamTitle(exam.getExamTitle());
-//			 exam.setExamGradeWorth(exam.getExamGradeWorth());
-//			 exam.setExamGradeAchieved(exam.getExamGradeAchieved());
-//		
-//			  examRepository.save(exam);
-//		
-//		return "editExam";
-//	}
-	
-	
-	
-	
-	
-	
-//	 @PutMapping("/exams/{id}")
-//	 public ResponseEntity<Exam> updateExam(@PathVariable(value = "id")Long examId,
-//			 @Valid @RequestBody Exam examDetails){
-//		 Exam exam = examRepository.findOne(examId);
-//		 if(exam == null) {
-//			 return ResponseEntity.notFound().build();
-//		 }
-//		 exam.setExamTitle(examDetails.getExamTitle());
-//		 exam.setExamGradeWorth(examDetails.getExamGradeWorth());
-//		 exam.setExamGradeRequired(examDetails.getExamGradeRequired());
-//		 exam.setExamGradeAchieved(examDetails.getExamGradeAchieved());
-//	
-//		 Exam updatedExam = examRepository.save(exam);
-//		 return ResponseEntity.ok(updatedExam);
-//	 }
-	 
-	
-	
-	
-	
-	//Get All Exams
-	@GetMapping("/exams")
-	public List<Exam> getAllExams(){
-		return examRepository.findAll();
+
+				itr.remove();
+			}
+		}
+		
+		subject.setExam(list);
+		subjectRepository.save(subject);
+		
+
+		
+		examRepository.delete(Long.parseLong(examId));
+
+		String url = "redirect:/viewSubject" + subId;
+
+		return url;
 	}
 	
-	//Create (POST) a new exam
-	 @PostMapping("/createExam")
-	 public Exam createExam(@Valid @RequestBody Exam exam) {
-		 return examRepository.save(exam);
-	 }
-	 
-	 //Get a single exam
-	 @GetMapping("/exams{id}")
-	 public ResponseEntity<Exam> getExamById(@PathVariable(value = "id")Long examId){
-		 Exam exam = examRepository.findOne(examId);
-		 if(exam == null) {
-			 return ResponseEntity.notFound().build();
-		 }
-		 return ResponseEntity.ok().body(exam);
-	 }
-	 
-	// Update a exam 
-		 @PutMapping("/exams/{id}")
-		 public ResponseEntity<Exam> updateExam(@PathVariable(value = "id")Long examId,
-				 @Valid @RequestBody Exam examDetails){
-			 Exam exam = examRepository.findOne(examId);
-			 if(exam == null) {
-				 return ResponseEntity.notFound().build();
-			 }
-			 exam.setExamTitle(examDetails.getExamTitle());
-			 exam.setExamGradeWorth(examDetails.getExamGradeWorth());
-			 exam.setExamGradeRequired(examDetails.getExamGradeRequired());
-			 exam.setExamGradeAchieved(examDetails.getExamGradeAchieved());
-		
-			 Exam updatedExam = examRepository.save(exam);
-			 return ResponseEntity.ok(updatedExam);
-		 }
-		 
-		//Delete a exam
-		 @DeleteMapping("/exams/{id}")
-		 public ResponseEntity<Exam> deleteExam(@PathVariable(value = "id") Long examId){
-			 Exam exam = examRepository.findOne(examId);
-			 if(exam == null) {
-				 return ResponseEntity.notFound().build();
-			 }
-			 examRepository.delete(exam);
-			 return ResponseEntity.ok().build();
-		 }
+	
 		 
 		 
 	

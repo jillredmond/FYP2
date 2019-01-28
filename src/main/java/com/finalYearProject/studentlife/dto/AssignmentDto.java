@@ -6,10 +6,23 @@ public class AssignmentDto {
 	private String assignmentTitle;
 	private Double assignmentGradeAchieved;
 	private Double assignmentGradeWorth;
+	private int reminder;
+	private String date;
 	
 	
 	
-	
+	public int getReminder() {
+		return reminder;
+	}
+	public void setReminder(int reminder) {
+		this.reminder = reminder;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
 	public Double getAssignmentGradeWorth() {
 		return assignmentGradeWorth;
 	}

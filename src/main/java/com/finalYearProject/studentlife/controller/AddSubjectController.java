@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.finalYearProject.studentlife.model.Exam;
 import com.finalYearProject.studentlife.model.Semester;
 import com.finalYearProject.studentlife.model.Subject;
 import com.finalYearProject.studentlife.model.User;
@@ -31,7 +33,7 @@ import com.finalYearProject.studentlife.service.SubjectService;
 import com.finalYearProject.studentlife.service.UserRegistrationDto;
 
 @Controller
-@RequestMapping("/addsubject")
+//@RequestMapping("/addsubject")
 public class AddSubjectController {
 
 		
@@ -48,15 +50,15 @@ public class AddSubjectController {
 		return new Subject();
 	}
 	
-	@GetMapping
-	public String showSubjectForm(Model model) {
+	@GetMapping("/addsubject/{id}")
+	public String showSubjectForm(Model model,  @PathVariable(value = "id")Long id) {
 		
 		
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		String email = loggedInUser.getName();   
     
 		User user = userRepository.findByEmailAddress(email);
-		
+		Semester semester = semesterRepository.findOne(id);
 		ArrayList<String> semesters = new ArrayList<String>();
 
 		for(Semester sem : user.getSemester())
@@ -68,14 +70,16 @@ public class AddSubjectController {
 		
 
 		model.addAttribute("semesters", semesters);
-		
+		model.addAttribute("semester", semester);
 		
 		
 		return "addSubject";
 	}
 	
-	@PostMapping
-	public String addNewSubject(@ModelAttribute("subject") @Valid @RequestBody Subject subject,UserRegistrationDto userDto, BindingResult result, Model model) {
+
+	@PostMapping("/addsubject/{id}")
+	public String addNewSubject(@ModelAttribute("subject") @Valid @RequestBody Subject subject,UserRegistrationDto userDto, BindingResult result, Model model,  @PathVariable(value = "id")Long id) {
+		
 		
 		subjectRepository.save(subject);
 
@@ -89,7 +93,7 @@ public class AddSubjectController {
 	
 		user.addSubject(subject);
 		
-		String semesterName = subject.getSemester();
+/*		String semesterName = subject.getSemester();
 		
 		long semId =-1;
 		
@@ -107,11 +111,14 @@ public class AddSubjectController {
 		
 		
 		if(semId != -1)
-		{
-		Semester semester = semesterRepository.findOne(semId);
+		{*/
+		
+		
+		
+		Semester semester = semesterRepository.findOne(id);
 		semester.addSubject(subject);
 		semesterRepository.save(semester);
-		}
+		
 	
 		subjectRepository.save(subject);
 		
@@ -123,7 +130,7 @@ public class AddSubjectController {
 	
 	model.addAttribute("subjectName", subject.getSubjectName());
 	model.addAttribute("subjectGradeGoal", subject.getSubjectGradeGoal());
-	return "redirect:/sem/" + semId;
+	return "redirect:/sem/" + id;
 
 	}
 }
