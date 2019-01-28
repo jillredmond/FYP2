@@ -185,5 +185,52 @@ public class AssignmentController {
 			 
 			 
 			 
+				@GetMapping("/addAssignment/{id}")
+				public String assForm(Model model, @PathVariable(value = "id")Long id) {
+					
+					Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+					String email = loggedInUser.getName();   
+			    
+					User user = userRepository.findByEmailAddress(email);
+					
+					Subject subject = subjectRepository.findOne(id);
+					
+
+					
+					
+					
+					
+					
+					
+					
+
+					model.addAttribute("subject", subject);
+
+					
+					return "addAssignment2";
+				}
+				
+				
+				@PostMapping("/addAssignment/{id}")
+				public String ass2(@ModelAttribute("assignment") @Valid @RequestBody Assignment assignment , BindingResult result, Model model, @PathVariable(value = "id")Long id) {
+					
+					
+					
+					assignmentRepository.save(assignment);
+					model.addAttribute("examTitle", assignment.getAssignmentTitle());
+					model.addAttribute("examGradeWorth", assignment.getAssignmentTitle());
+					model.addAttribute("subject", "");
+					
+					Subject subject = subjectRepository.findBySubjectId(id);
+					subject.addAssignment(assignment);
+					subjectRepository.save(subject);
+					
+					return "redirect:/viewSubject" + id;
+					
+				
+				}
+			 
+			 
+			 
 			 
 }

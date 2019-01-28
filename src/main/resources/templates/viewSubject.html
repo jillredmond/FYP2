@@ -1,43 +1,55 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><base>
-  	<title>View Subject</title>
-  	
-  	<style>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/registration.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<base>
+<title>View Subject</title>
+
+<style>
 body {
 	padding-top: 45px;
-	 padding-bottom: 40px;
+	padding-bottom: 40px;
 }
 
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+.t1 {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
 }
 
- td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-    width:80%;
+td, th {
+	border: 1px solid #dddddd;
+
+	padding: 1px;
+	
 }
- 
-tr:nth-child(even) {
+
+table.fixed {table-layout:fixed; width:90px;}/*Setting the table width is important!*/
+table.fixed td {overflow:hidden;} /*Hide text outside the cell.*/
+table.fixed td:nth-of-type(1) {width:400px;}/*Setting the width of column 1.*/
+table.fixed td:nth-of-type(2) {width:100px;}/*Setting the width of column 2.*/
+table.fixed td:nth-of-type(3) {width:100px;}/*Setting the width of column 3.*/
+
+
+/* tr:nth-child(even) {
     background-color: #dddddd;
-}
+} */
 </style>
-  	
+
 </head>
 <body>
-<div class=container>
-<!-- navbar-static-top -->
+	<div class=container>
+		<!-- navbar-static-top -->
 
 
-	<nav class="navbar navbar-default  navbar-fixed-top">
+		<nav class="navbar navbar-default  navbar-fixed-top">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
@@ -48,8 +60,7 @@ tr:nth-child(even) {
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="userProfile1"> 
-					</a>
+					<a class="navbar-brand" href="userProfile1"> </a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -84,117 +95,200 @@ tr:nth-child(even) {
 			<!-- /.container-fluid -->
 		</nav>
 	</div>
-	
+
 	<div class="container">
-<div>
+		<div>
 
-		<table >
-			<tr>
-				<td><h2>
-						 <span th:text="${subject.subjectName}"></span>
-					</h2></td>
-			</tr>
-			<tr>
-				<td><a th:href="@{/editsubject/} + ${subject.subjectId}">Edit
-						Subject</a></td>
-			</tr>
-		<tr>
-				<td><b> Subject Grade Goal: </b><span
-					th:text="${subject.subjectGradeGoal}"></span></td>
-			</tr>
-			<tr>
-				<td><b> Has Goal been achieved?  </b><span
-					th:text="${subject.isGoalAchieved}"></span></td>
-			</tr>
-	
-			<tr>
-				<td><b>Is your grade higher than your grade goal?</b><span
-					th:text="${subject.isGradeAboveGoal}"></span></td>
-			</tr>
-			<tr>
-				<td><b> CA complete worth: </b><span
-					th:text="${subject.caCompletedWorth}"></span></td>
-			</tr>
-			<tr>
-				<td><b>Current Subject Results: </b><span
-					th:text="${subject.subjectResults}"></span></td>
-			</tr>
-			<tr>
-				<td><b> Remaining potential marks:</b><span
-					th:text="${subject.maxSubRemMarks}"></span></td>
-			</tr>
-			<tr>
-				<td><b> Marks until you reached your goal: </b><span
-					th:text="${subject.marksNeededToReachGoal}"></span></td>
-			</tr>
-			<tr>
-				<td><b> Can you still reach your goal?: </b><span
-					th:text="${subject.isGoalPossible}"></span></td>
-			</tr>
-			<tr>
-				<td><b> Your highest possible grade: </b><span
-					th:text="${subject.highestPossibleGrade}"></span></td>
-			</tr>
-			<tr>
-		</table>
-        </div>
-        
-        
-		<h4>
-			<b><span th:text="${subject.subjectName}"></span><span> Assignments:</span> </b></h4><div align="right">% Worth Of Module:        |           Grade achieved:</div>
-
-		<div th:each="assignment : ${subject.assignment}">
-			<table>
+			<table class="t1">
 				<tr>
-					<td class="tds"><span th:text="${assignment.assignmentTitle}"></span> <a
-						th:href="@{/editassignment/} + ${assignment.assignmentId}">Edit</a></td>
-						<td> <button type="button"  th:text="${assignment.assignmentGradeWorth}" class="btn btn-info">Info</button> 
-							<button type="button"  th:text="${assignment.assignmentGradeAchieved}" class="btn btn-info">Info</button> </td>
+					<td><h2>
+							<span th:text="${subject.subjectName}"></span>
+						</h2></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><a th:href="@{/editsubject/} + ${subject.subjectId}">Edit
+							Subject</a></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><b> Subject Grade Goal: </b></td>
+
+					<td><span th:text="${subject.subjectGradeGoal}"></span></td>
+				</tr>
+				<tr>
+					<td><b> Has Goal been achieved? </b></td>
+					<td th:text="${subject.isGoalAchieved}"></td>
 				</tr>
 
-
-
-			</table>
-
-		</div>
-
-		<h4>
-			<b><span th:text="${subject.subjectName}"></span> Exams:</b></h4><div align="right">% Worth Of Module:        |           Grade achieved:</div>
-
-		<div th:each="exam : ${subject.exam}">
-			<table>
 				<tr>
-					<td><span th:text="${exam.examTitle}"></span> <a
-						th:href="@{/editexam/} + ${exam.examId}">Edit </a></td>
-							<td> <button type="button"  th:text="${exam.examGradeWorth}" class="btn btn-info">Info</button> 
-							 <button type="button"  th:text="${exam.examGradeAchieved}" class="btn btn-info">Info</button></td>
+					<td><b>Is your grade higher than your grade goal?</b></td>
+					<td th:text="${subject.isGradeAboveGoal}"></td>
+				</tr>
+				<tr>
+					<td><b> CA complete worth: </b></td>
+
+					<td th:text="${subject.caCompletedWorth}"></td>
+					</tr>
+				<tr>
+					<td><b>Current Subject Results: </b></td>
+					<td th:text="${subject.subjectResults}">
+				
+				</td>
+					</tr>
+				<tr>
+					<td><b> Remaining potential marks:</b></td>
+					<td th:text="${subject.maxSubRemMarks}">
+				
+				</td>
+					</tr>
+				<tr>
+					<td><b> Marks until you reached your goal: </b></td>
+					<td th:text="${subject.marksNeededToReachGoal}">
+				
+				</td>
+					</tr>
+				<tr>
+					<td><b> Can you still reach your goal?: </b></td>
+					<td th:text="${subject.isGoalPossible}">
+				
+				</td>
+					</tr>
+				<tr>
+					<td><b> Your highest possible grade: </b></td>
+					<td th:text="${subject.highestPossibleGrade}">
+				
+				</td>
+					</tr>
+				<tr>
+			
+			</table>
+		</div>
+		
+						<ul class="nav navbar-nav">
+								<li class="dropdown">
+									<button class="btn dropdown-toggle" type="button"
+					data-toggle="dropdown">
+										Add <span class="glyphicon glyphicon-chevron-down"></span>
+									</button>
+									<ul class="dropdown-menu">
+									<li><a th:href="@{/addAssignment/} + ${subject.subjectId}">Add New Assignment</a></li>
+								<li><a th:href="@{/addExam/} + ${subject.subjectId}">Add New Exam</a></li>
+								<li><a th:href="@{/addAttendance/} + ${subject.subjectId}">Add New Attendance</a></li>
+									</ul>
+								</li>
+								</ul>
+		<br><br>
+
+		<div th:if="${not #lists.isEmpty(subject.assignment)}">
+			<h4>
+				<b><span th:text="${subject.subjectName}"></span><span>
+						Assignments:</span> </b>
+			</h4>
+
+
+			<div>
+				<table class="fixed">
+				
+				<tr>
+					<td></td>
+					<td>% of module</td>
+					<td>Grade</td>
+				
 				</tr>
 				
-			</table>
-</div>
-<div th:if="${not #lists.isEmpty(subject.attendance)}">
-			<h4>
-				<b><span th:text="${subject.subjectName}"></span><span> Attendance:</span></b></h4><div align="right">% Worth Of Module:        |           Grade achieved:</div>
-
-			<div th:each="attendance : ${subject.attendance}"> 
-				<table>
-					<tr>
-						<td><span th:text="${attendance.attendanceTitle}"></span> <a
-							th:href="@{/editattendance/} + ${attendance.attendanceId}">Edit
-						</a></td>
-						<td> <button type="button"  th:text="${attendance.attendanceWorth}" class="btn btn-info">Info</button>
-						<button  type="button"  th:text="${attendance.attendanceAchieved}" class="btn btn-info">Info</button> </td>
+				
+					<tr  th:each="assignment : ${subject.assignment}">
+						
+					
+					
+						<td ><span th:text="${assignment.assignmentTitle}"></span>
+							<a th:href="@{/editassignment/} + ${assignment.assignmentId}">Update</a></td>
+						<td th:text="${assignment.assignmentGradeWorth}">
+					
+						</td>
+						<td th:text="${assignment.assignmentGradeAchieved}">
+						</td>
 					</tr>
-					</table>
-					</div>
-					</div>
-</div>
-       
-        
-        
-      
+
+
+
+				</table>
+
+			</div>
+		</div>
+		<div th:if="${not #lists.isEmpty(subject.exam)}">
+			<h4>
+				<b><span th:text="${subject.subjectName}"></span> Exams:</b>
+			</h4><div>
+							<table class="fixed">
+				
+				<tr>
+					<td></td>
+					<td>% of module</td>
+					<td>Grade</td>
+				
+				</tr>
+				
+				
+					<tr  th:each="exam : ${subject.exam}">
+						
+					
+					
+						<td ><span th:text="${exam.examTitle}"></span>
+							<a th:href="@{/editexam/} + ${exam.examId}">Update</a></td>
+						<td th:text="${exam.examGradeWorth}">
+					
+						</td>
+						<td th:text="${exam.examGradeAchieved}">
+						</td>
+					</tr>
+
+
+
+				</table>
+			</div>
+		</div>
+		<div th:if="${not #lists.isEmpty(subject.attendance)}">
+			<h4>
+				<b><span th:text="${subject.subjectName}"></span><span>
+						Attendance:</span></b>
+			</h4>
+						<table class="fixed">
+				
+				<tr>
+					<td></td>
+					<td>% of module</td>
+					<td>Grade</td>
+				
+				</tr>
+				
+				
+					<tr  th:each="attendance : ${subject.attendance}">
+						
+					
+					
+						<td ><span th:text="${attendance.attendanceTitle}"></span>
+							<a th:href="@{/editattendance/} + ${attendance.attendanceId}">Update</a></td>
+						<td th:text="${attendance.attendanceWorth}">
+					
+						</td>
+						<td th:text="${attendance.attendanceAchieved}">
+						</td>
+					</tr>
+
+
+
+				</table>
+		</div>
+	</div>
+
+
+
 </body>
-<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 
 </html>

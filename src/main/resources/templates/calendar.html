@@ -384,7 +384,7 @@ body {
 			Title<input size="6" type="text" th:field="*{title}" /> Description<br>
 			<textarea id="txtArea" rows="2" cols="30" th:field="*{description}"></textarea>
 			<br> <br> Remind me&nbsp;<input type="number" size="2"
-				id="reminder" name="reminder" min="1" max="1000"
+				id="reminder" name="reminder" min="0" max="1000"
 				th:field="*{reminder}"> days before
 			<div id="container"></div>
 			<button type="submit" class="btn">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;&nbsp;</button>

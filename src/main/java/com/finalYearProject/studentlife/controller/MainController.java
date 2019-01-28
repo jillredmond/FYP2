@@ -243,7 +243,7 @@ public class MainController {
 			model.addAttribute("notes", notes);
 			//model.addAttribute("note", note);
 			model.addAttribute("Note", new Note()); 
-			model.addAttribute("assignnments", assignments);
+			model.addAttribute("assignments", assignments);
 			model.addAttribute("exams", exams);
 			model.addAttribute("events", events);
 			model.addAttribute("subjects", subjects);
@@ -725,7 +725,7 @@ public class MainController {
 	}
 	
 	@PostMapping("/assignmentDeleteHome/{assignmentId}")//Delete reminder for an assignment
-	public String homeDeleteAssignment(Model model, @PathVariable(value = "examId") String assignmentId) {
+	public String homeDeleteAssignment(Model model, @PathVariable(value = "assignmentId") String assignmentId) {
 
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		String email = loggedInUser.getName();
@@ -734,6 +734,49 @@ public class MainController {
 		Assignment assignment =  assignmentRepository.findOne(Long.parseLong(assignmentId));
 		assignment.setReminder(-1);
 		assignmentRepository.save(assignment);
+
+		String url = "redirect:/";
+
+		return url;
+	}
+	
+	@PostMapping("/noteDeleteHome/{id}")//Delete note
+	public String homeDeleteNote(Model model, @PathVariable(value = "id") String id) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userR.findByEmailAddress(email);
+
+		Note note =  noteRepository.findOne(Long.parseLong(id));
+
+		
+		
+		List<Note> list = user.getNote();
+		Iterator<Note> itr = list.iterator();
+
+
+
+		
+
+		while (itr.hasNext()) {
+			Note s = itr.next();
+
+			if(s.getNoteId() == Long.parseLong(id)) {
+				itr.remove();
+			}
+		}
+
+		
+		user.setNote(list);
+		userR.save(user);
+
+		noteRepository.delete(Long.parseLong(id));
+
+		
+		
+		
+		
+		//noteRepository.delete(note);
 
 		String url = "redirect:/";
 

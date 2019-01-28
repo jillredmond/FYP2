@@ -23,22 +23,24 @@ public class Attendance implements Serializable {
 	private Double attendanceRequired;
 	
 	private Double attendanceAchieved;
-	
+	private int reminder;
 	
 	
 	public Attendance() {
 		
 	}
 
-	public Attendance(Long attendanceId, String subject, String attendanceTitle, Double attendanceWorth,
-			Double attendanceRequired, Double attendanceAchieved) {
-		super();
-		this.attendanceId = attendanceId;
-		this.subject = subject;
-		this.attendanceTitle = attendanceTitle;
-		this.attendanceWorth = attendanceWorth;
-		this.attendanceRequired = attendanceRequired;
-		this.attendanceAchieved = attendanceAchieved;
+
+	
+	
+	
+
+	public int getReminder() {
+		return reminder;
+	}
+
+	public void setReminder(int reminder) {
+		this.reminder = reminder;
 	}
 
 	public Long getAttendanceId() {

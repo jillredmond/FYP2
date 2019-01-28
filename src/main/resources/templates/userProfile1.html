@@ -261,8 +261,8 @@ display: inline;
 					<!--Event Reminders------------------------------------------------------------------------------------------------->
 					<li th:if="${!#lists.isEmpty(events)}"
 						class="list-group-item-success" th:text="'Events '"></li>
-					<li class="list-group-item" th:each="event : ${events}"><label><span
-							th:text="${event.title}"></span></label> <!-- 	<span th:text="${event.description}"></span>  -->
+					<li class="list-group-item" th:each="event : ${events}"><label><a th:href="@{/editNote/} + ${item.noteId}"><label><span
+							th:text="${event.title}"></span></a></label> <!-- 	<span th:text="${event.description}"></span>  -->
 						<!-- 	<span th:text="${event.reminder} + ' days'"></span> -->
 
 						<form class="f1"

@@ -5,16 +5,19 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><base>
-  	<title>Add Attendance</title>
+  	<title>Add Assignment</title>
   	<style>
 body {
 	padding-top: 45px;
+
+
 }
 </style>
 </head>
 <body>
 <div class=container>
 <!-- navbar-static-top -->
+
 
 
 	<nav class="navbar navbar-default  navbar-fixed-top">
@@ -64,48 +67,48 @@ body {
 			<!-- /.container-fluid -->
 		</nav>
 	</div>
-	
-	<div class="container">
-	<h2>Add Attendance</h2>
-	
-	<div th:if="${not #lists.isEmpty(subjects)}">
 
- 	<form action="#" th:action="@{/addAttendance}"  th:object="${attendance}" method="post">
- 	<select th:field="*{subject}" class="form-control" id="subject" name="subject">
 
-		<option 
- 			th:each="Subject : ${subjects}" 
- 			th:value="${Subject}" 
- 			th:text="${Subject}"></option>
- 			</select>
+<div class="container"><h2>Add Assignment</h2></div>
+
+<div class="container">
+
+
+
+ 	<form action="#" th:action="@{/addAssignment/} + ${subject.subjectId}"  th:object="${assignment}" method="post">
+ 
 		<table class="table">
 			<tr>
-			<td> Attendance Title:</td>
-			 <td><input type="text" th:field="*{attendanceTitle}" /></td>
+			<td>Assignment Title</td>
+			 <td><input type="text" th:field="*{assignmentTitle}" /></td>
 		<!--   	<td th:if="${#fields.hasErrors('examTitlee')}" th:errors="*{examTitle}">error message</td>  -->	
 	 		</tr>  
 			<tr>
-				<td> Attendance worth </td>
-				<td><input th:field="*{attendanceWorth}" /></td>
+				<td>Assignment Grade Worth </td>
+				<td><input th:field="*{assignmentGradeWorth}" /></td>
 			<!--	<td th:if="${#fields.hasErrors('examGradeWorth')}" th:errors="*{examGradeWorth}">error message</td> -->
-<!-- 		  		</tr>  
-		  			<tr>
+		  		</tr>  
+		  						<tr>
+					<td>Date</td>
+					<td> <input type="date" th:field="*{date}"/></td>
+				</tr> 
+	<tr>
 					<td>Reminder</td>
 					<td>Remind me&nbsp;<input type="number" size="2"
 				id="reminder" name="reminder" min="0" max="1000"
 				th:field="*{reminder}"> days before</td>				
-				</tr> -->
-				<tr>
+				</tr>	
+								<tr>
 					<td><button type="submit">Submit post</button></td>
 					</tr>
+				<tr>
 		</table>
-		
-	</form>  
-	</div></div>
-	<div class="container" th:if="${#lists.isEmpty(subjects)}">
-	You must add a subject to add an exam!
-</div>
 	
+	</form>  
+	</div>
+	</div>
+	
+
 <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 

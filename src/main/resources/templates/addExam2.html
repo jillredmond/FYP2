@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><base>
-  	<title>Add Attendance</title>
-  	<style>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/registration.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<base>
+<title>Add Exam</title>
+<style>
 body {
 	padding-top: 45px;
 }
 </style>
 </head>
 <body>
-<div class=container>
+	<div class=container>
 <!-- navbar-static-top -->
 
 
+	
 	<nav class="navbar navbar-default  navbar-fixed-top">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
@@ -64,50 +70,48 @@ body {
 			<!-- /.container-fluid -->
 		</nav>
 	</div>
-	
+
+
+	<div class="container"><h2>Add Exam</h2></div>
+<!-- <div th:if="${not #lists.isEmpty(subjects)}"> -->
+<!-- <div th:if="${subjects != null}"> -->
+
 	<div class="container">
-	<h2>Add Attendance</h2>
-	
-	<div th:if="${not #lists.isEmpty(subjects)}">
+		<form action="#" th:action="@{/addExam/} + ${subject.subjectId}" th:object="${exam}"
+			method="post">
 
- 	<form action="#" th:action="@{/addAttendance}"  th:object="${attendance}" method="post">
- 	<select th:field="*{subject}" class="form-control" id="subject" name="subject">
-
-		<option 
- 			th:each="Subject : ${subjects}" 
- 			th:value="${Subject}" 
- 			th:text="${Subject}"></option>
- 			</select>
-		<table class="table">
-			<tr>
-			<td> Attendance Title:</td>
-			 <td><input type="text" th:field="*{attendanceTitle}" /></td>
-		<!--   	<td th:if="${#fields.hasErrors('examTitlee')}" th:errors="*{examTitle}">error message</td>  -->	
-	 		</tr>  
-			<tr>
-				<td> Attendance worth </td>
-				<td><input th:field="*{attendanceWorth}" /></td>
-			<!--	<td th:if="${#fields.hasErrors('examGradeWorth')}" th:errors="*{examGradeWorth}">error message</td> -->
-<!-- 		  		</tr>  
-		  			<tr>
+			<table class="table">
+				<tr>
+					<td>Exam Title</td>
+					<td><input type="text" th:field="*{examTitle}" /></td>
+					<!--   	<td th:if="${#fields.hasErrors('examTitlee')}" th:errors="*{examTitle}">error message</td>  -->
+				</tr>
+				<tr>
+					<td>Exam Grade Worth</td>
+					<td><input type="number" th:field="*{examGradeWorth}" min="0" th:max="${max}" /></td>
+					<!--	<td th:if="${#fields.hasErrors('examGradeWorth')}" th:errors="*{examGradeWorth}">error message</td> -->
+				</tr>
+				<tr>
+					<td>Due Date</td>
+					<td> <input type="date" th:field="*{date}"/></td>
+				</tr>
+					<tr>
 					<td>Reminder</td>
 					<td>Remind me&nbsp;<input type="number" size="2"
 				id="reminder" name="reminder" min="0" max="1000"
 				th:field="*{reminder}"> days before</td>				
-				</tr> -->
+				</tr>
 				<tr>
 					<td><button type="submit">Submit post</button></td>
-					</tr>
-		</table>
-		
-	</form>  
-	</div></div>
-	<div class="container" th:if="${#lists.isEmpty(subjects)}">
-	You must add a subject to add an exam!
-</div>
-	
-<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+				</tr>
+			</table>
 
+		</form>
+
+	</div>
+	</div>
+<!-- <div class="container" th:if="${#lists.isEmpty(subjects)}">
+	You must add a subject to add an exam!
+</div> -->
 </body>
 </html>

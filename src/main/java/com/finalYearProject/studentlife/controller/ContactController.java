@@ -9,6 +9,7 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -157,6 +158,50 @@ public class ContactController {
 
 		return url;
 	}
+	
+	@PostMapping("/deleteContact/{id}")//Delete note
+	public String delete(Model model, @PathVariable(value = "id") String id) {
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();
+		User user = userR.findByEmailAddress(email);
+
+		Contact contact =  contactRepository.findOne(Long.parseLong(id));
+
+		
+		
+		List<Contact> list = user.getContact();
+		Iterator<Contact> itr = list.iterator();
+
+
+
+		
+
+		while (itr.hasNext()) {
+			Contact s = itr.next();
+
+			if(s.getContactId() == Long.parseLong(id)) {
+				itr.remove();
+			}
+		}
+
+		
+		user.setContact(list);
+		userR.save(user);
+
+		contactRepository.delete(Long.parseLong(id));
+
+		
+		
+		
+		
+		//noteRepository.delete(note);
+
+		String url = "redirect:/contact";
+
+		return url;
+	}
+
 
 
 

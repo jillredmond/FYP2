@@ -115,5 +115,52 @@ public class AttendanceController {
 	}
 	
 	
+	@GetMapping("/addAttendance/{id}")
+	public String atForm(Model model, @PathVariable(value = "id")Long id) {
+		
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();   
+    
+		User user = userRepository.findByEmailAddress(email);
+		
+		Subject subject = subjectRepository.findOne(id);
+		
+
+		
+		
+		
+		
+		
+		
+		
+
+		model.addAttribute("subject", subject);
+
+		
+		return "addAttendance2";
+	}
+	
+	
+	@PostMapping("/addAttendance/{id}")
+	public String adt(@ModelAttribute("attendence") @Valid @RequestBody Attendance atttendance , BindingResult result, Model model, @PathVariable(value = "id")Long id) {
+		
+		
+		
+		attendanceRepository.save(atttendance);
+/*		model.addAttribute("examTitle", atttendance.getAttendanceTitle());
+		model.addAttribute("examGradeWorth", atttendance.getAssignmentTitle());
+		model.addAttribute("subject", "");
+		*/
+		Subject subject = subjectRepository.findBySubjectId(id);
+		subject.addAttendance(atttendance);
+		subjectRepository.save(subject);
+		
+		return "redirect:/viewSubject" + id;
+		
+	
+	}
+ 
+	
+	
 
 }

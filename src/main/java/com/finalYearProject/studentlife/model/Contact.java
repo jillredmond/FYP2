@@ -12,12 +12,13 @@ public class Contact implements Serializable{
 	
 	
 	
-
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long contactId;
 	
 	private String name;
+	
+	
 	private String details;
 	private String email;
 
@@ -29,16 +30,7 @@ public class Contact implements Serializable{
 
 
 
-	public Long getConactId() {
-		return contactId;
-	}
-
-
-
-	public void setConactId(Long conactId) {
-		this.contactId = conactId;
-	}
-
+	
 
 
 	public String getName() {
@@ -77,10 +69,23 @@ public class Contact implements Serializable{
 
 
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long eventId;
 
-	
+
+
+	public Long getContactId() {
+		return contactId;
+	}
+
+
+
+
+
+
+	public void setContactId(Long contactId) {
+		this.contactId = contactId;
+	}
+
+
+
 
 }

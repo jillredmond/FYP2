@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,12 +58,26 @@ public class AddExamController {
 			subjects.add(sub.getSubjectName());
 		}
 		
+		int max = 100;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
 	//	model.addAttribute("date", new Exam().getDate());
 	//	model.addAttribute("exam", new Exam()); 
 		model.addAttribute("subjects", subjects);
+		model.addAttribute("max", max);
 		
 		return "addExam";
 
@@ -87,4 +102,52 @@ public class AddExamController {
 		
 	
 	}
+	
+	
+	@GetMapping("/addExam/{id}")
+	public String examForm(Model model, @PathVariable(value = "id")Long id) {
+		
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = loggedInUser.getName();   
+    
+		User user = userRepository.findByEmailAddress(email);
+		
+		Subject subject = subjectRepository.findOne(id);
+		
+
+		
+		
+		
+		
+		
+		
+		
+
+		model.addAttribute("subject", subject);
+
+		
+		return "addExam2";
+	}
+	
+	
+	@PostMapping("/addExam/{id}")
+	public String addNewExam2(@ModelAttribute("exam") @Valid @RequestBody Exam exam , BindingResult result, Model model, @PathVariable(value = "id")Long id) {
+		
+		
+		
+		examRepository.save(exam);
+		model.addAttribute("examTitle", exam.getExamTitle());
+		model.addAttribute("examGradeWorth", exam.getExamGradeWorth());
+		model.addAttribute("subject", "");
+		
+		Subject subject = subjectRepository.findBySubjectId(id);
+		subject.addExam(exam);
+		subjectRepository.save(subject);
+		
+		return "redirect:/viewSubject" + id;
+		
+	
+	}
+	
+
 }

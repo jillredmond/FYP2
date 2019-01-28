@@ -72,23 +72,23 @@ body {
 	</div>
 
 
-	<div class="container"><h2>Contacts</h2></div>
+	<div class="container"><h2>Contacts</h2>
 
 				<div th:each="contact : ${contacts}">
 		
-			<form  th:action="@{/contact/}+ ${contact.contactId}" th:object="${contact}"	method="post">
-				<table>
+			<form  th:action="@{/editContact/}+ ${contact.contactId}" th:object="${contact}"	method="post">
+				<table class="table">
 					<tr>
-						<td th:text="${contact.name}"></td>
-						<td><input type="text" th:field="*{name}" /></td>				
+					<td>Name:</td>
+						<td><input type="text" id="name" name="name" th:value="${contact.name}"/></td>				
 					</tr>
 					<tr>
-						<td th:text="${contact.email}"></td>
-						<td><input type="text" th:field="*{email}" /></td>				
+					<td>Email:</td>
+						<td><input type="text" id="email" name="email" th:value="${contact.email}"/></td>							
 					</tr>
 					<tr>
-						<td th:text="${contact.description}"></td>
-						<td><input type="text" th:field="*{description}" /></td>				
+						<td>Details</td>
+							<td><input type="text" id="details" name="details" th:value="${contact.details}"/></td>								
 					</tr>
 					<tr>
 					<td>			<button type="submit" class="btn btn-info btn-sm">Save</button></td>
@@ -102,7 +102,7 @@ body {
 					
 
 
-
+</div>
 
 
 </body>
