@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.finalYearProject.studentlife.dto.AssignmentDto;
 import com.finalYearProject.studentlife.model.Assignment;
+import com.finalYearProject.studentlife.model.Attendance;
 import com.finalYearProject.studentlife.model.Exam;
 import com.finalYearProject.studentlife.model.Subject;
 import com.finalYearProject.studentlife.model.User;
@@ -195,15 +196,46 @@ public class AssignmentController {
 					
 					Subject subject = subjectRepository.findOne(id);
 					
-
+					double check = 0;
+					double max = 0;
+					//Check to make sure the grade worth isn't over 100========================================================================================
+					for(Exam exam : subject.getExam())
+					{
+						max = max + exam.getExamGradeWorth();
+					}
+					
+					for(Assignment ass : subject.getAssignment())
+					{
+						max = max + ass.getAssignmentGradeWorth();
+					}
+					
+					for(Attendance a : subject.getAttendance())
+					{
+						max = max + a.getAttendanceWorth();
+					}
+					
+		
+					String message="  "+  max + "/100 percentage has been assigned.";
+					
+					String message2="			<div class=\"alert alert-primary\" role=\"alert\">\r\n" + 
+							"					"+ max+"/100 percentage has been assigned.\r\n" + 
+							"					</div>";
+		
+					if(max > 99)
+					{
+						check = 0;
+					}
+					else
+					{
+						check = 100-max;
+					}
+					
+					System.out.println(max);
+					System.out.println(check);
 					
 					
-					
-					
-					
-					
-					
-
+					model.addAttribute("message", message);
+					model.addAttribute("max", check);		
 					model.addAttribute("subject", subject);
 
 					

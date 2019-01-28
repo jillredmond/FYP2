@@ -88,7 +88,7 @@ body {
 				</tr>
 				<tr>
 					<td>Exam Grade Worth</td>
-					<td><input type="number" th:field="*{examGradeWorth}" min="0" th:max="${max}" /></td>
+					<td><input type="number" th:field="*{examGradeWorth}" min="0"  th:max="${max}" /><span th:text="${message}"></span></td>
 					<!--	<td th:if="${#fields.hasErrors('examGradeWorth')}" th:errors="*{examGradeWorth}">error message</td> -->
 				</tr>
 				<tr>

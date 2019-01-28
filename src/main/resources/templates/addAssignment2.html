@@ -85,12 +85,12 @@ body {
 	 		</tr>  
 			<tr>
 				<td>Assignment Grade Worth </td>
-				<td><input th:field="*{assignmentGradeWorth}" /></td>
+				<td><input th:field="*{assignmentGradeWorth}" type="number"  th:max="${max}" /><span th:text="${message}"></span></td>
 			<!--	<td th:if="${#fields.hasErrors('examGradeWorth')}" th:errors="*{examGradeWorth}">error message</td> -->
 		  		</tr>  
 		  						<tr>
 					<td>Date</td>
-					<td> <input type="date" th:field="*{date}"/></td>
+					<td> <input type="date" th:field="*{date}" /></td>
 				</tr> 
 	<tr>
 					<td>Reminder</td>
