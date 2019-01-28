@@ -796,7 +796,7 @@ public class MainController {
 
 		TimetableClassDto dto = new TimetableClassDto();
 		TimetableClass timetableClass = new TimetableClass();
-		List<Subject> subjects = user.getSubject();
+		
 		List<Semester> semesters = user.getSemester();
 
 		Semester semester = new Semester();
@@ -815,6 +815,8 @@ public class MainController {
 		}
 		}
 
+		
+		List<Subject> subjects = semester.getSubject();
 		List<TimetableClass> classes = semester.getTimetableClass();
 
 		ArrayList<String> monday = new ArrayList<String>();

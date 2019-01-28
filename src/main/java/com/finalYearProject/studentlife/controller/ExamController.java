@@ -59,6 +59,7 @@ public class ExamController {
 		dto.setReminder(exam.getReminder());
 		model.addAttribute("ExamId",examId);
 		model.addAttribute("ExamDto", dto);
+		model.addAttribute("ex", exam);
 				
 		
 		return "editExam";

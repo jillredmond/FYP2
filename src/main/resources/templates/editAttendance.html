@@ -76,7 +76,7 @@ body {
 		</div>
 		<div>
 		<label for="attendanceAchieved" class="control-label">AttendanceAchieved: </label>
-		<input id="attendanceAchieved" class="form-control" th:field="*{attendanceAchieved}" />
+		<input id="attendanceAchieved" min="0" th:max="${ass.attendanceWorth}" type="number" class="form-control" th:field="*{attendanceAchieved}" />
 		
 		</div>
 			<div>

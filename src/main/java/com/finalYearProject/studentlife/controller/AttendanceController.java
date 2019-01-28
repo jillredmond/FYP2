@@ -98,7 +98,7 @@ public class AttendanceController {
 		dto.setAttendanceTitle(attendance.getAttendanceTitle());
 		
 		
-		
+		model.addAttribute("ass", attendance);
 		model.addAttribute("AttendanceId",attendanceId);
 		model.addAttribute("AttendanceDto", dto);
 				
@@ -110,7 +110,11 @@ public class AttendanceController {
 	public String editAttendance(ModelMap map, @ModelAttribute AttendanceDto dto, BindingResult result) {
 		
 		Attendance attendance = attendanceRepository.findOne(dto.getAttendanceId());
-		
+		System.out.println("=======");
+		System.out.println("=======");
+		System.out.println(dto.getAttendanceId());
+		System.out.println("=======");
+		System.out.println("=======");
 		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 		String email = loggedInUser.getName();   
     
@@ -122,9 +126,17 @@ public class AttendanceController {
 		{
 			for(Attendance e : subject.getAttendance())
 			{
-				if(dto.getAttendanceId() == e.getAttendanceId())
+				if(dto.getAttendanceId().equals(e.getAttendanceId()))
 				{
 					subId = subject.getSubjectId();
+					
+					System.out.println("=======");
+					System.out.println("=======");
+					System.out.println("TESTESTESTESTESTEST");
+					System.out.println("=======");
+					System.out.println("=======");
+
+					
 				}
 			}
 			
@@ -149,6 +161,9 @@ public class AttendanceController {
 			attendance.setAttendanceWorth(dto.getAttendanceWorth());
 		}
 		attendanceRepository.save(attendance);
+		
+		
+		
 		
 		return "redirect:/viewSubject" + subId;
 		

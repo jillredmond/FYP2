@@ -78,7 +78,7 @@ body {
 		</div>
 		<div>
 		<label for="assignmentGradeAchieved" class="control-label">Assignment Grade Achieved: </label>
-		<input id="assignmentGradeAchieved" class="form-control" th:field="*{assignmentGradeAchieved}" />
+		<input id="assignmentGradeAchieved" min="0" th:max="${ass.assignmentGradeWorth}" type="number" class="form-control" th:field="*{assignmentGradeAchieved}" />
 		
 		</div>
 <!-- 			<div>

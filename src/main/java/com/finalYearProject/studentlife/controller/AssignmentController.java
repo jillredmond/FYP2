@@ -110,7 +110,7 @@ public class AssignmentController {
 		
 		
 		
-		
+		model.addAttribute("ass", assignment);
 		model.addAttribute("AssignmentId", assignmentId);
 		model.addAttribute("AssignmentDto", dto);
 		
