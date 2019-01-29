@@ -71,26 +71,16 @@ body {
 		
 		<div>
 		<label for="subjectName" class="control-label">Subject Name: </label>
-		<input id="subjectName" class="form-control" type="text" th:field="*{subjectName}" />
+		<input id="subjectName" class="form-control" type="text" th:field="*{subjectName}" required/>
 		
 		</div>
 		<div>
 		<label for="subjectGradeGoal" class="control-label">Subject Grade Goal: </label>
-		<input id="subjectGradeGoal" class="form-control" th:field="*{subjectGradeGoal}" />
+		<input id="subjectGradeGoal" type="number" min="1" max="100" class="form-control" th:field="*{subjectGradeGoal}" required/>
 		
 		</div>
 		
-		<div>
-		<label for="caCompletedWorth" class="control-label">Completed CA worth: </label>
-		<input id="caCompletedWorth" class="form-control" th:field="*{caCompletedWorth}" />
-		
-		</div>
-		
-		<div>
-		<label for="subjectResults" class="control-label">Subject Results: </label>
-		<input id="subjectResults" class="form-control" th:field="*{subjectResults}" />
-		
-		</div>
+
 		
 	  	<input type="hidden" name="subjectId" th:value="${SubjectId}" />
 			

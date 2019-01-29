@@ -79,12 +79,12 @@ body {
 			<table class="table">
 				<tr>
 					<td>Exam Title</td>
-					<td><input type="text" th:field="*{examTitle}" /></td>
+					<td><input type="text" th:field="*{examTitle}" required/></td>
 					<!--   	<td th:if="${#fields.hasErrors('examTitlee')}" th:errors="*{examTitle}">error message</td>  -->
 				</tr>
 				<tr>
 					<td>Exam Grade Worth</td>
-					<td><input type="number" th:field="*{examGradeWorth}" min="0"  th:max="${max}" /><span th:utext="${message}"></span></td>
+					<td><input type="number" th:field="*{examGradeWorth}" min="0"  th:max="${max}" required/><span th:utext="${message}" ></span></td>
 					<!--	<td th:if="${#fields.hasErrors('examGradeWorth')}" th:errors="*{examGradeWorth}">error message</td> -->
 				</tr>
 				<tr>

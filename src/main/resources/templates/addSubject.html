@@ -75,12 +75,12 @@ body {
 		<table class="table">
 			<tr>
 			<td> Subject Name:</td>
-			 <td><input type="text" th:field="*{subjectName}" /></td>
+			 <td><input type="text" th:field="*{subjectName}" required /></td>
 		<!--   	<td th:if="${#fields.hasErrors('subjectName')}" th:errors="*{subjectName}">Surname error message</td>  -->	
 			</tr>  
 			<tr>
 				<td> What is your grade goal for this subject? (e.g 50%,60%,70%) </td>
-				<td><input type="number" th:field="*{subjectGradeGoal}" max="100" /></td>
+				<td><input type="number" th:field="*{subjectGradeGoal}" max="100" min="1" required/></td>
 			<!--	<td th:if="${#fields.hasErrors('subjectGradeGoal')}" th:errors="*{subjectGradeGoal}">subjectGradeGoal error message</td> -->
 				</tr> 
 

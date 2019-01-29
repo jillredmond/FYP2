@@ -209,7 +209,7 @@ public class SemesterController {
 
 			}
 
-			for (Subject subject : subjects)// for loop for getting grades for semester
+/*			for (Subject subject : subjects)// for loop for getting grades for semester
 			{
 
 				double assignmentsTotalWorth = 0;
@@ -272,8 +272,18 @@ public class SemesterController {
 				}
 				
 				
-			}
+			}*/
 			
+			for(Subject s : semester.getSubject())
+			{
+				if(s.getSubjectResults() != null) {
+				if(s.getSubjectResults() > 0)
+				{
+					grades.add(s.getSubjectResults());
+				}
+			
+				}
+			}
 			
 			
 			for(int i = 0;i < grades.size();i++)
@@ -294,7 +304,7 @@ public class SemesterController {
 			}
 			
 			if(grades.size() > 0)
-			semesterGrade = (sum / grades.size())*100;
+			semesterGrade = (sum / grades.size());
 			
 			//change doubles to 0 if Not a Number 
 			if (Double.isNaN(semesterGrade)) {

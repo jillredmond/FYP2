@@ -71,7 +71,7 @@ body {
 		
 		<div>
 		<label for="attendanceTitle" class="control-label">Attendance Title: </label>
-		<input id="attendanceTitle" class="form-control" type="text" th:field="*{attendanceTitle}" />
+		<input id="attendanceTitle" class="form-control" type="text" th:field="*{attendanceTitle}" required/>
 		
 		</div>
 		<div>
@@ -81,7 +81,7 @@ body {
 		</div>
 			<div>
 		<label for="attendanceWorth" class="control-label">Attendance Worth: </label>
-		<input id="attendanceWorth" class="form-control" th:field="*{attendanceWorth}" />
+		<input id="attendanceWorth" class="form-control" th:field="*{attendanceWorth}" required/>
 		
 		</div>
 		
